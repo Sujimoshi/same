@@ -1,4 +1,10 @@
 module.exports = {
+  'plugins': [ '@typescript-eslint', 'react' ],
+  'settings': {
+    'react': {
+      'version': 'detect'
+    }
+  },
   'parser': '@typescript-eslint/parser',
   'parserOptions': {
     'ecmaFeatures': {
@@ -14,7 +20,6 @@ module.exports = {
     'es6': true,
     'node': true
   },
-  'plugins': [ '@typescript-eslint', 'react' ],
   'rules': {
     'no-unused-vars': 'off', // disable default rule, because it error on types
     '@typescript-eslint/no-unused-vars': 'error', // instead use this rule
