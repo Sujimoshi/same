@@ -14,7 +14,7 @@ module.exports = {
     'sourceType': 'module',
     'project': './tsconfig.json'
   },
-  'extends': [ 'standard', 'plugin:react/recommended' ],
+  'extends': [ 'standard', 'plugin:react/recommended', 'plugin:prettier/recommended' ],
   'env': {
     'browser': true,
     'es6': true,
@@ -22,6 +22,8 @@ module.exports = {
   },
   'rules': {
     'no-unused-vars': 'off', // disable default rule, because it error on types
-    '@typescript-eslint/no-unused-vars': 'error', // instead use this rule
+    '@typescript-eslint/no-unused-vars': 'off', // instead use this rule
+    
+    'no-useless-constructor': 'off'
   }
 }

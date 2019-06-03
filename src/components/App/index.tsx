@@ -1,12 +1,6 @@
-import React from 'react'
-import { parseFile } from '@same/parser'
+import React from "react";
+import Body from "../Body/index";
 
-export default function App () {
-  const FILE = '/Users/sujimoshi/Projects/same/front/src/styled/Link/index.tsx'
-  let tree = parseFile(FILE)
-  return (
-    <pre>
-      {JSON.stringify(tree, null, 2)}
-    </pre>
-  )
+export default function App() {
+  return <Body />;
 }
