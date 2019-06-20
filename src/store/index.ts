@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import project from "./project";
-import editorManager from "./editor/reducers";
+import editor from "./editor/reducers";
 
 const rootReducer = combineReducers({
   project,
-  editor: editorManager.reducer
+  editor
 });
 
 export default rootReducer;

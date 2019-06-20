@@ -1,25 +1,43 @@
-import { PayloadedAction } from "../common";
 import { writeFile, writeFileSync } from "fs";
-import { Dispatch } from "redux";
+import { ActionCreator } from "redux";
 import { EditorStore } from "./reducers";
-import ASTNode from "@same/parser/ASTNode";
-import ASTFile from "../../parser/ASTFile";
+import { File, BaseNode } from "@babel/types";
+import { ThunkCreator } from "same";
+import { PayloadedAction } from "../../../types/same.d";
 
-const editorSet = (payload: Partial<EditorStore>) => ({
-  type: "EDITOR_SET",
+export enum Types {
+  FOCUS_NODE = "FOCUS_NODE",
+  EDITOR_SET = "EDITOR_SET",
+  EDITOR_RESET = "EDITOR_RESET"
+}
+
+export type SetEditorAction = PayloadedAction<
+  Types.EDITOR_SET,
+  Partial<EditorStore>
+>;
+
+export const editorSet: ActionCreator<SetEditorAction> = (
+  payload: Partial<EditorStore>
+) => ({
+  type: Types.EDITOR_SET,
   payload
 });
 
-const editorReset = (payload: Partial<EditorStore>) => ({
-  type: "EDITOR_RESET",
+export type ResetEditorAction = PayloadedAction<
+  Types.EDITOR_RESET,
+  Partial<EditorStore>
+>;
+
+export const editorReset: ActionCreator<ResetEditorAction> = (
+  payload: Partial<EditorStore>
+) => ({
+  type: Types.EDITOR_RESET,
   payload
 });
 
-export const thunkSaveEditor = (
-  code: string,
-  filePath: string,
-  astFile: ASTFile
-) => (dispatch: Dispatch<PayloadedAction<string, EditorStore>>) => {
+export const thunkSaveEditor: ThunkCreator<
+  SetEditorAction | ResetEditorAction
+> = (code?: string, filePath?: string, astFile?: File) => dispatch => {
   // dispatch(editorReset({ loading: true }));
   // writeFileSync(filePath, code);
   // , error => {
@@ -28,8 +46,8 @@ export const thunkSaveEditor = (
   // });
 };
 
-export const focusNode = (focusedNode: ASTNode) => (
-  dispatch: Dispatch<PayloadedAction<string, EditorStore>>
-) => {
-  dispatch(editorSet({ focusedNode }));
-};
+export type FocusNodeAction = PayloadedAction<Types.FOCUS_NODE, BaseNode>;
+
+export const focusNode: ActionCreator<FocusNodeAction> = (
+  astNode: BaseNode
+) => ({ type: Types.FOCUS_NODE, payload: astNode });

@@ -12,8 +12,8 @@ export default function EditableLabel(props: Props) {
     <ToggableInput
       type="text"
       placeholder={props.placeholder}
-      defaultValue={props.children}
-      onBlur={e => props.onChange(e.target.value)}
+      value={props.children}
+      onChange={e => props.onChange(e.target.value)}
     />
   );
 }

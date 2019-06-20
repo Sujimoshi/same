@@ -8,7 +8,6 @@ import ASTJSXElement from "../../parser/ASTJSXElement";
 import styled from "@emotion/styled";
 import _ from "underscore";
 import ASTRenderer, { component } from "./ASTRenderer";
-const webpack = (window as any).require("webpack");
 
 const VisualEditorView = styled.div({
   "[draggable]": {
@@ -34,7 +33,7 @@ let dragging: HTMLElement;
 
 @withConnect(
   (store: RootStore): Partial<Props> => ({
-    astFile: store.editor.astFile,
+    astFile: new ASTFile(store.editor.astFile),
     filePath: store.editor.filePath,
     componentName: basename(dirname(store.editor.filePath))
   }),
@@ -63,14 +62,11 @@ export default class VisualEditor extends React.Component<Props> {
       "drop",
       (e: Event) => {
         e.stopPropagation();
-        // console.log((dragging as any).astNode, (e.target as any).astNode);
-        // const under = (e.target as any).
-        console.log(e.target);
         (e.target as any).astNode.append((dragging as any).astNode.detach());
         this.props.thunkSaveEditor(
           this.props.astFile.code(),
           this.props.filePath,
-          this.props.astFile
+          this.props.astFile.node
         );
       },
       false
@@ -84,8 +80,6 @@ export default class VisualEditor extends React.Component<Props> {
   }
 
   render() {
-    delete require.cache[this.props.filePath];
-    const Link = require(this.props.filePath).default;
     return (
       <VisualEditorView className="visual-editor">
         {this.renderComponent()}

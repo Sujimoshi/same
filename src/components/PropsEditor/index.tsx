@@ -9,50 +9,93 @@ import Header from "../StructureView/Header";
 import ASTJSXAttribute from "../../parser/ASTJSXAttribute";
 import EditableLabel from "./EditableLabel";
 import { ActionIcon, ActionsWrapper } from "../StructureView/styled";
+import ASTFile from "@same/parser/ASTFile";
+import ASTJSXText from "../../parser/ASTJSXText";
+import ASTNode from "@same/parser/ASTNode";
+import PropsDataProvider from "./DataProvider";
+import { BaseNode, JSXElement } from "@babel/types";
 
 export interface Props {
-  focusedNode?: ASTJSXElement;
+  focusedNode?: BaseNode;
   thunkSaveEditor?: typeof thunkSaveEditor;
+  filePath?: string;
+  astFile?: ASTFile;
+}
+
+export interface State {
+  name: string;
+  value: string;
 }
 
 @withConnect(
   (store: RootStore): Partial<Props> => ({
-    focusedNode: store.editor.focusedNode
+    focusedNode: store.editor.focusedNode,
+    astFile: new ASTFile(store.editor.astFile),
+    filePath: store.editor.filePath
   }),
   { thunkSaveEditor } as Partial<Props>
 )
 export class PropsEditor extends Component<Props> {
-  onChange = (type: "name" | "value", attr?: ASTJSXAttribute) => (
+  state = {
+    name: "",
+    value: ""
+  };
+
+  saveEditor() {
+    this.props.thunkSaveEditor(
+      this.props.astFile.code(),
+      this.props.filePath,
+      this.props.astFile.node
+    );
+  }
+
+  onChange = (type: "name" | "value", attr?: ASTJSXAttribute | ASTJSXText) => (
     value: string
   ) => {
     if (!attr) {
-      // TODO: create new
+      this.setState({ [type]: value });
     } else {
-      // TODO: change attr
+      attr[type] = value;
+      this.saveEditor();
     }
   };
 
-  onRemove = (attr: ASTJSXAttribute) => () => {
+  onRemove = (attr: ASTJSXAttribute | ASTJSXText) => () => {
     attr.detach();
+    this.saveEditor();
   };
 
-  renderAttribute(name: string, value: string, attr?: ASTJSXAttribute) {
+  onCreate = () => {
+    const { name, value } = this.state;
+    if (name === "" || value === "") return;
+    const astFocusedNode = new ASTJSXElement(this.props
+      .focusedNode as JSXElement);
+    astFocusedNode.addAttribute(name, value);
+    this.setState({ name: "", value: "" });
+    this.saveEditor();
+  };
+
+  renderAttribute(
+    name: string,
+    value: string,
+    attr?: ASTJSXAttribute | ASTJSXText
+  ) {
     return (
-      <Row key={attr ? attr.key() : "new"}>
+      <Row key={attr ? PropsDataProvider.key(attr.node) : "new"}>
         <Col>
           <EditableLabel
             onChange={this.onChange("name", attr)}
-            placeholder={name}
+            placeholder={attr ? name : "newName"}
           >
-            {attr ? name : ""}
+            {name}
           </EditableLabel>
         </Col>
         <Col>
           <EditableLabel
             onChange={this.onChange("value", attr)}
-            placeholder={value}
+            placeholder={attr ? value : "newValue"}
           >
-            {attr ? value : ""}
+            {value}
           </EditableLabel>
         </Col>
         <Col grow={0}>
@@ -60,7 +103,7 @@ export class PropsEditor extends Component<Props> {
             {attr ? (
               <ActionIcon onClick={this.onRemove(attr)}>x</ActionIcon>
             ) : (
-              <ActionIcon>+</ActionIcon>
+              <ActionIcon onClick={this.onCreate}>+</ActionIcon>
             )}
           </ActionsWrapper>
         </Col>
@@ -79,14 +122,15 @@ export class PropsEditor extends Component<Props> {
 
   render() {
     const { focusedNode } = this.props;
-    if (!focusedNode || !focusedNode.attributes) return this.renderNoElement();
+    const { name, value, attributes } = PropsDataProvider;
+    if (!focusedNode) return this.renderNoElement();
     return (
       <div className="props-editor">
         <Header>Props</Header>
-        {this.renderAttribute("newKey", "newValue")}
-        {focusedNode
-          .attributes()
-          .map(el => this.renderAttribute(el.name(), el.value(), el))}
+        {this.renderAttribute(this.state.name, this.state.value)}
+        {attributes(focusedNode)
+          .reverse()
+          .map(el => this.renderAttribute(name(el), value(el), el))}
       </div>
     );
   }

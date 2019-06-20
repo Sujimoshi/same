@@ -9,6 +9,8 @@ import { Ul, Li, ItemWrapper, ItemContent, ActionIcon } from "./styled";
 import { withConnect } from "@same/utils/connect";
 import { RootStore } from "same";
 import { ItemView } from "./ItemView";
+import ASTJSXElement from "@same/parser/ASTJSXElement";
+import { BaseNode } from "@babel/types";
 
 interface State {}
 
@@ -16,15 +18,15 @@ interface Props {
   thunkSaveEditor?: typeof thunkSaveEditor;
   astFile?: ASTFile;
   filePath?: string;
-  focusedNode?: ASTNode;
+  focusedNode?: BaseNode;
   focusNode?: typeof focusNode;
 }
 
 @withConnect(
   (store: RootStore): Partial<Props> => ({
-    astFile: store.editor.astFile,
+    astFile: new ASTFile(store.editor.astFile),
     filePath: store.editor.filePath,
-    focusedNode: store.editor.focusedNode || {}
+    focusedNode: store.editor.focusedNode
   }),
   { thunkSaveEditor, focusNode } as Partial<Props>
 )
@@ -33,7 +35,7 @@ export default class StructureView extends Component<Props, State> {
     this.props.thunkSaveEditor(
       this.props.astFile.code(),
       this.props.filePath,
-      this.props.astFile
+      this.props.astFile.node
     );
   }
 
@@ -44,6 +46,7 @@ export default class StructureView extends Component<Props, State> {
 
   onDropAfter = ({ over, under }: { [key in DragState]: ASTNode }) => {
     under.after(over.detach());
+    this.saveEditor();
   };
 
   onRemove = (node: ASTNode) => {
@@ -51,15 +54,16 @@ export default class StructureView extends Component<Props, State> {
     this.saveEditor();
   };
 
-  onFocus = (node: ASTNode) => {
+  onFocus = (node: ASTJSXElement) => {
     this.props.focusNode(node);
   };
 
   renderHeader = (node: ASTNode, level: number) => {
+    const { focusedNode } = this.props;
     return (
       <ItemView
         node={node}
-        focus={node.node === this.props.focusedNode.node}
+        focus={focusedNode && node.node === focusedNode}
         level={level}
         onDropAfter={this.onDropAfter}
         onDropAppend={this.onDropAppend}

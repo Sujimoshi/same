@@ -33,16 +33,19 @@ export const ItemWrapper = styled.div(
     "&:hover": {
       backgroundColor: props.focus ? "silver" : "gainsboro"
     },
-    span: {
+    button: {
       visibility: "hidden"
     },
-    "&:hover span": {
+    "&:hover button": {
       visibility: "visible"
     }
   })
 );
 
-export const ActionIcon = styled.span({
+export const ActionIcon = styled.button({
+  border: 0,
+  padding: 0,
+  backgroundColor: "transparent",
   cursor: "pointer",
   marginLeft: "auto",
   opacity: 0.5,
@@ -51,8 +54,11 @@ export const ActionIcon = styled.span({
   lineHeight: "1.8rem",
   textAlign: "center",
   pointerEvents: "auto",
-  "&:hover": {
+  "&:hover, &:focus": {
     opacity: 1
+  },
+  "&:focus": {
+    outline: "none"
   }
 });
 

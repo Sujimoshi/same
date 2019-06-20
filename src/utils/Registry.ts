@@ -1,7 +1,7 @@
 export default class Registry<T> {
   constructor(public services: { [key: string]: T } = {}) {}
 
-  register(name: string, service: any) {
+  register<E extends T>(name: string, service: E) {
     this.services[name] = service;
     return this;
   }

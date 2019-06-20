@@ -1,5 +1,6 @@
 require("ts-node").register();
 // require("module-alias/register");
+
 var Module = require("module");
 (function(_require) {
   Module.prototype.require = function() {
@@ -8,4 +9,5 @@ var Module = require("module");
     return res;
   };
 })(Module.prototype.require);
+
 require("../src/index.entry.tsx");

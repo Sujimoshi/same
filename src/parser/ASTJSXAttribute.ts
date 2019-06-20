@@ -21,20 +21,28 @@ export default class ASTJSXAttribute extends ASTNode<JSXAttribute> {
     throw new Error("Can't be implemented for JSXAttribute");
   }
 
-  name(): string {
+  get name() {
     return this.node.name.name as string;
   }
 
-  value(): string {
+  set name(val: string) {
+    this.node.name.name = val;
+  }
+
+  get value(): string {
     return (this.node.value as StringLiteral).value;
   }
 
+  set value(val: string) {
+    (this.node.value as StringLiteral).value = val;
+  }
+
   title(): string {
-    return this.name();
+    return this.name;
   }
 
   json() {
-    return { [this.name()]: (this.node.value as any).value };
+    return { [this.name]: (this.node.value as any).value };
   }
 
   childrens(): ASTNode[] | null {

@@ -14,12 +14,26 @@ export default class ASTJSXText extends ASTNode<JSXText> {
     return this.node.value.replace(/^\n| $/gm, "");
   }
 
-  value(): string {
+  get name() {
+    return "text";
+  }
+
+  set name(val: string) {}
+
+  get value() {
     return this.node.value.replace(/^\n| $/gm, "");
+  }
+
+  set value(val: string) {
+    this.node.value = val;
   }
 
   childrens(): ASTNode[] | null {
     return [];
+  }
+
+  attributes(): [{ name: string; value: string }] {
+    return [{ name: "text", value: this.value }];
   }
 
   isFake() {
