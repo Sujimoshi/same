@@ -1,3 +1,6 @@
+import { Node } from "@babel/types";
+import generator from "@babel/generator";
+import { format } from "prettier";
 import {
   parse as babelParse,
   parseExpression as babelParseExpression,
@@ -19,4 +22,15 @@ export const parse = (
     plugins,
     sourceType: "unambiguous"
   });
+};
+
+const formatNewlines = (code: string) => {
+  return code
+    .replace(/^\n/gm, "")
+    .replace(/^(?! |import).*(;|})$/gm, match => match + "\n") // newline after all root expressions ends
+    .replace(/^import .* from ".*";$/gms, match => match + "\n"); // newline after imports
+};
+
+export const generate = (ast: Node) => {
+  return format(formatNewlines(generator(ast).code));
 };

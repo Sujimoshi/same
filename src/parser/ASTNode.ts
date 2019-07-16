@@ -1,5 +1,5 @@
 import { Node, BaseNode } from "@babel/types";
-import generate from "@babel/generator";
+import { generate } from "@same/parser";
 import { format } from "prettier";
 import { expression } from "./babel";
 import uuid from "uuid/v4";
@@ -7,6 +7,7 @@ import Registry from "@same/utils/Registry";
 
 export interface WithAdditionalFields {
   uuid?: string;
+  parent?: BaseNode;
 }
 
 export default abstract class ASTNode<T extends BaseNode = BaseNode> {
@@ -32,7 +33,7 @@ export default abstract class ASTNode<T extends BaseNode = BaseNode> {
   }
 
   code() {
-    return format(generate(this.node as Node).code);
+    return generate(this.node as Node);
   }
 
   isFake(): boolean {

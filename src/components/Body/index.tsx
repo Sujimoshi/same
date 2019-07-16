@@ -1,11 +1,13 @@
 import Row from "../grid/Row";
-import React, { Fragment, Component } from "react";
+import React, { Fragment } from "react";
 import Col from "../grid/Col";
 import { Global, css } from "@emotion/core";
 import StructureView from "../StructureView";
 import CodeEditor from "../CodeEditor";
 import VisualEditor from "../VisualEditor";
-import { PropsEditor } from "../PropsEditor";
+import PropsEditor from "../PropsEditor";
+import Header from "../StructureView/Header";
+import ComponentsView from "../ComponentsView";
 
 const globalStyles = css({
   html: {
@@ -21,29 +23,38 @@ const globalStyles = css({
   }
 });
 
-export default class Body extends Component<any> {
-  render() {
-    return (
-      <Fragment>
-        <Global styles={globalStyles} />
-        <Row height="100vh">
-          <Col>
+export default function Body() {
+  return (
+    <Fragment>
+      <Global styles={globalStyles} />
+      <Row height="100vh">
+        <Col>
+          <div className="structure-editor">
+            <Header>Structure</Header>
             <StructureView />
-            <PropsEditor />
-          </Col>
-          <Col size="70%">
-            <Row>
-              <Col>
-                <CodeEditor />
-              </Col>
-              <Col>
-                <VisualEditor />
-              </Col>
-            </Row>
-          </Col>
-          <Col>Sidebar</Col>
-        </Row>
-      </Fragment>
-    );
-  }
+          </div>
+          <div className="component-view">
+            <Header>Components</Header>
+            <ComponentsView />
+          </div>
+        </Col>
+        <Col size="70%">
+          <Row>
+            <Col>
+              <Header>Code</Header>
+              <CodeEditor />
+            </Col>
+            <Col>
+              <Header>Visual</Header>
+              <VisualEditor />
+            </Col>
+          </Row>
+        </Col>
+        <Col>
+          <Header>Props</Header>
+          <PropsEditor />
+        </Col>
+      </Row>
+    </Fragment>
+  );
 }

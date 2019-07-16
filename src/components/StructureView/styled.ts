@@ -15,17 +15,18 @@ const getItemColor = (dragState: DragState, focus: boolean = false) => {
 
 export const ItemWrapper = styled.div(
   (props: {
-    appendDragState: DragState;
-    afterDragState: DragState;
+    appendDragState?: DragState;
+    afterDragState?: DragState;
     focus?: boolean;
   }) => ({
+    cursor: "pointer",
     padding: "0 .5rem",
     position: "relative",
     borderBottom: ".1rem solid transparent",
     borderTop: ".1rem solid transparent",
-    borderBottomColor: getItemColor(props.afterDragState),
+    borderBottomColor: getItemColor(props.afterDragState || DragState.Hold),
     backgroundColor: getItemColor(
-      props.afterDragState === DragState.Hold
+      (props.afterDragState || DragState.Hold) === DragState.Hold
         ? props.appendDragState
         : DragState.Hold,
       props.focus
@@ -73,7 +74,8 @@ export const Li = styled.li({
   padding: "0"
 });
 
-export const Ul = styled.ul({
+export const Ul = styled.ul((props: any) => ({
   padding: 0,
-  margin: 0
-});
+  margin: 0,
+  ...props.styled
+}));

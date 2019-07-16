@@ -1,12 +1,12 @@
 import { writeFile, writeFileSync } from "fs";
-import { ActionCreator } from "redux";
-import { EditorStore } from "./reducers";
-import { File, BaseNode } from "@babel/types";
-import { ThunkCreator } from "same";
+import { EditorStore, FocusableNode } from "./reducers";
+import { File } from "@babel/types";
+import { ThunkAction } from "same";
 import { PayloadedAction } from "../../../types/same.d";
+import { generate } from "@same/parser";
+import { Exportable, Node } from "@same/parser/structure";
 
 export enum Types {
-  FOCUS_NODE = "FOCUS_NODE",
   EDITOR_SET = "EDITOR_SET",
   EDITOR_RESET = "EDITOR_RESET"
 }
@@ -16,9 +16,7 @@ export type SetEditorAction = PayloadedAction<
   Partial<EditorStore>
 >;
 
-export const editorSet: ActionCreator<SetEditorAction> = (
-  payload: Partial<EditorStore>
-) => ({
+export const editorSet = (payload: Partial<EditorStore>): SetEditorAction => ({
   type: Types.EDITOR_SET,
   payload
 });
@@ -28,26 +26,58 @@ export type ResetEditorAction = PayloadedAction<
   Partial<EditorStore>
 >;
 
-export const editorReset: ActionCreator<ResetEditorAction> = (
+export const editorReset = (
   payload: Partial<EditorStore>
-) => ({
+): ResetEditorAction => ({
   type: Types.EDITOR_RESET,
   payload
 });
 
-export const thunkSaveEditor: ThunkCreator<
-  SetEditorAction | ResetEditorAction
-> = (code?: string, filePath?: string, astFile?: File) => dispatch => {
-  // dispatch(editorReset({ loading: true }));
-  // writeFileSync(filePath, code);
-  // , error => {
-  // if (error) dispatch(editorReset({ error }));
-  dispatch(editorSet({ code, filePath, astFile }));
-  // });
-};
+export type RemoveNodeAction = PayloadedAction<"REMOVE_NODE", Node>;
 
-export type FocusNodeAction = PayloadedAction<Types.FOCUS_NODE, BaseNode>;
+export const removeNode = (node: Node): RemoveNodeAction => ({
+  type: "REMOVE_NODE",
+  payload: node
+});
 
-export const focusNode: ActionCreator<FocusNodeAction> = (
-  astNode: BaseNode
-) => ({ type: Types.FOCUS_NODE, payload: astNode });
+export type InsertNodeAction = PayloadedAction<
+  "INSERT_NODE",
+  { node: Node; to: Node; index: number }
+>;
+
+export const insertNode = (
+  node: Node,
+  to: Node,
+  index: number = 0
+): InsertNodeAction => ({
+  type: "INSERT_NODE",
+  payload: { node, to, index }
+});
+
+export type PlaceNodeAction = PayloadedAction<
+  "PLACE_NODE",
+  { node: Node; that: Node; beforeOrAfter: string }
+>;
+
+export const placeNode = (
+  node: Node,
+  that: Node,
+  beforeOrAfter: string = "after"
+): PlaceNodeAction => ({
+  type: "PLACE_NODE",
+  payload: { node, that, beforeOrAfter }
+});
+
+export type SetNodeAction = PayloadedAction<"SET_NODE", Node>;
+
+export const setNode = (node: Node): SetNodeAction => ({
+  type: "SET_NODE",
+  payload: node
+});
+
+export type SetExportAction = PayloadedAction<"SET_EXPORT", Exportable>;
+
+export const setExport = (exp: Exportable): SetExportAction => ({
+  type: "SET_EXPORT",
+  payload: exp
+});

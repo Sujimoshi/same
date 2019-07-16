@@ -1,5 +1,5 @@
 require("ts-node").register();
-// require("module-alias/register");
+require("module-alias/register");
 
 var Module = require("module");
 (function(_require) {

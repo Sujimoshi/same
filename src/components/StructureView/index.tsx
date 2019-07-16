@@ -1,90 +1,92 @@
-import Header from "./Header";
 import React, { Fragment, Component } from "react";
-import DruggableNode from "./DraggableNode";
-import { thunkSaveEditor, focusNode } from "@same/store/editor/actions";
 import { DragState } from "../hooks/useDraggable";
-import ASTFile from "@same/parser/ASTFile";
-import ASTNode from "@same/parser/ASTNode";
-import { Ul, Li, ItemWrapper, ItemContent, ActionIcon } from "./styled";
+import { Ul, Li } from "./styled";
 import { withConnect } from "@same/utils/connect";
 import { RootStore } from "same";
 import { ItemView } from "./ItemView";
-import ASTJSXElement from "@same/parser/ASTJSXElement";
-import { BaseNode } from "@babel/types";
-
-interface State {}
+import {
+  StatelessComponent,
+  Node,
+  Exports,
+  ExpressionType
+} from "@same/parser/structure";
+import { removeNode, insertNode, placeNode } from "@same/store/editor/actions";
+import { focusNode } from "@same/actions/editor";
+import { getFocusedNode } from "@same/store/editor/selectors";
 
 interface Props {
-  thunkSaveEditor?: typeof thunkSaveEditor;
-  astFile?: ASTFile;
-  filePath?: string;
-  focusedNode?: BaseNode;
-  focusNode?: typeof focusNode;
+  tree?: Node | Node[];
+  focus?: Node;
+  onFocus?: typeof focusNode;
+  onRemove?: typeof removeNode;
+  onInsert?: typeof insertNode;
+  onPlace?: typeof placeNode;
 }
+
+const getTree = (exps: Exports) => {
+  if (exps.default) return exps.default.return;
+  return Object.values(exps);
+};
 
 @withConnect(
   (store: RootStore): Partial<Props> => ({
-    astFile: new ASTFile(store.editor.astFile),
-    filePath: store.editor.filePath,
-    focusedNode: store.editor.focusedNode
+    tree: store.editor.exports ? getTree(store.editor.exports) : null,
+    focus: getFocusedNode(store)
   }),
-  { thunkSaveEditor, focusNode } as Partial<Props>
+  {
+    onFocus: focusNode,
+    onRemove: removeNode,
+    onInsert: insertNode,
+    onPlace: placeNode
+  } as Partial<Props>
 )
-export default class StructureView extends Component<Props, State> {
-  saveEditor() {
-    this.props.thunkSaveEditor(
-      this.props.astFile.code(),
-      this.props.filePath,
-      this.props.astFile.node
-    );
-  }
-
-  onDropAppend = ({ over, under }: { [key in DragState]: ASTNode }) => {
-    under.append(over.detach());
-    this.saveEditor();
+export default class StructureView extends Component<Props> {
+  onDropAppend = ({ over, under }: { [key in DragState]: Node }) => {
+    if (over === under) return;
+    this.props.onRemove(over);
+    this.props.onInsert(over, under);
   };
 
-  onDropAfter = ({ over, under }: { [key in DragState]: ASTNode }) => {
-    under.after(over.detach());
-    this.saveEditor();
+  onDropAfter = ({ over, under }: { [key in DragState]: Node }) => {
+    if (over === under) return;
+    this.props.onRemove(over);
+    this.props.onPlace(over, under, "after");
   };
 
-  onRemove = (node: ASTNode) => {
-    node.detach();
-    this.saveEditor();
+  onDropBefore = ({ over, under }: { [key in DragState]: Node }) => {
+    if (over === under) return;
+    this.props.onRemove(over);
+    this.props.onPlace(over, under, "before");
   };
 
-  onFocus = (node: ASTJSXElement) => {
-    this.props.focusNode(node);
-  };
-
-  renderHeader = (node: ASTNode, level: number) => {
-    const { focusedNode } = this.props;
+  renderHeader = (node: Node, level: number) => {
+    const { focus } = this.props;
     return (
       <ItemView
         node={node}
-        focus={focusedNode && node.node === focusedNode}
+        focus={focus && node.id === focus.id}
         level={level}
         onDropAfter={this.onDropAfter}
+        onDropBefore={this.onDropBefore}
         onDropAppend={this.onDropAppend}
-        onRemove={this.onRemove}
-        onFocus={this.onFocus}
+        onRemove={this.props.onRemove}
+        onFocus={this.props.onFocus}
       />
     );
   };
 
-  renderChildrens = (node: ASTNode, level: number) => {
-    const childrens = node.childrens().filter(el => !el.isFake());
-    return childrens && childrens.length ? (
+  renderChildrens = (node: Node, level: number) => {
+    const childrens = node.children || [];
+    return childrens.length ? (
       <Ul>
         {childrens.map(el => (
-          <Li key={el.key()}>{this.renderNode(el, level + 1)}</Li>
+          <Li key={el.id}>{this.renderNode(el, level + 1)}</Li>
         ))}
       </Ul>
     ) : null;
   };
 
-  renderNode = (node: ASTNode, level: number = 0) => {
+  renderNode = (node: Node, level: number = 0) => {
     return (
       <div className="tree-view">
         {this.renderHeader(node, level)}
@@ -94,13 +96,12 @@ export default class StructureView extends Component<Props, State> {
   };
 
   render() {
-    return (
-      <Fragment>
-        <Header>Structure</Header>
-        {this.props.astFile.jsxRoots().map(root => (
-          <Fragment key={root.key()}>{this.renderNode(root)}</Fragment>
-        ))}
-      </Fragment>
-    );
+    const { tree } = this.props;
+    if (!tree) return "Open file";
+    if (Array.isArray(tree)) {
+      return <Fragment>{tree.map(el => this.renderNode(el))}</Fragment>;
+    } else {
+      return <Fragment>{this.renderNode(tree)}</Fragment>;
+    }
   }
 }

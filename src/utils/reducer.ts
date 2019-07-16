@@ -1,23 +1,27 @@
-import { Action, Reducer, AnyAction, ActionCreator } from "redux";
+import { Action, Reducer, AnyAction } from "redux";
+import { ThunkAction } from "redux-thunk";
+import produce from "immer";
 
 export type InferActionTypes<T> = T extends { [key: string]: infer U }
-  ? U extends ActionCreator<any>
-    ? ReturnType<U> extends Action<any>
-      ? ReturnType<U>
+  ? U extends (...args: any[]) => infer R
+    ? R extends Action
+      ? R
+      : R extends ThunkAction<any, any, any, infer L>
+      ? L
       : never
     : never
   : never;
 
 type Reducers<S, A extends Action> = {
-  [T in A["type"]]: Reducer<Readonly<S>, A extends Action<T> ? A : never>
+  [T in A["type"]]: Reducer<S, A extends Action<T> ? A : never>
 };
 
-export const createReducer = <S, A extends Action = AnyAction>(
+export const createReducer = <A extends Action = AnyAction, S = any>(
   initialState: S,
   handlers: Reducers<S, A>
 ): Reducer<S> => {
-  return (state, action) => {
+  return (state = initialState, action) => {
     const handler = (handlers as any)[action.type];
-    return handler ? handler(state, action) : initialState;
+    return handler ? handler(state, action) : state;
   };
 };

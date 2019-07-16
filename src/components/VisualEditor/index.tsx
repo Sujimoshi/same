@@ -2,12 +2,9 @@ import * as React from "react";
 import { withConnect } from "@same/utils/connect";
 import ASTFile from "@same/parser/ASTFile";
 import { RootStore } from "same";
-import { thunkSaveEditor } from "@same/store/editor/actions";
-import { basename, dirname } from "path";
-import ASTJSXElement from "../../parser/ASTJSXElement";
+import { basename, dirname, join, resolve } from "path";
 import styled from "@emotion/styled";
 import _ from "underscore";
-import ASTRenderer, { component } from "./ASTRenderer";
 
 const VisualEditorView = styled.div({
   "[draggable]": {
@@ -23,63 +20,27 @@ const VisualEditorView = styled.div({
 });
 
 interface Props {
-  thunkSaveEditor?: typeof thunkSaveEditor;
-  astFile?: ASTFile;
-  componentName?: string;
-  filePath?: string;
+  projectPath?: string;
+  file?: string;
 }
 
-let dragging: HTMLElement;
-
 @withConnect(
-  (store: RootStore): Partial<Props> => ({
-    astFile: new ASTFile(store.editor.astFile),
-    filePath: store.editor.filePath,
-    componentName: basename(dirname(store.editor.filePath))
-  }),
-  { thunkSaveEditor } as Partial<Props>
+  ({ editor, project }: RootStore): Partial<Props> => ({
+    projectPath: project.path,
+    file: editor.file
+  })
 )
 export default class VisualEditor extends React.Component<Props> {
-  setupDND(node: HTMLElement) {
-    node.setAttribute("draggable", "true");
-    node.addEventListener(
-      "dragstart",
-      e => {
-        e.stopPropagation();
-        dragging = node;
-      },
-      false
-    );
-    node.addEventListener(
-      "dragover",
-      e => {
-        e.stopPropagation();
-        e.preventDefault();
-      },
-      false
-    );
-    node.addEventListener(
-      "drop",
-      (e: Event) => {
-        e.stopPropagation();
-        (e.target as any).astNode.append((dragging as any).astNode.detach());
-        this.props.thunkSaveEditor(
-          this.props.astFile.code(),
-          this.props.filePath,
-          this.props.astFile.node
-        );
-      },
-      false
-    );
-  }
-
   renderComponent() {
-    delete require.cache[this.props.filePath];
-    const Component = require(this.props.filePath).default;
-    return <Component />;
+    const { file, projectPath } = this.props;
+    const path = join(projectPath, file);
+    delete require.cache[path];
+    const Component = require(path).default;
+    if (typeof Component === "function") return <Component />;
   }
 
   render() {
+    if (!this.props.projectPath || !this.props.file) return "Open file";
     return (
       <VisualEditorView className="visual-editor">
         {this.renderComponent()}

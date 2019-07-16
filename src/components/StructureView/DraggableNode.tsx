@@ -13,6 +13,7 @@ const DraggableDiv = styled.div(props => ({
 
 export interface Props<T> {
   node: T;
+  styled?: any;
   onDrop: (data: any) => void;
   children?: ReactNode;
   onDragStateChange?: (dragState: DragState) => void;

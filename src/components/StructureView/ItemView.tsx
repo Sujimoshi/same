@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import { ItemWrapper, ItemContent, ActionIcon } from "./styled";
 import { DragState } from "../hooks/useDraggable";
-import ASTNode from "@same/parser/ASTNode";
 import DruggableNode from "./DraggableNode";
+import {
+  Node,
+  ExpressionType,
+  TextNode,
+  Element,
+  Exportable
+} from "@same/parser/structure";
 
 export interface Props {
-  node: ASTNode;
+  node: Node;
   level: number;
-  onDropAppend: (data: { [key in DragState]: ASTNode }) => void;
-  onDropAfter: (data: { [key in DragState]: ASTNode }) => void;
-  onRemove: (node: ASTNode) => void;
-  onFocus: (node: ASTNode) => void;
+  onDropAppend: (data: { [key in DragState]: Node }) => void;
+  onDropAfter: (data: { [key in DragState]: Node }) => void;
+  onDropBefore: (data: { [key in DragState]: Node }) => void;
+  onRemove: (node: Node) => void;
+  onFocus: (node: Node) => void;
   focus?: boolean;
 }
 
@@ -19,6 +26,7 @@ export function ItemView({
   level,
   onDropAppend,
   onDropAfter,
+  onDropBefore,
   onRemove,
   onFocus,
   focus = false
@@ -34,11 +42,18 @@ export function ItemView({
     >
       <DruggableNode
         node={node}
+        onDrop={onDropBefore}
+        onDragStateChange={setAfterDragState}
+      />
+      <DruggableNode
+        node={node}
         onDrop={onDropAppend}
         onDragStateChange={setAppendDragState}
       >
         <ItemContent level={level}>
-          {node.title()}
+          {node.type === ExpressionType.TextNode
+            ? (node as TextNode).value
+            : `<${(node as any).name || (node as Element).tag}>`}
           <ActionIcon onClick={() => onRemove(node)}>x</ActionIcon>
         </ItemContent>
       </DruggableNode>
