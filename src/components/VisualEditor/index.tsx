@@ -1,12 +1,15 @@
-import * as React from "react";
-import { withConnect } from "@same/utils/connect";
-import ASTFile from "@same/parser/ASTFile";
+import React, { useState, useEffect } from "react";
 import { RootStore } from "same";
-import { basename, dirname, join, resolve } from "path";
+import { join } from "path";
 import styled from "@emotion/styled";
 import _ from "underscore";
+import { ComponentConfig } from "@same/configurator";
+import { getFocusedComponent } from "@same/store/project/selectors";
+import { connect } from "react-redux";
+import { SRC_FOLDER } from "../../storage/index";
 
 const VisualEditorView = styled.div({
+  padding: "1rem",
   "[draggable]": {
     cursor: "move",
     userSelect: "none"
@@ -20,31 +23,34 @@ const VisualEditorView = styled.div({
 });
 
 interface Props {
-  projectPath?: string;
-  file?: string;
+  projectPath: string;
+  component: ComponentConfig;
 }
 
-@withConnect(
-  ({ editor, project }: RootStore): Partial<Props> => ({
-    projectPath: project.path,
-    file: editor.file
-  })
-)
-export default class VisualEditor extends React.Component<Props> {
-  renderComponent() {
-    const { file, projectPath } = this.props;
-    const path = join(projectPath, file);
-    delete require.cache[path];
-    const Component = require(path).default;
-    if (typeof Component === "function") return <Component />;
-  }
+export function VisualEditor({ component, projectPath }: Props) {
+  const [update, setUpdate] = useState(0);
+  useEffect(() => {
+    setTimeout(() => setUpdate(update + 1), 500);
+  }, [component]);
 
-  render() {
-    if (!this.props.projectPath || !this.props.file) return "Open file";
-    return (
-      <VisualEditorView className="visual-editor">
-        {this.renderComponent()}
-      </VisualEditorView>
-    );
-  }
+  if (!projectPath || !component) return <div>Open file</div>;
+  const path = join(projectPath, SRC_FOLDER, component.path);
+  delete require.cache[path];
+  const Component = require(path)[component.name];
+
+  return (
+    <VisualEditorView className="visual-editor">
+      {/* <iframe src="" frameborder="0"></iframe> */}
+      <Component />
+    </VisualEditorView>
+  );
 }
+
+export default connect(
+  (state: RootStore): Partial<Props> => {
+    return {
+      component: getFocusedComponent(state),
+      projectPath: state.project.path
+    };
+  }
+)(VisualEditor);

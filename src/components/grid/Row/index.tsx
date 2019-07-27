@@ -11,5 +11,6 @@ export default styled.div(({ align, height }: Props) => ({
   display: "flex",
   boxSizing: "border-box",
   flexWrap: "wrap",
-  alignItems: align
+  alignItems: align,
+  width: "100%"
 }));

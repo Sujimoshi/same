@@ -25,3 +25,5 @@ export const createReducer = <A extends Action = AnyAction, S = any>(
     return handler ? handler(state, action) : state;
   };
 };
+
+export const noopAction = { type: "NOOP" };

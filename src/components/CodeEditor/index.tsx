@@ -1,18 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
+import { getCode } from "@same/store/project/selectors";
+import { connect } from "react-redux";
 import { RootStore } from "same";
-import { withConnect } from "@same/utils/connect";
 
 export interface Props {
   code?: string;
 }
 
-@withConnect(
-  (store: RootStore): Partial<Props> => ({
-    code: store.editor.code
-  })
-)
-export default class CodeEditor extends Component<Props> {
-  render() {
-    return <pre>{this.props.code}</pre>;
-  }
+export function CodeEditor({ code }: Props) {
+  return <pre>{code}</pre>;
 }
+
+export default connect((state: RootStore) => ({
+  code: getCode(state)
+}))(CodeEditor);

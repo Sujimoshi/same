@@ -1,61 +1,41 @@
 import React, { Fragment } from "react";
 import PropsEditorItem from "./Item";
-import { connect } from "react-redux";
-import { RootStore } from "same";
-import { Element } from "@same/parser/structure";
-import { setNode } from "@same/store/editor/actions";
-import { setProps } from "@same/actions/editor";
+import { Dictionary, isObject } from "underscore";
+import {
+  setField,
+  removeField,
+  changeFieldName,
+  changeFieldValue
+} from "@same/utils/field";
 
 export interface Props {
-  node: Element;
   attributes?: { [name: string]: any };
-  onRemove?: (node: Element, name: string) => void;
-  onNameChange?: (node: Element, oldName: string, newName: string) => void;
-  onValueChange?: (node: Element, name: string, newValue: any) => void;
-  onCreate?: (node: Element, newName: string, newValue: any) => void;
+  onChange: (factory: (styles: Dictionary<any>) => Dictionary<any>) => void;
 }
 
-function ElementList({
-  node,
-  attributes,
-  onRemove,
-  onNameChange,
-  onValueChange,
-  onCreate
-}: Props) {
+export default function ElementList({ attributes, onChange }: Props) {
+  const props = Object.entries(attributes).reverse();
   return (
     <Fragment>
       <PropsEditorItem
         create
-        onCreate={(name, value) => onCreate(node, name, value)}
+        onCreate={(name, value) => onChange(setField(name, value))}
       />
-      {Object.entries(attributes)
-        .reverse()
+      {props
+        .filter(([key, value]) => !isObject(value))
         .map(([name, value]) => (
           <PropsEditorItem
-            key={name + value}
+            key={name}
             name={name}
             value={value}
-            onRemove={() => onRemove(node, name)}
-            onCreate={(newName, newValue) => onCreate(node, newName, newValue)}
-            onNameChange={newName => onNameChange(node, name, newName)}
-            onValueChange={newValue => onValueChange(node, name, newValue)}
+            onRemove={() => onChange(removeField(name))}
+            onCreate={(name, value) => onChange(setField(name, value))}
+            onNameChange={newName => onChange(changeFieldName(name, newName))}
+            onValueChange={newValue =>
+              onChange(changeFieldValue(name, newValue))
+            }
           />
         ))}
     </Fragment>
   );
 }
-
-export default connect(
-  (state: RootStore, props: Props) => ({
-    attributes: props.node.props
-  }),
-  {
-    onCreate: (node, name, value) => setProps(node, { [name]: value }),
-    onRemove: (node, name) => setProps(node, { [name]: undefined }),
-    onNameChange: (node, name, newName) =>
-      setProps(node, { [name]: undefined, [newName]: node.props[name] }),
-    onValueChange: (node, name, newValue) =>
-      setProps(node, { [name]: newValue })
-  } as Partial<Props>
-)(ElementList);

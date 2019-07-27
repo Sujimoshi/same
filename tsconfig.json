@@ -10,12 +10,14 @@
     "allowJs": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "pretty": true,
     "paths": {
       "*": ["types/*"],
       "@same/*": [ "./src/*" ]
     }
   },
   "include": [
-    "./src/**/*", "public/index.js"
+    "./src/**/*"
   ]
 }

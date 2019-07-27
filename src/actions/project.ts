@@ -1,39 +1,26 @@
-import { projectReset, addComponent } from "@same/store/project/actions";
-import { readdirSync, readFileSync, mkdirSync, writeFileSync } from "fs";
-import { join } from "path";
-import { createConfig } from "@same/parser";
+import { projectReset } from "@same/store/project/actions";
 import { ThunkAction } from "same";
 import { remote } from "electron";
-import { sync as glob } from "glob";
+import { loadProject } from "@same/storage";
 const { dialog } = remote;
 
-const CONFIG_FILE_NAME = "same.json";
-
-export const openProject = (path?: string): ThunkAction => dispatch => {
+export const openProject = (path?: string): ThunkAction => async dispatch => {
   if (!path) {
-    const res = dialog.showOpenDialog({ properties: ["openDirectory"] }) || [];
-    if (res.length <= 0) return;
-    path = res[0];
+    const [projectPath = ""] =
+      dialog.showOpenDialog({ properties: ["openDirectory"] }) || [];
+    if (!projectPath) return;
+    path = projectPath;
   }
-  const configs = glob(join(path, "**", CONFIG_FILE_NAME));
-  const components = configs.map(file => {
-    return JSON.parse(readFileSync(file).toString());
-  }, []);
-  dispatch(projectReset({ path, components }));
+  const project = await loadProject(path);
+  dispatch(projectReset({ ...project }));
 };
 
-export const createComponent = (name: string): ThunkAction => (
-  dispatch,
-  getState
-) => {
-  const { project } = getState();
-  const config = createConfig(name);
-  const newFolderPath = join(project.path, name);
-  mkdirSync(newFolderPath);
-  writeFileSync(join(newFolderPath, "index.js"), "");
-  writeFileSync(
-    join(newFolderPath, "index.config.json"),
-    JSON.stringify(config)
-  );
-  dispatch(addComponent(config));
+export const createProject = (): ThunkAction => async dispatch => {
+  const [path = ""] =
+    dialog.showOpenDialog({
+      properties: ["openDirectory", "createDirectory"]
+    }) || [];
+  if (!path) return;
+  const project = await loadProject(path);
+  dispatch(projectReset({ ...project }));
 };

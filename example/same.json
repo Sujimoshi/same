@@ -1,0 +1,88 @@
+{
+  "path": "/Users/sujimoshi/Projects/same/front/example",
+  "components": {
+    "1903143b-857f-41f2-924e-59816e747b56": {
+      "id": "1903143b-857f-41f2-924e-59816e747b56",
+      "type": "Styled",
+      "name": "Component",
+      "path": "Component/index.js",
+      "node": {
+        "id": "4cb10098-f69c-42ff-bb1c-db7023018031",
+        "type": "Style",
+        "tag": "div",
+        "props": {},
+        "styles": {
+          "some": "any",
+          ":hover": {
+            "some": "why"
+          },
+          "?focus": {
+            "some": "bad"
+          }
+        },
+        "value": "",
+        "children": []
+      }
+    },
+    "b7d0f81e-c61f-453e-9d63-5025c7250236": {
+      "id": "b7d0f81e-c61f-453e-9d63-5025c7250236",
+      "type": "Pure",
+      "name": "default",
+      "path": "Component/index.js",
+      "node": {
+        "id": "bc061f74-9026-406a-b0ec-9da6ce732002",
+        "type": "Element",
+        "tag": "Component",
+        "props": {},
+        "styles": {},
+        "ref": "1903143b-857f-41f2-924e-59816e747b56",
+        "value": "",
+        "children": [
+          {
+            "id": "625dbaa5-0526-42e6-adb2-7659108e9135",
+            "type": "Element",
+            "tag": "Component",
+            "props": {},
+            "styles": {},
+            "ref": "1903143b-857f-41f2-924e-59816e747b56",
+            "value": "",
+            "children": []
+          }
+        ]
+      }
+    },
+    "21d066d8-923a-4c01-989a-04933360a194": {
+      "id": "21d066d8-923a-4c01-989a-04933360a194",
+      "type": "Styled",
+      "name": "Modal",
+      "path": "Modal/index.js",
+      "node": {
+        "id": "1a507c3c-852d-4ba3-ab19-266664608e46",
+        "type": "Style",
+        "tag": "div",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": []
+      }
+    },
+    "d0e1900b-bb91-4962-bbae-56166488ed5e": {
+      "id": "d0e1900b-bb91-4962-bbae-56166488ed5e",
+      "type": "Pure",
+      "name": "default",
+      "path": "Modal/index.js",
+      "node": {
+        "id": "7c9291e7-17ce-472a-bcc0-846503a8a4f7",
+        "type": "Element",
+        "tag": "Modal",
+        "props": {},
+        "styles": {},
+        "ref": "21d066d8-923a-4c01-989a-04933360a194",
+        "value": "",
+        "children": []
+      }
+    }
+  },
+  "focusedComponent": "b7d0f81e-c61f-453e-9d63-5025c7250236",
+  "focusedNode": "bc061f74-9026-406a-b0ec-9da6ce732002"
+}

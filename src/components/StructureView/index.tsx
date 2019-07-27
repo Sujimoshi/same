@@ -1,76 +1,44 @@
 import React, { Fragment, Component } from "react";
-import { DragState } from "../hooks/useDraggable";
 import { Ul, Li } from "./styled";
-import { withConnect } from "@same/utils/connect";
 import { RootStore } from "same";
-import { ItemView } from "./ItemView";
+import ItemView from "./ItemView";
+import { removeNode, insertNode } from "@same/store/project/actions";
+import { focusNode, createAndAppend, mountNode } from "@same/actions/node";
 import {
-  StatelessComponent,
-  Node,
-  Exports,
-  ExpressionType
-} from "@same/parser/structure";
-import { removeNode, insertNode, placeNode } from "@same/store/editor/actions";
-import { focusNode } from "@same/actions/editor";
-import { getFocusedNode } from "@same/store/editor/selectors";
+  getFocusedNode,
+  getFocusedComponent
+} from "@same/store/project/selectors";
+import { Node, ComponentConfig } from "@same/configurator";
+import { connect } from "react-redux";
 
 interface Props {
-  tree?: Node | Node[];
+  component?: ComponentConfig;
   focus?: Node;
   onFocus?: typeof focusNode;
   onRemove?: typeof removeNode;
-  onInsert?: typeof insertNode;
-  onPlace?: typeof placeNode;
+  onCreate: typeof createAndAppend;
+  onDrop: typeof mountNode;
 }
 
-const getTree = (exps: Exports) => {
-  if (exps.default) return exps.default.return;
-  return Object.values(exps);
-};
-
-@withConnect(
-  (store: RootStore): Partial<Props> => ({
-    tree: store.editor.exports ? getTree(store.editor.exports) : null,
-    focus: getFocusedNode(store)
-  }),
-  {
-    onFocus: focusNode,
-    onRemove: removeNode,
-    onInsert: insertNode,
-    onPlace: placeNode
-  } as Partial<Props>
-)
-export default class StructureView extends Component<Props> {
-  onDropAppend = ({ over, under }: { [key in DragState]: Node }) => {
-    if (over === under) return;
-    this.props.onRemove(over);
-    this.props.onInsert(over, under);
-  };
-
-  onDropAfter = ({ over, under }: { [key in DragState]: Node }) => {
-    if (over === under) return;
-    this.props.onRemove(over);
-    this.props.onPlace(over, under, "after");
-  };
-
-  onDropBefore = ({ over, under }: { [key in DragState]: Node }) => {
-    if (over === under) return;
-    this.props.onRemove(over);
-    this.props.onPlace(over, under, "before");
-  };
-
+export class StructureView extends Component<Props> {
   renderHeader = (node: Node, level: number) => {
-    const { focus } = this.props;
+    const {
+      component,
+      focus,
+      onDrop,
+      onCreate,
+      onRemove,
+      onFocus
+    } = this.props;
     return (
       <ItemView
         node={node}
         focus={focus && node.id === focus.id}
         level={level}
-        onDropAfter={this.onDropAfter}
-        onDropBefore={this.onDropBefore}
-        onDropAppend={this.onDropAppend}
-        onRemove={this.props.onRemove}
-        onFocus={this.props.onFocus}
+        onCreate={() => onCreate(component, node)}
+        onRemove={() => onRemove(component, node)}
+        onFocus={() => onFocus(node)}
+        onDrop={(type, what) => onDrop(component, node, type, what)}
       />
     );
   };
@@ -96,12 +64,22 @@ export default class StructureView extends Component<Props> {
   };
 
   render() {
-    const { tree } = this.props;
-    if (!tree) return "Open file";
-    if (Array.isArray(tree)) {
-      return <Fragment>{tree.map(el => this.renderNode(el))}</Fragment>;
-    } else {
-      return <Fragment>{this.renderNode(tree)}</Fragment>;
-    }
+    const { component } = this.props;
+    if (!component) return "Open file";
+    return <Fragment>{this.renderNode(component.node)}</Fragment>;
   }
 }
+
+export default connect(
+  (store: RootStore) => ({
+    component: getFocusedComponent(store),
+    focus: getFocusedNode(store)
+  }),
+  {
+    onFocus: focusNode,
+    onRemove: removeNode,
+    onInsert: insertNode,
+    onCreate: createAndAppend,
+    onDrop: mountNode
+  }
+)(StructureView);

@@ -48,7 +48,7 @@ export default function PropsEditorItem({
       <Col>
         <ToggableInput
           type="text"
-          placeholder={!create ? value : "newValue"}
+          placeholder={!create ? "" : "newValue"}
           disabled={valueNotEditable}
           value={data.value}
           onChange={e => setData({ ...data, value: e.target.value })}

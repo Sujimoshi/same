@@ -34,14 +34,13 @@ export default function Body() {
             <StructureView />
           </div>
           <div className="component-view">
-            <Header>Components</Header>
             <ComponentsView />
           </div>
         </Col>
         <Col size="70%">
           <Row>
             <Col>
-              <Header>Code</Header>
+              <Header>Output code</Header>
               <CodeEditor />
             </Col>
             <Col>
@@ -51,8 +50,10 @@ export default function Body() {
           </Row>
         </Col>
         <Col>
-          <Header>Props</Header>
-          <PropsEditor />
+          <div className="props-editor">
+            <Header>Attributes</Header>
+            <PropsEditor />
+          </div>
         </Col>
       </Row>
     </Fragment>

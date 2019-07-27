@@ -1,0 +1,93 @@
+{
+  "path": "/Users/sujimoshi/Projects/same/front",
+  "components": {
+    "e4ca79ad-f2cf-4568-80ba-39724d9a4e87": {
+      "id": "e4ca79ad-f2cf-4568-80ba-39724d9a4e87",
+      "type": "Styled",
+      "name": "Button",
+      "path": "Button/index.js",
+      "node": {
+        "id": "478fce3c-a709-4e13-9409-233bc97c7076",
+        "type": "Style",
+        "tag": "button",
+        "props": {},
+        "styles": {
+          "border": "1px solid gray",
+          "width": "100%",
+          "lineHeight": "1.4rem",
+          "borderRadius": ".5rem",
+          "padding": ".5rem"
+        },
+        "value": "",
+        "children": []
+      }
+    },
+    "ae51ebd9-2800-4ac4-8b77-a8aa025f96f0": {
+      "id": "ae51ebd9-2800-4ac4-8b77-a8aa025f96f0",
+      "type": "Pure",
+      "name": "default",
+      "path": "Button/index.js",
+      "node": {
+        "id": "ff2d517d-aa80-4dfe-a8b1-7b3977398c3f",
+        "type": "Element",
+        "tag": "Button",
+        "props": {},
+        "styles": {},
+        "ref": "e4ca79ad-f2cf-4568-80ba-39724d9a4e87",
+        "value": "",
+        "children": [
+          {
+            "id": "fed1ca8d-bd0a-4495-b8e9-bb3306bd3d0e",
+            "type": "Text",
+            "tag": "text",
+            "props": {},
+            "styles": {},
+            "value": "Button",
+            "children": []
+          }
+        ]
+      }
+    },
+    "1187c4fe-d605-45a7-ac81-4afb1e354e94": {
+      "id": "1187c4fe-d605-45a7-ac81-4afb1e354e94",
+      "type": "Styled",
+      "name": "Input",
+      "path": "Input/index.js",
+      "node": {
+        "id": "b9f8146c-9417-477f-ae33-0235767dc205",
+        "type": "Style",
+        "tag": "input",
+        "props": {},
+        "styles": {
+          "width": "100%",
+          "border": "1px solid grey",
+          "borderRadius": ".5rem",
+          "padding": ".5rem",
+          "lineHeight": "1.4rem"
+        },
+        "value": "",
+        "children": []
+      }
+    },
+    "30fa0cbf-792e-40f6-8679-bc4a8b95b431": {
+      "id": "30fa0cbf-792e-40f6-8679-bc4a8b95b431",
+      "type": "Pure",
+      "name": "default",
+      "path": "Input/index.js",
+      "node": {
+        "id": "d8ef4d2f-1cd2-4463-9e20-8204c547b5bd",
+        "type": "Element",
+        "tag": "Input",
+        "props": {},
+        "styles": {
+          "background": "red"
+        },
+        "ref": "1187c4fe-d605-45a7-ac81-4afb1e354e94",
+        "value": "",
+        "children": []
+      }
+    }
+  },
+  "focusedComponent": "30fa0cbf-792e-40f6-8679-bc4a8b95b431",
+  "focusedNode": "d8ef4d2f-1cd2-4463-9e20-8204c547b5bd"
+}

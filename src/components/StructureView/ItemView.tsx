@@ -1,67 +1,53 @@
-import React, { useState } from "react";
-import { ItemWrapper, ItemContent, ActionIcon } from "./styled";
-import { DragState } from "../hooks/useDraggable";
-import DruggableNode from "./DraggableNode";
-import {
-  Node,
-  ExpressionType,
-  TextNode,
-  Element,
-  Exportable
-} from "@same/parser/structure";
+import React from "react";
+import { ItemWrapper, ItemContent, ActionIcon, ActionsWrapper } from "./styled";
+import { Node, NodeType, ComponentConfig } from "@same/configurator";
+import Row from "../grid/Row";
+import Col from "../grid/Col";
+import DragAndDrop from "./DragAndDrop";
 
 export interface Props {
   node: Node;
   level: number;
-  onDropAppend: (data: { [key in DragState]: Node }) => void;
-  onDropAfter: (data: { [key in DragState]: Node }) => void;
-  onDropBefore: (data: { [key in DragState]: Node }) => void;
   onRemove: (node: Node) => void;
   onFocus: (node: Node) => void;
+  onCreate: (node: Node) => void;
+  onDrop: (
+    type: "before" | "into" | "after",
+    what: Node | ComponentConfig
+  ) => void;
   focus?: boolean;
 }
 
-export function ItemView({
-  node,
+export default function ItemView({
   level,
-  onDropAppend,
-  onDropAfter,
-  onDropBefore,
+  node,
+  onCreate,
   onRemove,
   onFocus,
-  focus = false
+  focus,
+  onDrop
 }: Props) {
-  const [appendDragState, setAppendDragState] = useState(DragState.Hold);
-  const [afterDragState, setAfterDragState] = useState(DragState.Hold);
   return (
-    <ItemWrapper
-      appendDragState={appendDragState}
-      afterDragState={afterDragState}
-      onClick={() => onFocus(node)}
-      focus={focus}
-    >
-      <DruggableNode
-        node={node}
-        onDrop={onDropBefore}
-        onDragStateChange={setAfterDragState}
-      />
-      <DruggableNode
-        node={node}
-        onDrop={onDropAppend}
-        onDragStateChange={setAppendDragState}
-      >
+    <DragAndDrop data={node} onDrop={onDrop}>
+      <ItemWrapper onClick={() => onFocus(node)} focus={focus}>
         <ItemContent level={level}>
-          {node.type === ExpressionType.TextNode
-            ? (node as TextNode).value
-            : `<${(node as any).name || (node as Element).tag}>`}
-          <ActionIcon onClick={() => onRemove(node)}>x</ActionIcon>
+          <Row>
+            <Col>
+              {node.type === NodeType.Text
+                ? `"${node.value}"`
+                : `<${node.tag}>`}
+            </Col>
+            <Col size="auto">
+              <ActionsWrapper>
+                {node.type === NodeType.Element && (
+                  <ActionIcon onClick={onCreate}>+</ActionIcon>
+                )}
+                {level !== 0 && <ActionIcon onClick={onRemove}>x</ActionIcon>}
+              </ActionsWrapper>
+            </Col>
+          </Row>
         </ItemContent>
-      </DruggableNode>
-      <DruggableNode
-        node={node}
-        onDrop={onDropAfter}
-        onDragStateChange={setAfterDragState}
-      />
-    </ItemWrapper>
+      </ItemWrapper>
+    </DragAndDrop>
   );
 }

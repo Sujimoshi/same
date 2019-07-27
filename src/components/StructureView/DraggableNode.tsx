@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import useDraggable, { DragState } from "../hooks/useDraggable";
 import styled from "@emotion/styled";
+import { useDrop } from "react-dnd";
 
 const DraggableDiv = styled.div(props => ({
   ...(!props.children
@@ -26,7 +27,6 @@ export default function DruggableNode<T>(props: Props<T>) {
     <DraggableDiv
       data-drag={dnd.dragState}
       draggable
-      onDrop={dnd.onDrop(props.onDrop)}
       onDragEnd={dnd.onDragEnd}
       onDragOver={dnd.onDragOver}
       onDragStart={dnd.onDragStart}

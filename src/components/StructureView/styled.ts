@@ -1,36 +1,46 @@
 import styled from "@emotion/styled";
 import { DragState } from "../hooks/useDraggable";
 import _ from "underscore";
+import { capitalize } from "@same/utils/helpers";
 
-export const ItemContent = styled.div(({ level = 0 }: { level: number }) => ({
-  paddingLeft: level * 2 + "rem",
-  display: "flex"
+export const DragAndDropWrapper = styled.div((props: any) => ({
+  position: "relative"
 }));
 
-const getItemColor = (dragState: DragState, focus: boolean = false) => {
-  if (focus) return "silver";
-  if (dragState === DragState.Under) return "slategray";
-  return "transparent";
-};
+export const AppendDropArea = styled.div((props: any) => ({
+  ...(props.dropping && {
+    backgroundColor: "gray"
+  })
+}));
+
+export const ItemContent = styled.div(({ level = 0 }: { level: number }) => ({
+  width: "100%",
+  paddingLeft: level * 2 + "rem",
+  display: "flex",
+  lineHeight: 1.3
+}));
+
+export const InsertDropArea = styled.div((props: any) => ({
+  height: ".4rem",
+  position: "absolute",
+  width: "100%",
+  left: "0",
+  [props.place]: "0",
+  ["border" + capitalize(props.place)]: "1px solid transparent",
+  ...(props.dropping && {
+    borderColor: "gray"
+  }),
+  ...props.styled
+}));
 
 export const ItemWrapper = styled.div(
-  (props: {
-    appendDragState?: DragState;
-    afterDragState?: DragState;
-    focus?: boolean;
-  }) => ({
+  (props: { focus?: boolean; styled?: any }) => ({
     cursor: "pointer",
     padding: "0 .5rem",
     position: "relative",
-    borderBottom: ".1rem solid transparent",
-    borderTop: ".1rem solid transparent",
-    borderBottomColor: getItemColor(props.afterDragState || DragState.Hold),
-    backgroundColor: getItemColor(
-      (props.afterDragState || DragState.Hold) === DragState.Hold
-        ? props.appendDragState
-        : DragState.Hold,
-      props.focus
-    ),
+    ...(focus && {
+      backgroundColor: "lightgray"
+    }),
     "&:hover": {
       backgroundColor: props.focus ? "silver" : "gainsboro"
     },
@@ -39,11 +49,12 @@ export const ItemWrapper = styled.div(
     },
     "&:hover button": {
       visibility: "visible"
-    }
+    },
+    ...props.styled
   })
 );
 
-export const ActionIcon = styled.button({
+export const ActionIcon = styled.button((props: any) => ({
   border: 0,
   padding: 0,
   backgroundColor: "transparent",
@@ -60,8 +71,9 @@ export const ActionIcon = styled.button({
   },
   "&:focus": {
     outline: "none"
-  }
-});
+  },
+  ...props.styled
+}));
 
 export const ActionsWrapper = styled.div({
   padding: "0 .3rem",

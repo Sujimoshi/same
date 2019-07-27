@@ -1,4 +1,3 @@
-// import { StoreState } from "./types";
 import * as React from "react";
 import {
   connect as originalConnect,

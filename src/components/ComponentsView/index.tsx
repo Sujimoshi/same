@@ -1,73 +1,77 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { RootStore } from "same";
-import { SameConfig, generate } from "@same/parser";
 import { ItemWrapper, Ul, Li } from "../styled/List";
-import { openFile } from "@same/actions/editor";
-import { basename } from "path";
+import { basename, dirname } from "path";
 import Collapse from "../Collapse";
+import { getGroupedComponents } from "@same/store/project/selectors";
+import { ComponentConfig, ComponentType } from "@same/configurator";
+import Header from "./Header";
+import { focus } from "@same/actions/node";
+import { createComponent } from "@same/actions/component";
+import Item from "./Item";
 
+export interface ComponentsGroup {
+  name: string;
+  styles: ComponentConfig[];
+  examples: ComponentConfig[];
+}
 export interface Props {
-  components?: SameConfig[];
-  onComponentClick: typeof openFile;
+  components?: ComponentConfig[][];
+  focusedComponent: string;
+  onComponentClick?: typeof focus;
+  onComponentCreate?: typeof createComponent;
 }
 
-export function ComponentsView({ components, onComponentClick }: Props) {
-  if (components[0]) {
-    console.log(generate(components[0].examples[0]));
-    console.log(generate(components[0].main));
-  }
+export function ComponentsView({
+  components,
+  onComponentClick,
+  onComponentCreate,
+  focusedComponent
+}: Props) {
   return (
-    <Ul>
-      {components.map(component => (
-        <Li key={component.id}>
-          <Collapse title={<ItemWrapper>{component.name}</ItemWrapper>}>
+    <Fragment>
+      <Header onCreate={onComponentCreate} />
+      <Ul>
+        {components.map(componentGroup => (
+          <Li key={componentGroup[0].id}>
             <Collapse
-              title={
+              expanded={!!componentGroup.find(el => el.id === focusedComponent)}
+              renderTitle={() => (
                 <ItemWrapper styled={{ paddingLeft: "2rem" }}>
-                  styles
+                  {dirname(componentGroup[0].path)}
                 </ItemWrapper>
-              }
+              )}
             >
-              {Object.values(component.main.exports).map(el => (
-                <ItemWrapper
-                  key={el.id}
-                  styled={{ paddingLeft: "4rem" }}
-                  onClick={() =>
-                    onComponentClick(component.main.file, component.main, el.id)
-                  }
-                >
-                  {el.name} ({el.tag})
-                </ItemWrapper>
-              ))}
-            </Collapse>
-            <Collapse
-              title={
-                <ItemWrapper styled={{ paddingLeft: "2rem" }}>
-                  examples
-                </ItemWrapper>
+              {() =>
+                componentGroup
+                  .filter(el => el.type === ComponentType.Styled)
+                  .map(component => (
+                    <Item
+                      key={component.id}
+                      component={component}
+                      focus={component.id === focusedComponent}
+                      onClick={() =>
+                        onComponentClick(componentGroup[0], component.id)
+                      }
+                    />
+                  ))
               }
-            >
-              {component.examples.map(el => (
-                <ItemWrapper
-                  key={el.id}
-                  styled={{ paddingLeft: "4rem" }}
-                  onClick={() => onComponentClick(el.file, el)}
-                >
-                  {basename(el.file, ".js")}
-                </ItemWrapper>
-              ))}
             </Collapse>
-          </Collapse>
-        </Li>
-      ))}
-    </Ul>
+          </Li>
+        ))}
+      </Ul>
+    </Fragment>
   );
 }
 
 export default connect(
   (state: RootStore) => ({
-    components: state.project.components
+    components: getGroupedComponents(state),
+    focusedComponent: state.project.focusedComponent
   }),
-  { onComponentClick: openFile }
+  {
+    onComponentCreate: createComponent,
+    onComponentClick: focus
+  }
 )(ComponentsView);
