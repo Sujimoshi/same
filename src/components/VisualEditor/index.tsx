@@ -1,56 +1,71 @@
-import React, { useState, useEffect } from "react";
-import { RootStore } from "same";
-import { join } from "path";
-import styled from "@emotion/styled";
-import _ from "underscore";
-import { ComponentConfig } from "@same/configurator";
-import { getFocusedComponent } from "@same/store/project/selectors";
+import React from "react";
+import Frame, { FrameContextConsumer } from "react-frame-component";
 import { connect } from "react-redux";
-import { SRC_FOLDER } from "../../storage/index";
+import { ComponentConfig } from "@same/configurator";
+import { Dictionary, memoize } from "underscore";
+import {
+  getFocusedComponent,
+  getComponents,
+  getFocusedNodeId
+} from "@same/store/project/selectors";
+import { RootStore } from "same";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/core";
+import Controller from "./Controller";
+import { focusNode } from "@same/actions/node";
+import { DndProvider } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 
-const VisualEditorView = styled.div({
-  padding: "1rem",
-  "[draggable]": {
-    cursor: "move",
-    userSelect: "none"
-  },
-  "[draggable]:hover": {
-    backgroundColor: "lightblue"
-  },
-  "[draggable] [draggable]:hover": {
-    backgroundColor: "pink"
-  }
-});
-
-interface Props {
-  projectPath: string;
-  component: ComponentConfig;
+export enum Mode {
+  Visual = "visual",
+  Control = "control"
 }
 
-export function VisualEditor({ component, projectPath }: Props) {
-  const [update, setUpdate] = useState(0);
-  useEffect(() => {
-    setTimeout(() => setUpdate(update + 1), 500);
-  }, [component]);
+interface Props {
+  component: ComponentConfig;
+  allComponents: Dictionary<ComponentConfig>;
+  mode: Mode;
+  focusedNodeId: string;
+  onFocus: typeof focusNode;
+}
 
-  if (!projectPath || !component) return <div>Open file</div>;
-  const path = join(projectPath, SRC_FOLDER, component.path);
-  delete require.cache[path];
-  const Component = require(path)[component.name];
+const getStyledCache = memoize((document: Document) => {
+  return createCache({
+    container: document.getElementsByTagName("head").item(0)
+  });
+});
 
+export function VisualEditor({
+  focusedNodeId,
+  onFocus,
+  component,
+  allComponents
+}: Props) {
   return (
-    <VisualEditorView className="visual-editor">
-      {/* <iframe src="" frameborder="0"></iframe> */}
-      <Component />
-    </VisualEditorView>
+    <Frame style={{ width: "100%", height: "90vh", border: "0" }}>
+      <FrameContextConsumer>
+        {({ document, window }: { document: Document; window: Window }) => (
+          <CacheProvider value={getStyledCache(document)}>
+            <DndProvider backend={HTML5Backend} context={window}>
+              <Controller
+                onFocus={onFocus}
+                focusedNodeId={focusedNodeId}
+                component={component}
+                allComponents={allComponents}
+              />
+            </DndProvider>
+          </CacheProvider>
+        )}
+      </FrameContextConsumer>
+    </Frame>
   );
 }
 
 export default connect(
-  (state: RootStore): Partial<Props> => {
-    return {
-      component: getFocusedComponent(state),
-      projectPath: state.project.path
-    };
-  }
+  (state: RootStore) => ({
+    component: getFocusedComponent(state),
+    allComponents: getComponents(state),
+    focusedNodeId: getFocusedNodeId(state)
+  }),
+  { onFocus: focusNode }
 )(VisualEditor);

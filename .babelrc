@@ -1,13 +1,14 @@
 {
   "presets": [
-    ["@babel/env", {
-      "targets": {
-        "esmodules": true
+    [
+      "@babel/preset-env",
+      {
+        "modules": "commonjs",
+        "targets": { "electron": "current" }
       }
-    }],
-    ["@babel/preset-typescript", {
-      "isTSX": true,
-      "allExtensions": true
-    }]
-  ]
+    ],
+    "@babel/preset-react",
+    "@babel/preset-typescript"
+  ],
+  "plugins": ["@babel/plugin-proposal-class-properties", "@babel/plugin-transform-runtime"]
 }

@@ -69,3 +69,17 @@ export const isComponent = (component: any): component is ComponentConfig => {
 export const isNode = (node: any): node is Node => {
   return !!node.tag;
 };
+
+export const isPure = (component: ComponentConfig) => {
+  return component.type === ComponentType.Pure;
+};
+
+export const isStyled = (component: ComponentConfig) => {
+  return component.type === ComponentType.Styled;
+};
+
+export const isElementNode = (node: Node) => {
+  return node.type === NodeType.Element;
+};
+
+export const isTextNode = (node: Node) => node.type === NodeType.Text;

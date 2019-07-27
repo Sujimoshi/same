@@ -1,16 +1,24 @@
+import * as React from "react";
 import styled from "@emotion/styled";
-import React from "react";
-
-export const Button = styled.button(props => ({
-  width: "100%",
-  border: "1px solid gray",
-  padding: ".5rem",
-  borderRadius: ".5rem",
-  lineHeight: "1.4rem",
-  cursor: "pointer",
-  ...props.styled
-}));
 
 export default function Example() {
-  return <Button>Button</Button>;
+  return (
+    <>
+      <Button>Button</Button>
+    </>
+  );
 }
+
+export const Button = styled.button(props => ({
+  border: "1px solid gray",
+  borderRadius: "5px",
+  padding: "5px 10px",
+  cursor: "pointer",
+  "&:focus": {
+    outline: "none"
+  },
+  "&:active": {
+    background: "lightblue"
+  },
+  ...props.styled
+}));

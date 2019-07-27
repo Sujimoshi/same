@@ -20,9 +20,7 @@ export const generateComponent = (
     ${components.map(generateExport).join("\n")}
   `;
   try {
-    const formatted = format(res);
-    console.log(formatted);
-    return formatted;
+    return format(res, { parser: "babel" });
   } catch (e) {
     console.log(e, res);
     return res;
@@ -45,8 +43,9 @@ export const generateImports = (
       )
         .split(";")
         .map(el => el.trim());
-      return `import React from "react";
-        ${[...new Set(imports)].join(";")}`;
+      return `import * as React from "react";${[...new Set(imports)].join(
+        ";"
+      )}`;
     }
     default: {
       throw new Error("Unknown component type");
@@ -64,7 +63,7 @@ export const generateNodeImport = (
   const importName = generateImportName(ref.name, node.tag);
   let childrenImports: string = node.children
     .map(el => generateNodeImport(component, el, allComponents))
-    .join("\n");
+    .join("");
   if (component.path === ref.path) {
     return childrenImports;
   } else {
@@ -184,7 +183,7 @@ export const generateObjectFields = (obj: Dictionary<any>): string => {
     .map(([key, val]) => {
       if (typeof val === "object") {
         if (isEmpty(val)) return "";
-        if (/^:.+/.test(key)) {
+        if (/^(&:).+/.test(key)) {
           return `"${key}": {
           ${generateObjectFields(val)}
         }`;
@@ -197,5 +196,6 @@ export const generateObjectFields = (obj: Dictionary<any>): string => {
       }
       return `"${key}": ${JSON.stringify(val)}`;
     })
+    .filter(Boolean)
     .join(",");
 };

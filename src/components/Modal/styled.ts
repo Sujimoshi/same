@@ -15,7 +15,7 @@ export const ModalBackground = styled.div((props: any) => ({
 
 export const ModalWrapper = styled.div((props: any) => ({
   backgroundColor: "white",
-  width: "40rem",
+  width: "30rem",
   ...props.styled
 }));
 

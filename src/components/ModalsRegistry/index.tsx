@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { RootStore, Dictionary } from "same";
+import { RootStore } from "same";
 import AddFolderModal, { ADD_FOLDER_MODAL } from "../AddFolderModal";
 import React from "react";
 import { closeModal } from "@same/store/modal/actions";

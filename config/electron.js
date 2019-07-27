@@ -21,11 +21,12 @@ function createWindow() {
 
   // and load the index.html of the app.
   mainWindow.loadURL(
-    url.format({
-      pathname: join(__dirname, "../public/index.html"),
-      protocol: "file:",
-      slashes: true
-    })
+    env("START_URL")
+    // url.format({
+    //   pathname: ,
+    //   protocol: "http:",
+    //   slashes: true
+    // })
   );
 
   devtools

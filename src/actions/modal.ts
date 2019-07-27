@@ -10,7 +10,8 @@ export const showAddFolderModal = (onApply: (formData: FolderData) => void) => {
 };
 
 export const showAddComponentModal = (
+  data: Partial<ComponentData>,
   onApply: (formData: ComponentData) => void
 ) => {
-  return showModal(ADD_COMPONENT_MODAL, { onApply });
+  return showModal(ADD_COMPONENT_MODAL, { ...data, onApply });
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import ElementList from "./ElementList";
 import { connect } from "react-redux";
 import { RootStore } from "same";
 import {
@@ -10,12 +9,14 @@ import {
   Node,
   NodeType,
   ComponentConfig,
-  ComponentType
+  ComponentType,
+  isPure,
+  isStyled,
+  isElementNode
 } from "@same/configurator";
 import { getReferenceComponent } from "../../store/project/selectors";
-import Collapse from "../Collapse";
-import { ItemWrapper } from "../StructureView/styled";
 import { setStyles } from "@same/actions/styles";
+import ObjectView from "./ObjectView";
 
 export interface Props {
   focusedNode?: Node;
@@ -30,41 +31,30 @@ export function PropsEditor({
   focusedComponent,
   onChange
 }: Props) {
-  if (!focusedNode) return <div>No focused element</div>;
+  if (!focusedNode || !focusedNode.tag) return <div>No focused element</div>;
   if (focusedNode.type === NodeType.Text)
     return <div>Unknown element type</div>;
+
+  const styledComponent = isStyled(focusedComponent)
+    ? focusedComponent
+    : referenceComponent;
   return (
     <>
-      <Collapse
-        expanded
-        key={"inline"}
-        renderTitle={() => <ItemWrapper>styles.inline</ItemWrapper>}
-      >
-        {() => (
-          <ElementList
-            attributes={focusedNode.styles}
-            onChange={onChange.bind(null, focusedComponent, focusedNode, "")}
-          />
-        )}
-      </Collapse>
-      {referenceComponent && referenceComponent.type === ComponentType.Styled && (
-        <Collapse
-          expanded
-          key={"default"}
-          renderTitle={() => <ItemWrapper>styles</ItemWrapper>}
-        >
-          {() => (
-            <ElementList
-              attributes={referenceComponent.node.styles || {}}
-              onChange={onChange.bind(
-                null,
-                referenceComponent,
-                referenceComponent.node,
-                ""
-              )}
-            />
-          )}
-        </Collapse>
+      {isElementNode(focusedNode) && (
+        <ObjectView
+          attributes={focusedNode.styles}
+          title="styles.inline"
+          onChange={action => onChange(focusedComponent, focusedNode, action)}
+        />
+      )}
+      {styledComponent && isStyled(styledComponent) && (
+        <ObjectView
+          title="styles"
+          attributes={styledComponent.node.styles || {}}
+          onChange={action =>
+            onChange(styledComponent, styledComponent.node, action)
+          }
+        />
       )}
     </>
   );

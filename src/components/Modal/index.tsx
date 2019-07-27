@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import {
   ModalBackground,
   ModalWrapper,
@@ -6,8 +6,8 @@ import {
   ModalBody,
   Icon
 } from "./styled";
-import Row from "../grid/Row";
-import Col from "../grid/Col";
+import Row from "../Row";
+import Col from "../Col";
 
 export interface Props {
   title: string;

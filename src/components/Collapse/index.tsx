@@ -1,10 +1,12 @@
 import React, { ReactNode, useState } from "react";
-import { ItemWrapper } from "../styled/List";
 
 export interface Props {
-  renderTitle: () => ReactNode | ReactNode[];
+  renderTitle: (
+    toggle: (set?: boolean) => void,
+    expanded: boolean
+  ) => ReactNode | ReactNode[];
   expanded?: boolean;
-  children: () => ReactNode | ReactNode[];
+  children: (toggle: (set?: boolean) => void) => ReactNode | ReactNode[];
 }
 
 export default function Collapse({
@@ -13,10 +15,12 @@ export default function Collapse({
   children
 }: Props) {
   const [exp, setExp] = useState(expanded);
+  const toggle = (set?: boolean) => setExp(set || !exp);
+
   return (
-    <div>
-      <ItemWrapper onClick={() => setExp(!exp)}>{renderTitle()}</ItemWrapper>
-      {exp && children()}
-    </div>
+    <>
+      {renderTitle(toggle, exp)}
+      {exp && children(toggle)}
+    </>
   );
 }

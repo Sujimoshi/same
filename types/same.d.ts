@@ -25,5 +25,3 @@ export type ThunkAction<
   StoreType = RootStore,
   ArgumentType = undefined
 > = TAction<ResultType, StoreType, ArgumentType, A>;
-
-export type Dictionary<V = any> = { [key: string]: V };

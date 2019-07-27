@@ -1,7 +1,10 @@
 import { Dictionary } from "underscore";
 import { compose } from "redux";
 
-export const setField = <T>(name: string, value: any) => (dict: T): T => {
+export const setField = (name: string, value: any) => (
+  dict: Dictionary<any>
+): Dictionary<any> => {
+  if (value === undefined) return removeField(name)(dict);
   return { ...dict, [name]: value };
 };
 
@@ -17,7 +20,7 @@ export const removeField = (name: string) => (dict: Dictionary<any>) => {
   );
 };
 
-export const changeFieldName = (name: string, newName: string) => (
+export const setFieldName = (name: string, newName: string) => (
   dict: Dictionary<any>
 ) => {
   if (name === newName) return { ...dict };
@@ -27,7 +30,7 @@ export const changeFieldName = (name: string, newName: string) => (
   )(dict);
 };
 
-export const changeFieldValue = (name: string, newValue: any) => (
+export const setFieldValue = (name: string, newValue: any) => (
   dict: Dictionary<any>
 ) => {
   if (dict[name] === newValue) return { ...dict };

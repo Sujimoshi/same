@@ -4,10 +4,12 @@ export const ItemWrapper = styled.div((props: any) => ({
   cursor: "pointer",
   padding: "0 .5rem",
   position: "relative",
-  backgroundColor: props.focus ? "silver" : "transparent",
   "&:hover": {
-    backgroundColor: props.focus ? "silver" : "gainsboro"
+    backgroundColor: "lightgray"
   },
+  ...(props.focus && {
+    backgroundColor: "lightgray"
+  }),
   ...props.styled
 }));
 

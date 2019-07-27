@@ -1,88 +1,256 @@
 {
   "path": "/Users/sujimoshi/Projects/same/front/example",
   "components": {
-    "1903143b-857f-41f2-924e-59816e747b56": {
-      "id": "1903143b-857f-41f2-924e-59816e747b56",
-      "type": "Styled",
-      "name": "Component",
-      "path": "Component/index.js",
+    "89e30cdb-7c83-47a1-aa1f-0f8fe76b3793": {
+      "id": "89e30cdb-7c83-47a1-aa1f-0f8fe76b3793",
+      "type": "Pure",
+      "name": "default",
+      "path": "Modal/index.js",
       "node": {
-        "id": "4cb10098-f69c-42ff-bb1c-db7023018031",
+        "id": "ea427ccb-0eb3-4880-bd2f-3cff78d6cb81",
+        "type": "Element",
+        "tag": "",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": [
+          {
+            "id": "91bf1cbb-b4c9-4aed-9bc5-0b2347e96f4e",
+            "type": "Element",
+            "tag": "ModalBackground",
+            "props": {},
+            "styles": {},
+            "ref": "1824695d-22da-4a6b-a5d4-aeee2f33ab47",
+            "value": "",
+            "children": [
+              {
+                "id": "21bbb04e-9117-41e8-85c4-ae7819662f4a",
+                "type": "Element",
+                "tag": "ModalWrapper",
+                "props": {},
+                "styles": {},
+                "ref": "ae4ef0ba-b579-49fa-b192-9b830cb56df9",
+                "value": "",
+                "children": [
+                  {
+                    "id": "17948dfb-3ed2-429c-9384-25dc6edee7b5",
+                    "type": "Element",
+                    "tag": "ModalHeader",
+                    "props": {},
+                    "styles": {},
+                    "ref": "887ad92d-b322-440b-9bbe-f0cfe957ddd7",
+                    "value": "",
+                    "children": [
+                      {
+                        "id": "79bbd23a-e5b3-4ec5-b3ea-eda0e7c0d722",
+                        "type": "Text",
+                        "tag": "text",
+                        "props": {},
+                        "styles": {},
+                        "value": "Header",
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "07379205-8157-47df-802b-c75c57988441",
+                    "type": "Element",
+                    "tag": "ModalBody",
+                    "props": {},
+                    "styles": {},
+                    "ref": "eeb1b1e3-35e9-42e3-81fa-8a93efc4dfa2",
+                    "value": "",
+                    "children": [
+                      {
+                        "id": "e665d62f-05f0-47dd-86ba-be4286734c4b",
+                        "type": "Element",
+                        "tag": "Button",
+                        "props": {},
+                        "styles": {},
+                        "ref": "ce2456a3-549f-46c8-95a2-301d99426bf8",
+                        "value": "",
+                        "children": [
+                          {
+                            "id": "d07d78f5-76cd-4047-9129-cb6c8a4067fc",
+                            "type": "Text",
+                            "tag": "text",
+                            "props": {},
+                            "styles": {},
+                            "value": "Button",
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "a0d2df40-469f-4041-80b5-985c0f465fa6": {
+      "id": "a0d2df40-469f-4041-80b5-985c0f465fa6",
+      "type": "Styled",
+      "name": "Modal",
+      "path": "Modal/index.js",
+      "node": {
+        "id": "acbc5e64-4f4d-4909-b8e5-3a442c38fad1",
         "type": "Style",
         "tag": "div",
         "props": {},
         "styles": {
-          "some": "any",
-          ":hover": {
-            "some": "why"
-          },
-          "?focus": {
-            "some": "bad"
-          }
+          "width": "100%",
+          "border": "1px solid gray",
+          "padding": "5px"
         },
         "value": "",
         "children": []
       }
     },
-    "b7d0f81e-c61f-453e-9d63-5025c7250236": {
-      "id": "b7d0f81e-c61f-453e-9d63-5025c7250236",
+    "934f3e18-47bd-4984-bb94-4f6827e38c84": {
+      "id": "934f3e18-47bd-4984-bb94-4f6827e38c84",
       "type": "Pure",
       "name": "default",
-      "path": "Component/index.js",
+      "path": "Button/index.js",
       "node": {
-        "id": "bc061f74-9026-406a-b0ec-9da6ce732002",
+        "id": "b493683a-823a-4244-9899-ad07569301c2",
         "type": "Element",
-        "tag": "Component",
+        "tag": "",
         "props": {},
         "styles": {},
-        "ref": "1903143b-857f-41f2-924e-59816e747b56",
         "value": "",
         "children": [
           {
-            "id": "625dbaa5-0526-42e6-adb2-7659108e9135",
+            "id": "88046bdb-b9c6-4318-858c-2189fbc4389b",
             "type": "Element",
-            "tag": "Component",
+            "tag": "Button",
             "props": {},
             "styles": {},
-            "ref": "1903143b-857f-41f2-924e-59816e747b56",
+            "ref": "ce2456a3-549f-46c8-95a2-301d99426bf8",
             "value": "",
-            "children": []
+            "children": [
+              {
+                "id": "45176d3a-fcd1-4ef7-a143-9b7cb2998a36",
+                "type": "Text",
+                "tag": "text",
+                "props": {},
+                "styles": {},
+                "value": "Button",
+                "children": []
+              }
+            ]
           }
         ]
       }
     },
-    "21d066d8-923a-4c01-989a-04933360a194": {
-      "id": "21d066d8-923a-4c01-989a-04933360a194",
+    "ce2456a3-549f-46c8-95a2-301d99426bf8": {
+      "id": "ce2456a3-549f-46c8-95a2-301d99426bf8",
       "type": "Styled",
-      "name": "Modal",
-      "path": "Modal/index.js",
+      "name": "Button",
+      "path": "Button/index.js",
       "node": {
-        "id": "1a507c3c-852d-4ba3-ab19-266664608e46",
+        "id": "9ef6af6f-9340-42e7-96c8-306ccaded2e0",
         "type": "Style",
-        "tag": "div",
+        "tag": "button",
         "props": {},
-        "styles": {},
+        "styles": {
+          "border": "1px solid gray",
+          "borderRadius": "5px",
+          "padding": "5px 10px",
+          "&:focus": {
+            "outline": "none"
+          },
+          "&:active": {
+            "background": "lightblue"
+          },
+          "cursor": "pointer"
+        },
         "value": "",
         "children": []
       }
     },
-    "d0e1900b-bb91-4962-bbae-56166488ed5e": {
-      "id": "d0e1900b-bb91-4962-bbae-56166488ed5e",
-      "type": "Pure",
-      "name": "default",
+    "1824695d-22da-4a6b-a5d4-aeee2f33ab47": {
+      "id": "1824695d-22da-4a6b-a5d4-aeee2f33ab47",
+      "type": "Styled",
+      "name": "ModalBackground",
       "path": "Modal/index.js",
       "node": {
-        "id": "7c9291e7-17ce-472a-bcc0-846503a8a4f7",
-        "type": "Element",
-        "tag": "Modal",
+        "id": "d2edf789-76c0-45c9-92c5-c676414f0dbb",
+        "type": "Style",
+        "tag": "div",
         "props": {},
-        "styles": {},
-        "ref": "21d066d8-923a-4c01-989a-04933360a194",
+        "styles": {
+          "backgroundColor": "rgba(0,0,0, .5)",
+          "position": "fixed",
+          "display": "flex",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "width": "100vw",
+          "height": "100vh",
+          "top": "0",
+          "left": "0"
+        },
+        "value": "",
+        "children": []
+      }
+    },
+    "ae4ef0ba-b579-49fa-b192-9b830cb56df9": {
+      "id": "ae4ef0ba-b579-49fa-b192-9b830cb56df9",
+      "type": "Styled",
+      "name": "ModalWrapper",
+      "path": "Modal/index.js",
+      "node": {
+        "id": "85dcfcd2-0876-4937-a62b-8e3f04a28c1c",
+        "type": "Style",
+        "tag": "div",
+        "props": {},
+        "styles": {
+          "backgroundColor": "white",
+          "width": "300px"
+        },
+        "value": "",
+        "children": []
+      }
+    },
+    "887ad92d-b322-440b-9bbe-f0cfe957ddd7": {
+      "id": "887ad92d-b322-440b-9bbe-f0cfe957ddd7",
+      "type": "Styled",
+      "name": "ModalHeader",
+      "path": "Modal/index.js",
+      "node": {
+        "id": "72c9bd3c-9334-4752-b6c7-371065b8b856",
+        "type": "Style",
+        "tag": "div",
+        "props": {},
+        "styles": {
+          "padding": "5px",
+          "backgroundColor": "darkslategray",
+          "color": "white"
+        },
+        "value": "",
+        "children": []
+      }
+    },
+    "eeb1b1e3-35e9-42e3-81fa-8a93efc4dfa2": {
+      "id": "eeb1b1e3-35e9-42e3-81fa-8a93efc4dfa2",
+      "type": "Styled",
+      "name": "ModalBody",
+      "path": "Modal/index.js",
+      "node": {
+        "id": "07656fd3-7371-493f-841b-ec9faaca8338",
+        "type": "Style",
+        "tag": "div",
+        "props": {},
+        "styles": {
+          "padding": "5px"
+        },
         "value": "",
         "children": []
       }
     }
   },
-  "focusedComponent": "b7d0f81e-c61f-453e-9d63-5025c7250236",
-  "focusedNode": "bc061f74-9026-406a-b0ec-9da6ce732002"
+  "focusedComponent": "89e30cdb-7c83-47a1-aa1f-0f8fe76b3793",
+  "focusedNode": "07379205-8157-47df-802b-c75c57988441"
 }

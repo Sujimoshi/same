@@ -1,11 +1,13 @@
 import { noop } from "underscore";
-import Row from "../grid/Row";
-import Col from "../grid/Col";
+import Row from "../Row";
+import Col from "../Col";
 import React, { useState } from "react";
-import { ActionsWrapper, ActionIcon } from "../StructureView/styled";
+import { ActionsWrapper, Action } from "../StructureView/styled";
 import { ToggableInput } from "./styled";
+import Icon from "../Icon/index";
 
 export interface Props {
+  level?: number;
   name?: string;
   value?: string;
   create?: boolean;
@@ -18,6 +20,7 @@ export interface Props {
 }
 
 export default function PropsEditorItem({
+  level = 0,
   create = false,
   name = "",
   value = "",
@@ -34,7 +37,7 @@ export default function PropsEditorItem({
     setData({ ...data, name: "", value: "" });
   };
   return (
-    <Row>
+    <Row styled={{ paddingLeft: level + 0.5 + "rem", paddingRight: ".5rem" }}>
       <Col>
         <ToggableInput
           type="text"
@@ -58,9 +61,13 @@ export default function PropsEditorItem({
       <Col grow={0}>
         <ActionsWrapper>
           {!create ? (
-            <ActionIcon onClick={onRemove}>x</ActionIcon>
+            <Action onClick={onRemove}>
+              <Icon icon="times" size="xs" />
+            </Action>
           ) : (
-            <ActionIcon onClick={createNew}>+</ActionIcon>
+            <Action onClick={createNew}>
+              <Icon icon="plus" size="xs" />
+            </Action>
           )}
         </ActionsWrapper>
       </Col>

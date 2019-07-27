@@ -43,8 +43,8 @@ export const focus = (component: ComponentConfig, ref?: string) => {
   });
 };
 
-export const focusNode = (node: Node) => {
-  return projectSet({ focusedNode: node.id });
+export const focusNode = (node: Node | string) => {
+  return projectSet({ focusedNode: typeof node === "string" ? node : node.id });
 };
 
 export const createAndAppend = (
@@ -79,7 +79,7 @@ export const mountNode = (
   place: Node,
   type: "after" | "into" | "before",
   that: Node | ComponentConfig
-): ThunkAction => (dispatch, getState) => {
+): ThunkAction => dispatch => {
   if (isNode(that)) {
     dispatch(removeNode(component, that));
     dispatch(putNode(component, place, that, type));

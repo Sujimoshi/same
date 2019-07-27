@@ -15,7 +15,7 @@ export const AppendDropArea = styled.div((props: any) => ({
 
 export const ItemContent = styled.div(({ level = 0 }: { level: number }) => ({
   width: "100%",
-  paddingLeft: level * 2 + "rem",
+  paddingLeft: level + "rem",
   display: "flex",
   lineHeight: 1.3
 }));
@@ -33,50 +33,36 @@ export const InsertDropArea = styled.div((props: any) => ({
   ...props.styled
 }));
 
-export const ItemWrapper = styled.div(
-  (props: { focus?: boolean; styled?: any }) => ({
-    cursor: "pointer",
-    padding: "0 .5rem",
-    position: "relative",
-    ...(focus && {
-      backgroundColor: "lightgray"
-    }),
-    "&:hover": {
-      backgroundColor: props.focus ? "silver" : "gainsboro"
-    },
-    button: {
-      visibility: "hidden"
-    },
-    "&:hover button": {
-      visibility: "visible"
-    },
-    ...props.styled
-  })
-);
-
-export const ActionIcon = styled.button((props: any) => ({
-  border: 0,
-  padding: 0,
-  backgroundColor: "transparent",
+export const ItemWrapper = styled.div((props: any) => ({
   cursor: "pointer",
-  marginLeft: "auto",
+  padding: "0 .5rem",
+  position: "relative",
+  ...(props.focus && {
+    backgroundColor: "lightgray"
+  }),
+  "&:hover": {
+    backgroundColor: "lightgray"
+  },
+  ...props.styled
+}));
+
+export const Action = styled.button((props: any) => ({
+  border: 0,
+  fontStyle: "normal",
+  padding: "0 .3rem",
+  cursor: "pointer",
   opacity: 0.5,
-  width: "1.8rem",
-  height: "1.8rem",
-  lineHeight: "1.8rem",
   textAlign: "center",
   pointerEvents: "auto",
+  background: "transparent",
   "&:hover, &:focus": {
+    outline: "none",
     opacity: 1
-  },
-  "&:focus": {
-    outline: "none"
   },
   ...props.styled
 }));
 
 export const ActionsWrapper = styled.div({
-  padding: "0 .3rem",
   display: "flex",
   alignItems: "center"
 });

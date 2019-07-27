@@ -14,25 +14,25 @@ export default React.memo(function DragAndDrop({
   data
 }: Props) {
   const [droppingInto, dropIntoRef] = useDrop({
-    accept: ["component", "node"],
+    accept: ["structure"],
     drop: ({ data }: any) => onDrop("into", data),
     collect: monitor => monitor.isOver()
   });
 
   const [droppingAfter, dropAfterRef] = useDrop({
-    accept: ["component", "node"],
+    accept: ["structure"],
     drop: ({ data }: any) => onDrop("after", data),
     collect: monitor => monitor.isOver()
   });
 
   const [droppingBefore, dropBeforeRef] = useDrop({
-    accept: ["component", "node"],
+    accept: ["structure"],
     drop: ({ data }: any) => onDrop("before", data),
     collect: monitor => monitor.isOver()
   });
 
   const [dragging, dragRef] = useDrag({
-    item: { type: "node", data },
+    item: { type: "structure", data },
     collect: monitor => monitor.isDragging()
   });
 

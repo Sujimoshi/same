@@ -1,6 +1,6 @@
-import Row from "../grid/Row";
+import Row from "../Row";
 import React, { Fragment } from "react";
-import Col from "../grid/Col";
+import Col from "../Col";
 import { Global, css } from "@emotion/core";
 import StructureView from "../StructureView";
 import CodeEditor from "../CodeEditor";

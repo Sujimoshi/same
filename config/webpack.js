@@ -1,8 +1,7 @@
 const path = require("path");
-const entry = require("webpack-glob-entry");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = (_, args) => {
+module.exports = (env, args) => {
   const CWD = process.env.PWD;
   const environment = args.mode || "development";
 
@@ -12,10 +11,10 @@ module.exports = (_, args) => {
   config.plugins = [];
 
   config.mode = environment;
-  config.target = "electron-renderer";
   config.stats = "minimal";
+  config.target = "electron-renderer";
   config.devtool = "inline-source-map";
-  config.entry = entry(path.resolve(CWD, "src/*.entry.{js,ts,jsx,tsx}"));
+  config.entry = path.join(CWD, "src", "index.entry.tsx");
 
   config.devServer = {
     stats: "minimal"
@@ -28,15 +27,29 @@ module.exports = (_, args) => {
   };
 
   config.module.rules.push({
-    test: /\.tsx?$/,
+    test: /\.(j|t)sx?$/,
     exclude: /node_modules/,
-    use: "ts-loader"
+    use: {
+      loader: "babel-loader",
+      options: {
+        presets: [
+          "@babel/preset-env",
+          "@babel/preset-react",
+          "@babel/preset-typescript"
+        ]
+      }
+    }
+  });
+
+  config.module.rules.push({
+    test: /\.(png|svg|jpg|gif)$/,
+    use: ["file-loader"]
   });
 
   config.resolve = {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".tsx", ".ts", ".js", ".jsx"],
     alias: {
-      "@same": path.resolve(__dirname, "../src")
+      "@same": path.join(CWD, "src")
     }
   };
 

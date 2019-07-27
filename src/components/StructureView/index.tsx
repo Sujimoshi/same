@@ -1,15 +1,23 @@
-import React, { Fragment, Component } from "react";
+import React, { Component } from "react";
 import { Ul, Li } from "./styled";
 import { RootStore } from "same";
-import ItemView from "./ItemView";
 import { removeNode, insertNode } from "@same/store/project/actions";
 import { focusNode, createAndAppend, mountNode } from "@same/actions/node";
 import {
   getFocusedNode,
   getFocusedComponent
 } from "@same/store/project/selectors";
-import { Node, ComponentConfig } from "@same/configurator";
+import {
+  Node,
+  ComponentConfig,
+  NodeType,
+  ComponentType,
+  isElementNode,
+  isStyled
+} from "@same/configurator";
 import { connect } from "react-redux";
+import DragAndDrop from "./DragAndDrop";
+import ListItem from "../ListItem";
 
 interface Props {
   component?: ComponentConfig;
@@ -21,6 +29,14 @@ interface Props {
 }
 
 export class StructureView extends Component<Props> {
+  getTitle(component: ComponentConfig, node: Node) {
+    if (node.type === NodeType.Text) return `"${node.value}"`;
+    else if (isStyled(component)) {
+      return `<${component.name}>`;
+    } else {
+      return `<${node.tag || "root"}>`;
+    }
+  }
   renderHeader = (node: Node, level: number) => {
     const {
       component,
@@ -31,15 +47,26 @@ export class StructureView extends Component<Props> {
       onFocus
     } = this.props;
     return (
-      <ItemView
-        node={node}
-        focus={focus && node.id === focus.id}
-        level={level}
-        onCreate={() => onCreate(component, node)}
-        onRemove={() => onRemove(component, node)}
-        onFocus={() => onFocus(node)}
+      <DragAndDrop
         onDrop={(type, what) => onDrop(component, node, type, what)}
-      />
+        data={node}
+      >
+        <ListItem
+          level={level}
+          focus={focus && node.id === focus.id}
+          onClick={() => onFocus(node)}
+          actions={
+            level !== 0 && {
+              ...(isElementNode(node) && {
+                plus: () => onCreate(component, node)
+              }),
+              times: () => onRemove(component, node)
+            }
+          }
+        >
+          {this.getTitle(component, node)}
+        </ListItem>
+      </DragAndDrop>
     );
   };
 
@@ -66,7 +93,7 @@ export class StructureView extends Component<Props> {
   render() {
     const { component } = this.props;
     if (!component) return "Open file";
-    return <Fragment>{this.renderNode(component.node)}</Fragment>;
+    return this.renderNode(component.node);
   }
 }
 
