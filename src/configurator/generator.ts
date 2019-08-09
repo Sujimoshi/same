@@ -61,7 +61,7 @@ export const generateNodeImport = (
   if (!node || !node.ref) return "";
   const ref = allComponents[node.ref];
   const importName = generateImportName(ref.name, node.tag);
-  let childrenImports: string = node.children
+  const childrenImports: string = node.children
     .map(el => generateNodeImport(component, el, allComponents))
     .join("");
   if (component.path === ref.path) {

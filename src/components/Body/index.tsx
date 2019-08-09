@@ -39,11 +39,11 @@ export default function Body() {
         </Col>
         <Col size="70%">
           <Row>
-            <Col>
+            {/* <Col>
               <Header>Output code</Header>
               <CodeEditor />
-            </Col>
-            <Col>
+            </Col> */}
+            <Col styled={{ height: "100vh" }}>
               <Header>Visual</Header>
               <VisualEditor />
             </Col>

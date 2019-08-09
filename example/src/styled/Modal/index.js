@@ -10,9 +10,16 @@ export default function Example() {
     <>
       <ModalBackground>
         <ModalWrapper>
-          <ModalHeader>Header</ModalHeader>
-          <ModalBody>
-            <Button>Button</Button>
+          <ModalHeader>
+            <span></span>
+          </ModalHeader>
+          <ModalBody styled={{ width: "100%" }}>
+            <Button styled={{ marginRight: "5px" }}>
+              <span></span>
+            </Button>
+            <Button>
+              <span></span>
+            </Button>
           </ModalBody>
         </ModalWrapper>
       </ModalBackground>
@@ -30,26 +37,33 @@ export const ModalBackground = styled.div(props => ({
   backgroundColor: "rgba(0,0,0, .5)",
   position: "fixed",
   display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
   width: "100vw",
-  height: "100vh",
+  height: "100%",
   top: "0",
   left: "0",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
   ...props.styled
 }));
 export const ModalWrapper = styled.div(props => ({
   backgroundColor: "white",
-  width: "300px",
+  width: "500px",
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
   ...props.styled
 }));
 export const ModalHeader = styled.div(props => ({
   padding: "5px",
   backgroundColor: "darkslategray",
   color: "white",
+  width: "100%",
   ...props.styled
 }));
 export const ModalBody = styled.div(props => ({
   padding: "5px",
+  display: "flex",
+  justifyContent: "flex-end",
   ...props.styled
 }));

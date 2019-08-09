@@ -33,7 +33,7 @@
                 "value": "",
                 "children": [
                   {
-                    "id": "17948dfb-3ed2-429c-9384-25dc6edee7b5",
+                    "id": "0ff25543-9b5a-4bd2-ae56-01fcd8c94342",
                     "type": "Element",
                     "tag": "ModalHeader",
                     "props": {},
@@ -42,9 +42,9 @@
                     "value": "",
                     "children": [
                       {
-                        "id": "79bbd23a-e5b3-4ec5-b3ea-eda0e7c0d722",
-                        "type": "Text",
-                        "tag": "text",
+                        "id": "defb8959-1efc-4359-a7f8-b88dc169ba08",
+                        "type": "Element",
+                        "tag": "span",
                         "props": {},
                         "styles": {},
                         "value": "Header",
@@ -57,7 +57,9 @@
                     "type": "Element",
                     "tag": "ModalBody",
                     "props": {},
-                    "styles": {},
+                    "styles": {
+                      "width": "100%"
+                    },
                     "ref": "eeb1b1e3-35e9-42e3-81fa-8a93efc4dfa2",
                     "value": "",
                     "children": [
@@ -66,17 +68,39 @@
                         "type": "Element",
                         "tag": "Button",
                         "props": {},
+                        "styles": {
+                          "marginRight": "5px"
+                        },
+                        "ref": "ce2456a3-549f-46c8-95a2-301d99426bf8",
+                        "value": "",
+                        "children": [
+                          {
+                            "id": "2c73a6ce-31c3-4860-ad0f-a62e7a2a82aa",
+                            "type": "Element",
+                            "tag": "span",
+                            "props": {},
+                            "styles": {},
+                            "value": "Apply",
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
+                        "id": "63726ce8-1a1b-44f3-843a-b6e060463829",
+                        "type": "Element",
+                        "tag": "Button",
+                        "props": {},
                         "styles": {},
                         "ref": "ce2456a3-549f-46c8-95a2-301d99426bf8",
                         "value": "",
                         "children": [
                           {
-                            "id": "d07d78f5-76cd-4047-9129-cb6c8a4067fc",
-                            "type": "Text",
-                            "tag": "text",
+                            "id": "a8e05b3f-15f7-4cad-aa6d-cc242c916ed5",
+                            "type": "Element",
+                            "tag": "span",
                             "props": {},
                             "styles": {},
-                            "value": "Button",
+                            "value": "Cancel",
                             "children": []
                           }
                         ]
@@ -132,9 +156,9 @@
             "value": "",
             "children": [
               {
-                "id": "45176d3a-fcd1-4ef7-a143-9b7cb2998a36",
-                "type": "Text",
-                "tag": "text",
+                "id": "1f8fc006-5e24-4331-b18c-fedc4c4b9f56",
+                "type": "Element",
+                "tag": "span",
                 "props": {},
                 "styles": {},
                 "value": "Button",
@@ -185,12 +209,13 @@
           "backgroundColor": "rgba(0,0,0, .5)",
           "position": "fixed",
           "display": "flex",
-          "justifyContent": "center",
-          "alignItems": "center",
           "width": "100vw",
-          "height": "100vh",
+          "height": "100%",
           "top": "0",
-          "left": "0"
+          "left": "0",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "flexDirection": "column"
         },
         "value": "",
         "children": []
@@ -208,7 +233,10 @@
         "props": {},
         "styles": {
           "backgroundColor": "white",
-          "width": "300px"
+          "width": "500px",
+          "display": "flex",
+          "flexDirection": "row",
+          "flexWrap": "wrap"
         },
         "value": "",
         "children": []
@@ -227,7 +255,8 @@
         "styles": {
           "padding": "5px",
           "backgroundColor": "darkslategray",
-          "color": "white"
+          "color": "white",
+          "width": "100%"
         },
         "value": "",
         "children": []
@@ -244,7 +273,9 @@
         "tag": "div",
         "props": {},
         "styles": {
-          "padding": "5px"
+          "padding": "5px",
+          "display": "flex",
+          "justifyContent": "flex-end"
         },
         "value": "",
         "children": []
@@ -252,5 +283,5 @@
     }
   },
   "focusedComponent": "89e30cdb-7c83-47a1-aa1f-0f8fe76b3793",
-  "focusedNode": "07379205-8157-47df-802b-c75c57988441"
+  "focusedNode": "e665d62f-05f0-47dd-86ba-be4286734c4b"
 }

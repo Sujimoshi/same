@@ -4,7 +4,9 @@ import styled from "@emotion/styled";
 export default function Example() {
   return (
     <>
-      <Button>Button</Button>
+      <Button>
+        <span></span>
+      </Button>
     </>
   );
 }

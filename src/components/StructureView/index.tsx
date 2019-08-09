@@ -30,13 +30,14 @@ interface Props {
 
 export class StructureView extends Component<Props> {
   getTitle(component: ComponentConfig, node: Node) {
-    if (node.type === NodeType.Text) return `"${node.value}"`;
+    if (node.value) return `"${node.value}" (${node.tag})`;
     else if (isStyled(component)) {
       return `<${component.name}>`;
     } else {
       return `<${node.tag || "root"}>`;
     }
   }
+
   renderHeader = (node: Node, level: number) => {
     const {
       component,

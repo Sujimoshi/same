@@ -6,9 +6,10 @@ export interface Props {
   grow?: number;
   align?: JustifyContentProperty;
   justify?: AlignItemsProperty;
+  styled: CSSStyleDeclaration;
 }
 
-export default styled.div(({ justify, size, grow, align }: Props) => {
+export default styled.div(({ justify, size, grow, align, styled }: Props) => {
   return {
     alignItems: justify,
     justifyContent: align,
@@ -17,6 +18,7 @@ export default styled.div(({ justify, size, grow, align }: Props) => {
     flexGrow: grow !== undefined ? grow : size ? 0 : 1,
     flexBasis: size || 0,
     maxWidth: size || "100%",
-    minHeight: "1px"
+    minHeight: "1px",
+    ...styled
   };
 });

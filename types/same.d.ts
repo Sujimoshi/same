@@ -3,6 +3,7 @@ import { Action, ActionCreator } from "redux";
 import { BaseNode } from "@babel/types";
 import { ProjectStore } from "../src/store/project/reducers";
 import { ModalStore } from "../src/store/modal/reducers";
+import { Dictionary } from "underscore";
 
 export interface IndexedNode {
   key?: string;
@@ -25,3 +26,5 @@ export type ThunkAction<
   StoreType = RootStore,
   ArgumentType = undefined
 > = TAction<ResultType, StoreType, ArgumentType, A>;
+
+export type Mapper = (data: Dictionary<any>) => Dictionary<any>;

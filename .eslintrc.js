@@ -24,6 +24,7 @@ module.exports = {
     'no-unused-vars': 'off', // disable default rule, because it error on types
     '@typescript-eslint/no-unused-vars': 'off', // instead use this rule
     
-    'no-useless-constructor': 'off'
+    'no-useless-constructor': 'off',
+    'max-lines': ["error", {"max": 200, "skipBlankLines": true, "skipComments": true }]
   }
 }

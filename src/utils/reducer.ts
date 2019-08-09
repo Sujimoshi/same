@@ -1,6 +1,5 @@
 import { Action, Reducer, AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
-import produce from "immer";
 
 export type InferActionTypes<T> = T extends { [key: string]: infer U }
   ? U extends (...args: any[]) => infer R
@@ -13,7 +12,7 @@ export type InferActionTypes<T> = T extends { [key: string]: infer U }
   : never;
 
 type Reducers<S, A extends Action> = {
-  [T in A["type"]]: Reducer<S, A extends Action<T> ? A : never>
+  [T in A["type"]]: Reducer<S, A extends Action<T> ? A : never>;
 };
 
 export const createReducer = <A extends Action = AnyAction, S = any>(
