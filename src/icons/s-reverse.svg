@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="244px" viewBox="0 0 240 244" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+    <title>s-reverse</title>
+    <desc>Created with Sketch.</desc>
+    <g id="reverse" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="Group" transform="translate(50.000000, 34.566667)" stroke="#000000" stroke-width="20">
+            <path d="M0,41.8104167 L140,41.8104167" id="Line-3"></path>
+            <path d="M114,1.14375 L154,41.8104167" id="Line-3"></path>
+            <path d="M114,82.4770833 L154,41.8104167" id="Line-3"></path>
+        </g>
+        <g id="Group" transform="translate(113.500000, 167.750000) scale(-1, 1) translate(-113.500000, -167.750000) translate(37.000000, 126.066667)" stroke="#000000" stroke-width="20">
+            <path d="M0,41.8104167 L139,41.8104167" id="Line-3"></path>
+            <path d="M113,1.14375 L153,41.8104167" id="Line-3"></path>
+            <path d="M113,82.4770833 L153,41.8104167" id="Line-3"></path>
+        </g>
+    </g>
+</svg>

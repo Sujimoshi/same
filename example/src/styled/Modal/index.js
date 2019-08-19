@@ -10,14 +10,20 @@ export default function Example() {
     <>
       <ModalBackground>
         <ModalWrapper>
-          <ModalHeader>
+          <ModalHeader styled={{ alignSelf: "flex-end" }}>
             <span></span>
           </ModalHeader>
-          <ModalBody styled={{ width: "100%" }}>
-            <Button styled={{ marginRight: "5px" }}>
+          <ModalBody
+            styled={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center"
+            }}
+          >
+            <Button styled={{ display: "flex", flexDirection: "row" }}>
               <span></span>
             </Button>
-            <Button>
+            <Button styled={{ marginTop: "auto", flexDirection: "column" }}>
               <span></span>
             </Button>
           </ModalBody>
@@ -38,19 +44,19 @@ export const ModalBackground = styled.div(props => ({
   position: "fixed",
   display: "flex",
   width: "100vw",
-  height: "100%",
+  height: "100vh",
   top: "0",
   left: "0",
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "column",
+  overflow: "hidden",
   ...props.styled
 }));
 export const ModalWrapper = styled.div(props => ({
   backgroundColor: "white",
   width: "500px",
   display: "flex",
-  flexDirection: "row",
   flexWrap: "wrap",
   ...props.styled
 }));
@@ -63,7 +69,6 @@ export const ModalHeader = styled.div(props => ({
 }));
 export const ModalBody = styled.div(props => ({
   padding: "5px",
-  display: "flex",
-  justifyContent: "flex-end",
+  width: "100%",
   ...props.styled
 }));

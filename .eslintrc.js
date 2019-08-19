@@ -25,6 +25,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off', // instead use this rule
     
     'no-useless-constructor': 'off',
-    'max-lines': ["error", {"max": 200, "skipBlankLines": true, "skipComments": true }]
+    'max-lines': ["error", {"max": 200, "skipBlankLines": true, "skipComments": true }],
+    'react/display-name': 'off'
   }
 }

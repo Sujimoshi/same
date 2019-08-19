@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="240px" viewBox="0 0 240 240" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+    <title>s-justifyContent-flex-end</title>
+    <desc>Created with Sketch.</desc>
+    <g id="justifyContent-flex-end" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Rectangle" fill="#000000" transform="translate(190.000000, 120.000000) rotate(180.000000) translate(-190.000000, -120.000000) " points="180 20 200 20 200 220 180 220"></polygon>
+        <rect id="Rectangle" fill="#000000" transform="translate(100.000000, 120.000000) rotate(180.000000) translate(-100.000000, -120.000000) " x="80" y="60" width="40" height="120"></rect>
+        <rect id="Rectangle" fill="#000000" transform="translate(150.000000, 120.000000) rotate(180.000000) translate(-150.000000, -120.000000) " x="130" y="60" width="40" height="120"></rect>
+    </g>
+</svg>

@@ -4,11 +4,13 @@ import logger from "redux-logger";
 import { saveProject } from "@same/storage";
 import project from "./project/reducers";
 import modal from "./modal/reducers";
+import editor from "./editor/reducers";
 import { throttle } from "underscore";
 
 const rootReducer = combineReducers({
   project,
-  modal
+  modal,
+  editor
 });
 
 const composeWithDevtools = (window as any)
@@ -22,12 +24,18 @@ const store = createStore(
 export default store;
 
 let proj = store.getState().project;
+let edit = store.getState().editor;
 store.subscribe(
   throttle(() => {
-    const { project } = store.getState();
-    if (proj !== project) {
+    const { project, editor } = store.getState();
+    if (proj !== project || edit !== editor) {
       proj = project;
-      saveProject(project);
+      edit = editor;
+      saveProject({
+        ...project,
+        focusedComponent: editor.focusedComponent,
+        focusedNode: editor.focusedNode
+      });
     }
   }, 500)
 );

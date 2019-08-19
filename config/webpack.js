@@ -42,8 +42,18 @@ module.exports = (env, args) => {
   });
 
   config.module.rules.push({
-    test: /\.(png|svg|jpg|gif)$/,
+    test: /\.(png|jpg|gif)$/,
     use: ["file-loader"]
+  });
+
+  config.module.rules.push({
+    test: /\.(svg)$/,
+    loader: "react-svg-loader",
+    options: {
+      svgo: {
+        plugins: [{ removeViewBox: false }]
+      }
+    }
   });
 
   config.resolve = {

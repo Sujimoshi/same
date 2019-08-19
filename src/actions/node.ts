@@ -9,19 +9,23 @@ import {
   Node,
   createNodeConfig,
   NodeType,
-  ComponentType,
-  isComponent,
   isNode
 } from "@same/configurator";
 import { ThunkAction } from "same";
 import { showAddFolderModal } from "./modal";
 import { traverse } from "@same/utils/helpers";
+import { editorSet } from "@same/store/editor/actions";
+import {
+  getHoveredNodeId,
+  getFocusedNodeId,
+  getFocusedElement
+} from "@same/store/editor/selectors";
 
 export const focusComponent = (
   component: ComponentConfig,
   node: Node = component.node
 ) => {
-  return projectSet({
+  return editorSet({
     focusedComponent: component.id,
     focusedNode: node.id
   });
@@ -37,14 +41,40 @@ export const focus = (component: ComponentConfig, ref?: string) => {
     });
   }
   if (!nodeId) console.error(new Error("Ref not found in component"));
-  return projectSet({
+  return editorSet({
     focusedComponent: component.id,
     focusedNode: nodeId
   });
 };
 
 export const focusNode = (node: Node | string) => {
-  return projectSet({ focusedNode: typeof node === "string" ? node : node.id });
+  return editorSet({ focusedNode: typeof node === "string" ? node : node.id });
+};
+
+export const setFocusedElement = (element: HTMLElement): ThunkAction => (
+  dispatch,
+  getState
+) => {
+  if (!element) return;
+  const id = element.getAttribute("data-id");
+  const state = getState();
+  const isIdChanged = getFocusedNodeId(state) !== id;
+  const isElementChanged = getFocusedElement(state) !== element;
+  if (!isIdChanged && !isElementChanged) return;
+  dispatch(
+    editorSet({
+      ...(isIdChanged && { focusedNode: element.getAttribute("data-id") }),
+      focusedElement: element
+    })
+  );
+};
+
+export const setHoveredNode = (id: string): ThunkAction => (
+  dispatch,
+  getState
+) => {
+  if (getHoveredNodeId(getState()) !== id)
+    dispatch(editorSet({ hoveredNode: id }));
 };
 
 export const createAndAppend = (

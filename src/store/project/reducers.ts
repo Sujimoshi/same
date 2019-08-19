@@ -8,15 +8,11 @@ import { traverse } from "@same/utils/helpers";
 export interface ProjectStore {
   path: string;
   components: { [id: string]: ComponentConfig };
-  focusedComponent: string;
-  focusedNode: string;
 }
 
 export const initialState: ProjectStore = {
   path: "",
-  components: null,
-  focusedComponent: "",
-  focusedNode: ""
+  components: null
 };
 
 type Actions = InferActionTypes<typeof actions>;

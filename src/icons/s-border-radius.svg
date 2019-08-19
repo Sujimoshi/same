@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="240px" viewBox="0 0 240 240" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>s-border-radius</title>
+    <desc>Created with Sketch.</desc>
+    <g id="border-radius" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M65,30 L100,30 L65,30 C45.6700338,30 30,45.6700338 30,65 L30,100 L30,65 C30,45.6700338 45.6700338,30 65,30 Z" id="Rectangle" stroke="#000000" stroke-width="20"></path>
+        <path d="M38,140 L100,140 L38,140 C33.581722,140 30,143.581722 30,148 L30,210 L30,148 C30,143.581722 33.581722,140 38,140 Z" id="Rectangle" stroke="#000000" stroke-width="20" transform="translate(65.000000, 175.000000) rotate(-90.000000) translate(-65.000000, -175.000000) "></path>
+        <path d="M148,140 L210,140 L148,140 C143.581722,140 140,143.581722 140,148 L140,210 L140,148 C140,143.581722 143.581722,140 148,140 Z" id="Rectangle" stroke="#000000" stroke-width="20" transform="translate(175.000000, 175.000000) rotate(-180.000000) translate(-175.000000, -175.000000) "></path>
+        <path d="M148,30 L210,30 L148,30 C143.581722,30 140,33.581722 140,38 L140,100 L140,38 C140,33.581722 143.581722,30 148,30 Z" id="Rectangle" stroke="#000000" stroke-width="20" transform="translate(175.000000, 65.000000) rotate(90.000000) translate(-175.000000, -65.000000) "></path>
+    </g>
+</svg>

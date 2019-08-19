@@ -1,3 +1,5 @@
+import { MouseEvent } from "react";
+
 export const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -26,6 +28,15 @@ export const eventValue = (cb: (value: any) => void) => (e: any) => {
   cb(e.target.value);
 };
 
+export const stopPropagation = (cb: (e: Event) => void) => (e: any) => {
+  e.stopPropagation();
+  cb(e);
+};
+
+export const findValue = (list: any[], field: string, value: any) => {
+  return (list.find(el => el.value === value) || { [field]: null })[field];
+};
+
 export interface Pos {
   x: number;
   y: number;
@@ -34,11 +45,12 @@ export interface Pos {
 }
 
 export const getPos = (node: HTMLElement): Pos => {
+  const position = node.getBoundingClientRect();
   return {
-    x: node.offsetLeft,
-    y: node.offsetTop,
-    w: node.offsetWidth,
-    h: node.offsetHeight
+    x: position.left,
+    y: position.top,
+    w: position.width,
+    h: position.height
   };
 };
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="240px" viewBox="0 0 240 240" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+    <title>s-alignItems-baseline</title>
+    <desc>Created with Sketch.</desc>
+    <g id="alignItems-baseline" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M30.2851563,110.097656 L210.285156,110.097656" id="Line-2" stroke="#000000" stroke-width="20" stroke-linecap="square"></path>
+        <rect id="Rectangle" fill="#000000" x="60.2851562" y="110.097656" width="50" height="80"></rect>
+        <rect id="Rectangle" stroke="#000000" stroke-width="10" x="65.2851563" y="45.0976563" width="40" height="60"></rect>
+        <rect id="Rectangle" stroke="#000000" stroke-width="10" x="135.285156" y="45.0976563" width="40" height="60"></rect>
+        <rect id="Rectangle" fill="#000000" x="130.285156" y="110.097656" width="50" height="60"></rect>
+    </g>
+</svg>

@@ -1,9 +1,10 @@
 import { ThunkAction as TAction } from "redux-thunk";
 import { Action, ActionCreator } from "redux";
 import { BaseNode } from "@babel/types";
-import { ProjectStore } from "../src/store/project/reducers";
-import { ModalStore } from "../src/store/modal/reducers";
+import { ProjectStore } from "@same/store/project/reducers";
+import { ModalStore } from "@same/store/modal/reducers";
 import { Dictionary } from "underscore";
+import { EditorStore } from "@same/store/editor/reducers";
 
 export interface IndexedNode {
   key?: string;
@@ -16,6 +17,7 @@ export interface PayloadedAction<ActionType extends string, PayloadType>
 }
 
 export interface RootStore {
+  editor: EditorStore;
   modal: ModalStore;
   project: ProjectStore;
 }

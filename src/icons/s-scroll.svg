@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="240px" viewBox="0 0 240 240" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>s-scroll</title>
+    <desc>Created with Sketch.</desc>
+    <g id="scroll" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(67.000000, 20.000000)" fill="#000000" fill-rule="nonzero">
+            <path d="M99.7899103,60 L7.20992995,60 C0.799373263,60 -2.410942,52.3362475 2.12192385,47.8542525 L48.411914,2.08375948 C51.2217943,-0.694586494 55.7780459,-0.694586494 58.5879262,2.08375948 L104.877916,47.8542525 C109.411142,52.3362475 106.200467,60 99.7899103,60 Z" id="Path"></path>
+        </g>
+        <g id="Group" transform="translate(120.500000, 190.000000) scale(1, -1) translate(-120.500000, -190.000000) translate(67.000000, 160.000000)" fill="#000000" fill-rule="nonzero">
+            <path d="M99.7899103,60 L7.20992995,60 C0.799373263,60 -2.410942,52.3362475 2.12192385,47.8542525 L48.411914,2.08375948 C51.2217943,-0.694586494 55.7780459,-0.694586494 58.5879262,2.08375948 L104.877916,47.8542525 C109.411142,52.3362475 106.200467,60 99.7899103,60 Z" id="Path"></path>
+        </g>
+        <circle id="Oval" fill="#000000" cx="120" cy="120" r="20"></circle>
+    </g>
+</svg>

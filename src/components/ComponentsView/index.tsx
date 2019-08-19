@@ -1,25 +1,17 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { RootStore } from "same";
 import { Ul, Li } from "../styled/List";
 import { dirname } from "path";
 import Collapse from "../Collapse";
-import {
-  getGroupedComponents,
-  getFocusedNode,
-  getReferenceComponent
-} from "@same/store/project/selectors";
-import {
-  ComponentConfig,
-  ComponentType,
-  Node,
-  isStyled
-} from "@same/configurator";
+import { getGroupedComponents } from "@same/store/project/selectors";
+import { ComponentConfig, isStyled } from "@same/configurator";
 import Header from "./Header";
 import { focus } from "@same/actions/node";
 import { createComponent } from "@same/actions/component";
 import ListItem from "../ListItem";
 import Draggable from "../Draggable";
+import { getReferenceComponent } from "@same/store/editor/selectors";
 
 export interface ComponentsGroup {
   name: string;

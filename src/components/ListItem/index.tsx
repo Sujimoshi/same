@@ -11,20 +11,26 @@ export interface Props {
   children: ReactNode;
   level?: number;
   focus?: boolean;
+  hover?: boolean;
   icon?: IconName;
   onClick: () => void;
+  onMouseOver?: () => void;
+  onMouseOut?: () => void;
 }
 
 export default function ListItem({
   focus,
   onClick,
+  onMouseOver,
+  onMouseOut,
+  hover,
   children,
   actions,
   icon,
   level
 }: Props) {
   return (
-    <ItemWrapper focus={focus}>
+    <ItemWrapper hover={hover} focus={focus}>
       <ItemContent level={level}>
         <Row align="center">
           {icon && (
@@ -37,7 +43,13 @@ export default function ListItem({
               <Icon icon={icon} size="xs" />
             </Col>
           )}
-          <Col onClick={() => onClick()}>{children}</Col>
+          <Col
+            onMouseOver={() => onMouseOver && onMouseOver()}
+            onMouseOut={() => onMouseOut && onMouseOut()}
+            onClick={() => onClick()}
+          >
+            {children}
+          </Col>
           {actions && !isEmpty(actions) && (
             <Row width="auto">
               {Object.entries(actions).map(([key, onClick]) => (

@@ -17,7 +17,8 @@ export const ItemContent = styled.div(({ level = 0 }: { level: number }) => ({
   width: "100%",
   paddingLeft: level + "rem",
   display: "flex",
-  lineHeight: 1.3
+  lineHeight: 1.3,
+  fontSize: "14px"
 }));
 
 export const InsertDropArea = styled.div((props: any) => ({
@@ -37,12 +38,18 @@ export const ItemWrapper = styled.div((props: any) => ({
   cursor: "pointer",
   padding: "0 .5rem",
   position: "relative",
-  ...(props.focus && {
-    backgroundColor: "lightgray"
-  }),
   "&:hover": {
     backgroundColor: "lightgray"
   },
+  ...(props.hover && {
+    backgroundColor: "lightgray"
+  }),
+  ...(props.focus && {
+    backgroundColor: "#9c9c9c",
+    "&:hover": {
+      backgroundColor: "#9c9c9c"
+    }
+  }),
   ...props.styled
 }));
 

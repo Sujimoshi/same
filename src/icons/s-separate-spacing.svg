@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="240px" viewBox="0 0 240 240" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>s-separate-spacing</title>
+    <desc>Created with Sketch.</desc>
+    <g id="separate-spacing" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polyline id="Rectangle" fill="#000000" points="40 20 200 20 180 40 60 40"></polyline>
+        <polyline id="Rectangle" fill="#000000" transform="translate(120.000000, 210.000000) rotate(180.000000) translate(-120.000000, -210.000000) " points="40 200 200 200 180 220 60 220"></polyline>
+        <polyline id="Rectangle" fill="#000000" transform="translate(210.000000, 120.000000) rotate(90.000000) translate(-210.000000, -120.000000) " points="130 110 290 110 270 130 150 130"></polyline>
+        <polyline id="Rectangle" fill="#000000" transform="translate(30.000000, 120.000000) scale(-1, 1) rotate(90.000000) translate(-30.000000, -120.000000) " points="-50 110 110 110 90 130 -30 130"></polyline>
+    </g>
+</svg>

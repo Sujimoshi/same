@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240px" height="240px" viewBox="0 0 240 240" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>s-alignSelf-flex-end</title>
+    <desc>Created with Sketch.</desc>
+    <g id="alignSelf-flex-end" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#000000" transform="translate(120.000000, 130.000000) rotate(-90.000000) translate(-120.000000, -130.000000) " x="60" y="105" width="120" height="50"></rect>
+        <polygon id="Rectangle" fill="#000000" transform="translate(120.000000, 210.253145) rotate(270.000000) translate(-120.000000, -210.253145) " points="110 110.253145 130 110.253145 130 310.253145 110 310.253145"></polygon>
+    </g>
+</svg>

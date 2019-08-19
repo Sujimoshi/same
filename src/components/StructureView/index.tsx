@@ -2,11 +2,18 @@ import React, { Component } from "react";
 import { Ul, Li } from "./styled";
 import { RootStore } from "same";
 import { removeNode, insertNode } from "@same/store/project/actions";
-import { focusNode, createAndAppend, mountNode } from "@same/actions/node";
+import {
+  focusNode,
+  createAndAppend,
+  mountNode,
+  setHoveredNode
+} from "@same/actions/node";
 import {
   getFocusedNode,
-  getFocusedComponent
-} from "@same/store/project/selectors";
+  getFocusedComponent,
+  getHoveredNodeId,
+  getFocusedNodeId
+} from "@same/store/editor/selectors";
 import {
   Node,
   ComponentConfig,
@@ -21,11 +28,13 @@ import ListItem from "../ListItem";
 
 interface Props {
   component?: ComponentConfig;
-  focus?: Node;
+  focusedNodeId?: string;
+  hoveredNodeId?: string;
   onFocus?: typeof focusNode;
   onRemove?: typeof removeNode;
   onCreate: typeof createAndAppend;
   onDrop: typeof mountNode;
+  onHover: (id: string) => void;
 }
 
 export class StructureView extends Component<Props> {
@@ -41,11 +50,13 @@ export class StructureView extends Component<Props> {
   renderHeader = (node: Node, level: number) => {
     const {
       component,
-      focus,
+      focusedNodeId,
+      hoveredNodeId,
       onDrop,
       onCreate,
       onRemove,
-      onFocus
+      onFocus,
+      onHover
     } = this.props;
     return (
       <DragAndDrop
@@ -54,11 +65,14 @@ export class StructureView extends Component<Props> {
       >
         <ListItem
           level={level}
-          focus={focus && node.id === focus.id}
+          focus={focusedNodeId && node.id === focusedNodeId}
+          hover={hoveredNodeId && node.id === hoveredNodeId}
           onClick={() => onFocus(node)}
+          onMouseOver={() => onHover(node.id)}
+          onMouseOut={() => onHover(null)}
           actions={
             level !== 0 && {
-              ...(isElementNode(node) && {
+              ...(!node.value && {
                 plus: () => onCreate(component, node)
               }),
               times: () => onRemove(component, node)
@@ -85,8 +99,8 @@ export class StructureView extends Component<Props> {
   renderNode = (node: Node, level: number = 0) => {
     return (
       <div className="tree-view">
-        {this.renderHeader(node, level)}
-        {this.renderChildrens(node, level)}
+        {node.tag && this.renderHeader(node, level)}
+        {this.renderChildrens(node, node.tag ? level : level - 1)}
       </div>
     );
   };
@@ -101,13 +115,15 @@ export class StructureView extends Component<Props> {
 export default connect(
   (store: RootStore) => ({
     component: getFocusedComponent(store),
-    focus: getFocusedNode(store)
+    focusedNodeId: getFocusedNodeId(store),
+    hoveredNodeId: getHoveredNodeId(store)
   }),
   {
     onFocus: focusNode,
     onRemove: removeNode,
     onInsert: insertNode,
     onCreate: createAndAppend,
-    onDrop: mountNode
+    onDrop: mountNode,
+    onHover: setHoveredNode
   }
 )(StructureView);

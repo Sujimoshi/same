@@ -3,18 +3,16 @@ import { connect } from "react-redux";
 import { RootStore } from "same";
 import {
   getFocusedNode,
-  getFocusedComponent
-} from "@same/store/project/selectors";
+  getFocusedComponent,
+  getReferenceComponent
+} from "@same/store/editor/selectors";
 import {
   Node,
   NodeType,
   ComponentConfig,
-  ComponentType,
-  isPure,
   isStyled,
   isElementNode
 } from "@same/configurator";
-import { getReferenceComponent } from "../../store/project/selectors";
 import { setStyles } from "@same/actions/styles";
 import ObjectView from "./ObjectView";
 

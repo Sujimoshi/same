@@ -4,10 +4,11 @@ import Col from "../Col";
 import { Global, css } from "@emotion/core";
 import StructureView from "../StructureView";
 import CodeEditor from "../CodeEditor";
-import VisualEditor from "../VisualEditor";
+import VisualEditor from "@same/visualizer";
 import PropsEditor from "../PropsEditor";
 import Header from "../StructureView/Header";
 import ComponentsView from "../ComponentsView";
+import StylesEditor from "@same/styler";
 
 const globalStyles = css({
   html: {
@@ -16,7 +17,8 @@ const globalStyles = css({
   body: {
     fontSize: "1.6rem",
     margin: 0,
-    fontFamily: "Roboto,sans-serif"
+    fontFamily: "Roboto,sans-serif",
+    overflow: "hidden"
   },
   "*": {
     boxSizing: "border-box"
@@ -28,7 +30,7 @@ export default function Body() {
     <Fragment>
       <Global styles={globalStyles} />
       <Row height="100vh">
-        <Col>
+        <Col styled={{ borderRight: "1px solid #3e3640" }}>
           <div className="structure-editor">
             <Header>Structure</Header>
             <StructureView />
@@ -36,8 +38,12 @@ export default function Body() {
           <div className="component-view">
             <ComponentsView />
           </div>
+          <div className="props-editor">
+            <Header>Attributes</Header>
+            <PropsEditor />
+          </div>
         </Col>
-        <Col size="70%">
+        <Col size="65%">
           <Row>
             {/* <Col>
               <Header>Output code</Header>
@@ -49,11 +55,9 @@ export default function Body() {
             </Col>
           </Row>
         </Col>
-        <Col>
-          <div className="props-editor">
-            <Header>Attributes</Header>
-            <PropsEditor />
-          </div>
+        <Col styled={{ borderLeft: "1px solid #3e3640", height: "100%" }}>
+          <Header>Styles</Header>
+          <StylesEditor />
         </Col>
       </Row>
     </Fragment>

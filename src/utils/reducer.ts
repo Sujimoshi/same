@@ -15,7 +15,7 @@ type Reducers<S, A extends Action> = {
   [T in A["type"]]: Reducer<S, A extends Action<T> ? A : never>;
 };
 
-export const createReducer = <A extends Action = AnyAction, S = any>(
+export const createReducer = <A extends Action, S>(
   initialState: S,
   handlers: Reducers<S, A>
 ): Reducer<S> => {
@@ -24,5 +24,3 @@ export const createReducer = <A extends Action = AnyAction, S = any>(
     return handler ? handler(state, action) : state;
   };
 };
-
-export const noopAction = { type: "NOOP" };

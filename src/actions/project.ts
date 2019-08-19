@@ -2,6 +2,7 @@ import { projectReset } from "@same/store/project/actions";
 import { ThunkAction } from "same";
 import { remote } from "electron";
 import { loadProject } from "@same/storage";
+import { editorReset } from "@same/store/editor/actions";
 const { dialog } = remote;
 
 export const openProject = (path?: string): ThunkAction => async dispatch => {
@@ -11,8 +12,9 @@ export const openProject = (path?: string): ThunkAction => async dispatch => {
     if (!projectPath) return;
     path = projectPath;
   }
-  const project = await loadProject(path);
-  dispatch(projectReset({ ...project }));
+  const { focusedComponent, focusedNode, ...project } = await loadProject(path);
+  dispatch(projectReset(project));
+  dispatch(editorReset({ focusedComponent, focusedNode }));
 };
 
 export const createProject = (): ThunkAction => async dispatch => {
@@ -21,6 +23,7 @@ export const createProject = (): ThunkAction => async dispatch => {
       properties: ["openDirectory", "createDirectory"]
     }) || [];
   if (!path) return;
-  const project = await loadProject(path);
-  dispatch(projectReset({ ...project }));
+  const { focusedComponent, focusedNode, ...project } = await loadProject(path);
+  dispatch(projectReset(project));
+  dispatch(editorReset({ focusedComponent, focusedNode }));
 };

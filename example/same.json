@@ -1,13 +1,13 @@
 {
   "path": "/Users/sujimoshi/Projects/same/front/example",
   "components": {
-    "89e30cdb-7c83-47a1-aa1f-0f8fe76b3793": {
-      "id": "89e30cdb-7c83-47a1-aa1f-0f8fe76b3793",
+    "cd94216c-caac-45b0-85cc-7fd1f0c353b2": {
+      "id": "cd94216c-caac-45b0-85cc-7fd1f0c353b2",
       "type": "Pure",
       "name": "default",
-      "path": "Modal/index.js",
+      "path": "List/index.js",
       "node": {
-        "id": "ea427ccb-0eb3-4880-bd2f-3cff78d6cb81",
+        "id": "cac7b92b-29f9-49b3-ba4c-2cc5b3db7e79",
         "type": "Element",
         "tag": "",
         "props": {},
@@ -15,97 +15,74 @@
         "value": "",
         "children": [
           {
-            "id": "91bf1cbb-b4c9-4aed-9bc5-0b2347e96f4e",
+            "id": "cdaa4b89-3574-402e-adc6-7bce1eeedf51",
             "type": "Element",
-            "tag": "ModalBackground",
+            "tag": "List",
             "props": {},
-            "styles": {},
-            "ref": "1824695d-22da-4a6b-a5d4-aeee2f33ab47",
+            "styles": {
+              "padding": "0px",
+              "margin": "0px"
+            },
+            "ref": "b33a401d-b0fc-4f88-8d9d-84ab4b1eaa96",
             "value": "",
             "children": [
               {
-                "id": "21bbb04e-9117-41e8-85c4-ae7819662f4a",
+                "id": "2605d93e-c1fe-4d1c-8bfd-1464594dba3b",
                 "type": "Element",
-                "tag": "ModalWrapper",
+                "tag": "ListItem",
                 "props": {},
                 "styles": {},
-                "ref": "ae4ef0ba-b579-49fa-b192-9b830cb56df9",
+                "ref": "7e18919d-118a-48f4-98c1-40b105119567",
                 "value": "",
                 "children": [
                   {
-                    "id": "0ff25543-9b5a-4bd2-ae56-01fcd8c94342",
+                    "id": "cc173b4d-50b2-4ea6-a11f-b6bfa6741820",
                     "type": "Element",
-                    "tag": "ModalHeader",
+                    "tag": "span",
                     "props": {},
                     "styles": {},
-                    "ref": "887ad92d-b322-440b-9bbe-f0cfe957ddd7",
-                    "value": "",
-                    "children": [
-                      {
-                        "id": "defb8959-1efc-4359-a7f8-b88dc169ba08",
-                        "type": "Element",
-                        "tag": "span",
-                        "props": {},
-                        "styles": {},
-                        "value": "Header",
-                        "children": []
-                      }
-                    ]
-                  },
+                    "value": "%",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "5f86ffda-bf12-4f39-b411-193c8e1752e4",
+                "type": "Element",
+                "tag": "ListItem",
+                "props": {},
+                "styles": {},
+                "ref": "7e18919d-118a-48f4-98c1-40b105119567",
+                "value": "",
+                "children": [
                   {
-                    "id": "07379205-8157-47df-802b-c75c57988441",
+                    "id": "516b0ea5-0fe1-4e82-939c-2864fd35c2e0",
                     "type": "Element",
-                    "tag": "ModalBody",
+                    "tag": "span",
                     "props": {},
-                    "styles": {
-                      "width": "100%"
-                    },
-                    "ref": "eeb1b1e3-35e9-42e3-81fa-8a93efc4dfa2",
-                    "value": "",
-                    "children": [
-                      {
-                        "id": "e665d62f-05f0-47dd-86ba-be4286734c4b",
-                        "type": "Element",
-                        "tag": "Button",
-                        "props": {},
-                        "styles": {
-                          "marginRight": "5px"
-                        },
-                        "ref": "ce2456a3-549f-46c8-95a2-301d99426bf8",
-                        "value": "",
-                        "children": [
-                          {
-                            "id": "2c73a6ce-31c3-4860-ad0f-a62e7a2a82aa",
-                            "type": "Element",
-                            "tag": "span",
-                            "props": {},
-                            "styles": {},
-                            "value": "Apply",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "id": "63726ce8-1a1b-44f3-843a-b6e060463829",
-                        "type": "Element",
-                        "tag": "Button",
-                        "props": {},
-                        "styles": {},
-                        "ref": "ce2456a3-549f-46c8-95a2-301d99426bf8",
-                        "value": "",
-                        "children": [
-                          {
-                            "id": "a8e05b3f-15f7-4cad-aa6d-cc242c916ed5",
-                            "type": "Element",
-                            "tag": "span",
-                            "props": {},
-                            "styles": {},
-                            "value": "Cancel",
-                            "children": []
-                          }
-                        ]
-                      }
-                    ]
+                    "styles": {},
+                    "value": "px",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "b0a73ff7-8a0b-440c-9266-0a3d78b7b191",
+                "type": "Element",
+                "tag": "ListItem",
+                "props": {},
+                "styles": {},
+                "ref": "7e18919d-118a-48f4-98c1-40b105119567",
+                "value": "",
+                "children": [
+                  {
+                    "id": "bf1146e1-9abe-4834-b4da-413138423744",
+                    "type": "Element",
+                    "tag": "span",
+                    "props": {},
+                    "styles": {},
+                    "value": "auto",
+                    "children": []
                   }
                 ]
               }
@@ -114,174 +91,46 @@
         ]
       }
     },
-    "a0d2df40-469f-4041-80b5-985c0f465fa6": {
-      "id": "a0d2df40-469f-4041-80b5-985c0f465fa6",
+    "b33a401d-b0fc-4f88-8d9d-84ab4b1eaa96": {
+      "id": "b33a401d-b0fc-4f88-8d9d-84ab4b1eaa96",
       "type": "Styled",
-      "name": "Modal",
-      "path": "Modal/index.js",
+      "name": "List",
+      "path": "List/index.js",
       "node": {
-        "id": "acbc5e64-4f4d-4909-b8e5-3a442c38fad1",
+        "id": "78633684-8879-4cbd-b543-22c4962c8f26",
         "type": "Style",
-        "tag": "div",
+        "tag": "ul",
         "props": {},
         "styles": {
-          "width": "100%",
-          "border": "1px solid gray",
-          "padding": "5px"
-        },
-        "value": "",
-        "children": []
-      }
-    },
-    "934f3e18-47bd-4984-bb94-4f6827e38c84": {
-      "id": "934f3e18-47bd-4984-bb94-4f6827e38c84",
-      "type": "Pure",
-      "name": "default",
-      "path": "Button/index.js",
-      "node": {
-        "id": "b493683a-823a-4244-9899-ad07569301c2",
-        "type": "Element",
-        "tag": "",
-        "props": {},
-        "styles": {},
-        "value": "",
-        "children": [
-          {
-            "id": "88046bdb-b9c6-4318-858c-2189fbc4389b",
-            "type": "Element",
-            "tag": "Button",
-            "props": {},
-            "styles": {},
-            "ref": "ce2456a3-549f-46c8-95a2-301d99426bf8",
-            "value": "",
-            "children": [
-              {
-                "id": "1f8fc006-5e24-4331-b18c-fedc4c4b9f56",
-                "type": "Element",
-                "tag": "span",
-                "props": {},
-                "styles": {},
-                "value": "Button",
-                "children": []
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "ce2456a3-549f-46c8-95a2-301d99426bf8": {
-      "id": "ce2456a3-549f-46c8-95a2-301d99426bf8",
-      "type": "Styled",
-      "name": "Button",
-      "path": "Button/index.js",
-      "node": {
-        "id": "9ef6af6f-9340-42e7-96c8-306ccaded2e0",
-        "type": "Style",
-        "tag": "button",
-        "props": {},
-        "styles": {
-          "border": "1px solid gray",
-          "borderRadius": "5px",
-          "padding": "5px 10px",
-          "&:focus": {
-            "outline": "none"
-          },
-          "&:active": {
-            "background": "lightblue"
-          },
-          "cursor": "pointer"
-        },
-        "value": "",
-        "children": []
-      }
-    },
-    "1824695d-22da-4a6b-a5d4-aeee2f33ab47": {
-      "id": "1824695d-22da-4a6b-a5d4-aeee2f33ab47",
-      "type": "Styled",
-      "name": "ModalBackground",
-      "path": "Modal/index.js",
-      "node": {
-        "id": "d2edf789-76c0-45c9-92c5-c676414f0dbb",
-        "type": "Style",
-        "tag": "div",
-        "props": {},
-        "styles": {
-          "backgroundColor": "rgba(0,0,0, .5)",
-          "position": "fixed",
-          "display": "flex",
-          "width": "100vw",
-          "height": "100%",
-          "top": "0",
-          "left": "0",
-          "alignItems": "center",
-          "justifyContent": "center",
+          "listStyle": "none",
           "flexDirection": "column"
         },
         "value": "",
         "children": []
       }
     },
-    "ae4ef0ba-b579-49fa-b192-9b830cb56df9": {
-      "id": "ae4ef0ba-b579-49fa-b192-9b830cb56df9",
+    "7e18919d-118a-48f4-98c1-40b105119567": {
+      "id": "7e18919d-118a-48f4-98c1-40b105119567",
       "type": "Styled",
-      "name": "ModalWrapper",
-      "path": "Modal/index.js",
+      "name": "ListItem",
+      "path": "List/index.js",
       "node": {
-        "id": "85dcfcd2-0876-4937-a62b-8e3f04a28c1c",
+        "id": "9b299340-f1cb-4ee4-9ac9-e05a8c0d2311",
         "type": "Style",
-        "tag": "div",
+        "tag": "li",
         "props": {},
         "styles": {
-          "backgroundColor": "white",
-          "width": "500px",
-          "display": "flex",
-          "flexDirection": "row",
-          "flexWrap": "wrap"
-        },
-        "value": "",
-        "children": []
-      }
-    },
-    "887ad92d-b322-440b-9bbe-f0cfe957ddd7": {
-      "id": "887ad92d-b322-440b-9bbe-f0cfe957ddd7",
-      "type": "Styled",
-      "name": "ModalHeader",
-      "path": "Modal/index.js",
-      "node": {
-        "id": "72c9bd3c-9334-4752-b6c7-371065b8b856",
-        "type": "Style",
-        "tag": "div",
-        "props": {},
-        "styles": {
-          "padding": "5px",
-          "backgroundColor": "darkslategray",
-          "color": "white",
-          "width": "100%"
-        },
-        "value": "",
-        "children": []
-      }
-    },
-    "eeb1b1e3-35e9-42e3-81fa-8a93efc4dfa2": {
-      "id": "eeb1b1e3-35e9-42e3-81fa-8a93efc4dfa2",
-      "type": "Styled",
-      "name": "ModalBody",
-      "path": "Modal/index.js",
-      "node": {
-        "id": "07656fd3-7371-493f-841b-ec9faaca8338",
-        "type": "Style",
-        "tag": "div",
-        "props": {},
-        "styles": {
-          "padding": "5px",
-          "display": "flex",
-          "justifyContent": "flex-end"
+          "paddingLeft": "5px",
+          "paddingRight": "5px",
+          "fontSize": "14px",
+          "paddingTop": "2px",
+          "paddingBottom": "2px"
         },
         "value": "",
         "children": []
       }
     }
   },
-  "focusedComponent": "89e30cdb-7c83-47a1-aa1f-0f8fe76b3793",
-  "focusedNode": "e665d62f-05f0-47dd-86ba-be4286734c4b"
+  "focusedComponent": "cd94216c-caac-45b0-85cc-7fd1f0c353b2",
+  "focusedNode": "2605d93e-c1fe-4d1c-8bfd-1464594dba3b"
 }

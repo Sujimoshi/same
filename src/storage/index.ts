@@ -8,14 +8,21 @@ const { writeFile, readFile, mkdir } = promises;
 
 export const SRC_FOLDER = "src/styled";
 
-export const createProjectConfig = (path: string = ""): ProjectStore => ({
+export interface SameConfig {
+  path: string;
+  components: Dictionary<ComponentConfig>;
+  focusedComponent: string;
+  focusedNode: string;
+}
+
+export const createProjectConfig = (path: string = ""): SameConfig => ({
   path,
-  components: {},
   focusedComponent: "",
-  focusedNode: ""
+  focusedNode: "",
+  components: {}
 });
 
-export const loadProject = async (path: string): Promise<ProjectStore> => {
+export const loadProject = async (path: string): Promise<SameConfig> => {
   const datafile = join(path, "same.json");
   try {
     const data = await readFile(datafile);
@@ -27,7 +34,7 @@ export const loadProject = async (path: string): Promise<ProjectStore> => {
   }
 };
 
-export const saveProject = async (project: ProjectStore) => {
+export const saveProject = async (project: SameConfig) => {
   await writeFile(
     join(project.path, "same.json"),
     JSON.stringify(project, null, 2)
