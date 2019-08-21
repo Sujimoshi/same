@@ -7,53 +7,53 @@ import {
   FontAwesomeIcon,
   Props as FAProps
 } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { memoize, Dictionary } from "underscore";
+import React, { useMemo } from "react";
+import { memoize, Dictionary, isEqual } from "underscore";
 const fontAwesomeIcons = require("@same/icons/fa-icons");
 
-export interface Props extends Omit<FAProps, "icon" | "rotation"> {
+export interface Props extends Omit<FAProps, "icon" | "rotation" | "size"> {
   icon: string;
+  size: "xs" | "sm" | "lg";
   rotation?: number;
 }
 
-const getIcon = memoize(
+const loadIcon = memoize(
   (iconName: string): IconDefinition => {
-    return {
+    const result = {
       prefix: "far",
       iconName: iconName as IconName,
       icon: fontAwesomeIcons.styles.far[iconName]
-    };
+    } as IconDefinition;
+    if (!result.icon) throw new Error(`${result.icon} not found in fa library`);
+    library.add(result);
+    return result;
   }
 );
 
-const sizeMapping: Dictionary<number> = {
-  xs: 18,
-  sm: 20,
-  lg: 24
-};
-
-export function Icon(props: Props) {
+export default React.memo(function Icon(props: Props) {
   if (/^(s-).*$/.test(props.icon as string)) {
     const Component = require("../../icons/" + props.icon + ".svg").default;
-    const size = sizeMapping[props.size || "xs"];
+    const size = { xs: 18, sm: 20, lg: 24 }[props.size || "xs"];
     let transform = "";
     transform += props.rotation ? `rotateZ(${props.rotation}deg) ` : "";
     transform += props.flip
       ? `rotate${props.flip === "horizontal" ? "Y" : "X"}(${180}deg)`
       : "";
-    return (
-      <Component
-        style={{ ...(transform && { transform }), ...props.style }}
-        width={size}
-        height={size}
-      />
+    return useMemo(
+      () => (
+        <Component
+          style={{ ...(transform && { transform }), ...props.style }}
+          width={size}
+          height={size}
+        />
+      ),
+      [props.icon, transform]
     );
   } else {
-    const icon = getIcon(props.icon as string);
-    if (!icon.icon) throw new Error(`${props.icon} not found in fa library`);
-    library.add(icon);
-    return <FontAwesomeIcon {...(props as any)} icon={["far", props.icon]} />;
+    loadIcon(props.icon as string);
+    return useMemo(
+      () => <FontAwesomeIcon {...(props as any)} icon={["far", props.icon]} />,
+      [props.icon]
+    );
   }
-}
-
-export default React.memo(Icon);
+});

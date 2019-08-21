@@ -39,7 +39,7 @@ export const mapValuesToIconOptions = (
     )
   }));
 
-export default function InlineSelector({
+export default React.memo(function InlineSelector({
   disabled,
   onChange,
   options,
@@ -59,4 +59,4 @@ export default function InlineSelector({
       ))}
     </BoxWrapper>
   );
-}
+});

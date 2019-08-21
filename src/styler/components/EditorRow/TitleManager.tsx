@@ -3,13 +3,12 @@ import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import { RootStore } from "same";
 import { setFocusedNodeStyle } from "@same/actions/styles";
-import { getFocusedNode } from "@same/store/editor/selectors";
-import { Node } from "@same/configurator";
+import { getFocusedNodeStyles } from "../../../store/editor/selectors";
 
 export interface Props {
   children: ReactNode;
   field?: string;
-  node: Node;
+  fieldValue: string;
   setStyle: (field: string, value: string) => void;
 }
 
@@ -30,9 +29,7 @@ export const Title = styled.span((props: any) => ({
   ...props.styled
 }));
 
-export function TitleManager({ node, field, children, setStyle }: Props) {
-  const fieldValue = node.styles[field];
-
+export function TitleManager({ fieldValue, field, children, setStyle }: Props) {
   const onClick = useCallback(() => {
     if (fieldValue) {
       setStyle(field, undefined);
@@ -47,8 +44,8 @@ export function TitleManager({ node, field, children, setStyle }: Props) {
 }
 
 export default connect(
-  (state: RootStore) => ({
-    node: getFocusedNode(state)
+  (state: RootStore, props: Props) => ({
+    fieldValue: getFocusedNodeStyles(state)[props.field]
   }),
   {
     setStyle: setFocusedNodeStyle

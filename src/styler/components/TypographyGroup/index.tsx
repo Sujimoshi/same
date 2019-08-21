@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { Dictionary } from "underscore";
 import Group from "../Group";
 import EditorRow from "../EditorRow";
@@ -11,14 +11,18 @@ import SizeSelector from "../SizeSelector";
 import Input from "@same/components/Input";
 import { Text } from "@same/styled/Typography";
 import InlineSelector, {
-  createTextOption,
   createIconOption,
   mapValuesToIconOptions
 } from "@same/components/InlineSelector";
+import { connect } from "react-redux";
+import { getFocusedNodeStyles } from "@same/store/editor/selectors";
+import { RootStore } from "same";
+import { setFocusedNodeStyle } from "@same/actions/styles";
+import ColorPicker from "../ColorPicker";
 
 export interface Props {
   styles: Dictionary<any>;
-  setStyle: (field: string) => any;
+  setStyleField: (field: string, value: string) => any;
 }
 
 const fontsList = [
@@ -57,8 +61,11 @@ const weightList = [
   { label: "900 - Black", value: "900" }
 ];
 
-export default function TypographyGroup({ styles, setStyle }: Props) {
+export function TypographyGroup({ styles, setStyleField }: Props) {
   const fontFamily = styles.fontFamily || "";
+  const setStyle = (field: string) => (value: string) =>
+    setStyleField(field, value);
+
   return (
     <>
       <Group title="Typography">
@@ -200,6 +207,16 @@ export default function TypographyGroup({ styles, setStyle }: Props) {
           </Col>
         </Row>
       </Group>
+      <ColorPicker color={styles.color} onChange={setStyle("color")} />
     </>
   );
 }
+
+export default connect(
+  (state: RootStore) => ({
+    styles: getFocusedNodeStyles(state)
+  }),
+  {
+    setStyleField: setFocusedNodeStyle
+  }
+)(TypographyGroup);

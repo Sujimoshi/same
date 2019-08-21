@@ -45,6 +45,13 @@ export const getFocusedNode = createSelector(
   }
 );
 
+export const getFocusedNodeStyles = createSelector(
+  getFocusedNode,
+  node => {
+    return node.styles;
+  }
+);
+
 export const getReferenceComponent = createSelector(
   getComponents,
   getFocusedNode,

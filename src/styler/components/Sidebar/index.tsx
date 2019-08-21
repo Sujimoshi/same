@@ -17,6 +17,7 @@ import BorderGroup from "../BorderGroup";
 import PositioningGroup from "../PositioningGroup";
 import TypographyGroup from "../TypographyGroup";
 import { Scrollable } from "@same/styled/Scrollable";
+import ColorPicker from "../ColorPicker";
 
 export interface Props {
   node: Node;
@@ -47,12 +48,12 @@ export function StylesEditor({
 
   return (
     <Scrollable>
-      <PositioningGroup styles={styles} setStyle={setStyle} />
+      <PositioningGroup />
       <LayoutGroup styles={styles} setStyle={setStyle} />
       <SizeGroup styles={styles} setStyle={setStyle} />
       <SpacingGroup styles={styles} setStyle={setStyle} />
       <BorderGroup styles={styles} setStyle={setStyle} />
-      <TypographyGroup styles={styles} setStyle={setStyle} />
+      <TypographyGroup />
     </Scrollable>
   );
 }

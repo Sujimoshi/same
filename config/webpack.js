@@ -42,8 +42,8 @@ module.exports = (env, args) => {
   });
 
   config.module.rules.push({
-    test: /\.(png|jpg|gif)$/,
-    use: ["file-loader"]
+    test: /\.(png|jpg|gif)$/i,
+    use: ["url-loader"]
   });
 
   config.module.rules.push({

@@ -1,136 +1,24 @@
 {
   "path": "/Users/sujimoshi/Projects/same/front/example",
   "components": {
-    "cd94216c-caac-45b0-85cc-7fd1f0c353b2": {
-      "id": "cd94216c-caac-45b0-85cc-7fd1f0c353b2",
+    "38eff97a-3997-4eae-b26f-905f932396f3": {
+      "id": "38eff97a-3997-4eae-b26f-905f932396f3",
       "type": "Pure",
       "name": "default",
-      "path": "List/index.js",
+      "path": "Input/index.js",
       "node": {
-        "id": "cac7b92b-29f9-49b3-ba4c-2cc5b3db7e79",
+        "id": "5a0abfd9-a14f-47b3-b438-ca66ccf51bf9",
         "type": "Element",
-        "tag": "",
-        "props": {},
-        "styles": {},
-        "value": "",
-        "children": [
-          {
-            "id": "cdaa4b89-3574-402e-adc6-7bce1eeedf51",
-            "type": "Element",
-            "tag": "List",
-            "props": {},
-            "styles": {
-              "padding": "0px",
-              "margin": "0px"
-            },
-            "ref": "b33a401d-b0fc-4f88-8d9d-84ab4b1eaa96",
-            "value": "",
-            "children": [
-              {
-                "id": "2605d93e-c1fe-4d1c-8bfd-1464594dba3b",
-                "type": "Element",
-                "tag": "ListItem",
-                "props": {},
-                "styles": {},
-                "ref": "7e18919d-118a-48f4-98c1-40b105119567",
-                "value": "",
-                "children": [
-                  {
-                    "id": "cc173b4d-50b2-4ea6-a11f-b6bfa6741820",
-                    "type": "Element",
-                    "tag": "span",
-                    "props": {},
-                    "styles": {},
-                    "value": "%",
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "5f86ffda-bf12-4f39-b411-193c8e1752e4",
-                "type": "Element",
-                "tag": "ListItem",
-                "props": {},
-                "styles": {},
-                "ref": "7e18919d-118a-48f4-98c1-40b105119567",
-                "value": "",
-                "children": [
-                  {
-                    "id": "516b0ea5-0fe1-4e82-939c-2864fd35c2e0",
-                    "type": "Element",
-                    "tag": "span",
-                    "props": {},
-                    "styles": {},
-                    "value": "px",
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "id": "b0a73ff7-8a0b-440c-9266-0a3d78b7b191",
-                "type": "Element",
-                "tag": "ListItem",
-                "props": {},
-                "styles": {},
-                "ref": "7e18919d-118a-48f4-98c1-40b105119567",
-                "value": "",
-                "children": [
-                  {
-                    "id": "bf1146e1-9abe-4834-b4da-413138423744",
-                    "type": "Element",
-                    "tag": "span",
-                    "props": {},
-                    "styles": {},
-                    "value": "auto",
-                    "children": []
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "b33a401d-b0fc-4f88-8d9d-84ab4b1eaa96": {
-      "id": "b33a401d-b0fc-4f88-8d9d-84ab4b1eaa96",
-      "type": "Styled",
-      "name": "List",
-      "path": "List/index.js",
-      "node": {
-        "id": "78633684-8879-4cbd-b543-22c4962c8f26",
-        "type": "Style",
-        "tag": "ul",
+        "tag": "input",
         "props": {},
         "styles": {
-          "listStyle": "none",
-          "flexDirection": "column"
-        },
-        "value": "",
-        "children": []
-      }
-    },
-    "7e18919d-118a-48f4-98c1-40b105119567": {
-      "id": "7e18919d-118a-48f4-98c1-40b105119567",
-      "type": "Styled",
-      "name": "ListItem",
-      "path": "List/index.js",
-      "node": {
-        "id": "9b299340-f1cb-4ee4-9ac9-e05a8c0d2311",
-        "type": "Style",
-        "tag": "li",
-        "props": {},
-        "styles": {
-          "paddingLeft": "5px",
-          "paddingRight": "5px",
-          "fontSize": "14px",
-          "paddingTop": "2px",
-          "paddingBottom": "2px"
+          "color": "rgba(82, 55, 55, 1)"
         },
         "value": "",
         "children": []
       }
     }
   },
-  "focusedComponent": "cd94216c-caac-45b0-85cc-7fd1f0c353b2",
-  "focusedNode": "2605d93e-c1fe-4d1c-8bfd-1464594dba3b"
+  "focusedComponent": "38eff97a-3997-4eae-b26f-905f932396f3",
+  "focusedNode": "5a0abfd9-a14f-47b3-b438-ca66ccf51bf9"
 }

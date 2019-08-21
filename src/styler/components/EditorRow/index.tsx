@@ -30,7 +30,12 @@ const ItemWrapper = styled.div({
   justifyContent: "center"
 });
 
-export default function EditorRow({ children, title, half, field }: Props) {
+export default React.memo(function EditorRow({
+  children,
+  title,
+  half,
+  field
+}: Props) {
   return (
     <Wrapper>
       <Col size={half ? "40%" : "25%"}>
@@ -43,4 +48,4 @@ export default function EditorRow({ children, title, half, field }: Props) {
       </Col>
     </Wrapper>
   );
-}
+});

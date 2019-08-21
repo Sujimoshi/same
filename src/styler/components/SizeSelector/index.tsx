@@ -26,7 +26,11 @@ const types = [
   { label: "VH", value: "vh" }
 ];
 
-export default function SizeSelector({ onChange, value = "", prepend }: Props) {
+export default React.memo(function SizeSelector({
+  onChange,
+  value = "",
+  prepend
+}: Props) {
   const [type, setType] = useState(
     types.find(type => value.includes(type.value)) || types[0]
   );
@@ -63,4 +67,4 @@ export default function SizeSelector({ onChange, value = "", prepend }: Props) {
       }
     />
   );
-}
+});

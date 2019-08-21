@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Dictionary } from "underscore";
+import { Dictionary, pick } from "underscore";
 import Group from "../Group";
 import EditorRow from "../EditorRow";
 import DropSelect from "@same/components/DropSelect";
@@ -12,10 +12,14 @@ import InlineSelector, {
 } from "@same/components/InlineSelector";
 import { Hr } from "@same/styler/styled/Group";
 import PositionEditor from "./PositionEditor";
+import { getFocusedNodeStyles } from "@same/store/editor/selectors";
+import { setFocusedNodeStyle } from "@same/actions/styles";
+import { connect } from "react-redux";
+import { RootStore } from "same";
 
 export interface Props {
   styles: Dictionary<any>;
-  setStyle: (field: string) => any;
+  setStyleField: (field: string, value: string) => void;
 }
 
 const positionOptions = [
@@ -25,8 +29,11 @@ const positionOptions = [
   { value: "fixed", label: "Fixed" }
 ];
 
-export default function PositioningGroup({ styles, setStyle }: Props) {
+export function PositioningGroup({ styles, setStyleField }: Props) {
   const positionValue = styles.position || "static";
+  const setStyle = (field: string) => (value: string) =>
+    setStyleField(field, value);
+
   return (
     <Group title="Positioning">
       <EditorRow field="position" title="Position">
@@ -88,3 +95,12 @@ export default function PositioningGroup({ styles, setStyle }: Props) {
     </Group>
   );
 }
+
+export default connect(
+  (state: RootStore) => ({
+    styles: getFocusedNodeStyles(state)
+  }),
+  {
+    setStyleField: setFocusedNodeStyle
+  }
+)(PositioningGroup);

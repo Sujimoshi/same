@@ -10,7 +10,11 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   append?: ReactNode;
 }
 
-export default function Input({ prepend, append, ...inputProps }: Props) {
+export default React.memo(function Input({
+  prepend,
+  append,
+  ...inputProps
+}: Props) {
   return (
     <InputWrapper>
       {prepend && React.Children.map(prepend, el => <InputBox>{el}</InputBox>)}
@@ -18,4 +22,4 @@ export default function Input({ prepend, append, ...inputProps }: Props) {
       {append && React.Children.map(append, el => <InputBox>{el}</InputBox>)}
     </InputWrapper>
   );
-}
+});
