@@ -14,7 +14,10 @@ export interface Props {
   setStyle: (field: string) => any;
 }
 
-const alignItemsOptions = (rotation: number, flip?: FlipProp) => {
+const alignItemsOptions = (
+  rotation: number,
+  flip?: "horizontal" | "vertical"
+) => {
   return mapValuesToIconOptions("alignItems", { rotation, flip })([
     { value: "flex-start" },
     { value: "center" },
@@ -24,7 +27,10 @@ const alignItemsOptions = (rotation: number, flip?: FlipProp) => {
   ]);
 };
 
-const justifyContentOptions = (rotation: number, flip?: FlipProp) => {
+const justifyContentOptions = (
+  rotation: number,
+  flip?: "horizontal" | "vertical"
+) => {
   return mapValuesToIconOptions("justifyContent", { rotation, flip })([
     { value: "flex-start" },
     { value: "center" },
@@ -34,7 +40,10 @@ const justifyContentOptions = (rotation: number, flip?: FlipProp) => {
   ]);
 };
 
-const alignContentOptions = (rotation: number, flip?: FlipProp) => {
+const alignContentOptions = (
+  rotation: number,
+  flip?: "horizontal" | "vertical"
+) => {
   return mapValuesToIconOptions("alignContent", { rotation, flip })([
     { value: "flex-start" },
     { value: "center" },
@@ -79,7 +88,7 @@ export default function FlexEditor({ styles, setStyle }: Props) {
       <EditorRow field="flexWrap" title="Wrap">
         <WrapSelector value={flexWrap} onChange={setStyle("flexWrap")} />
       </EditorRow>
-      {flexWrap === "wrap" && (
+      {flexWrap.includes("wrap") && flexWrap !== "nowrap" && (
         <EditorRow field="alignContent" title="Align">
           <InlineSelector
             options={alignContentOptions(

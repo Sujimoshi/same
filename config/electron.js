@@ -2,8 +2,6 @@
 const { app, BrowserWindow } = require("electron");
 const env = require("./env");
 const devtools = require("electron-devtools-installer");
-const { join } = require("path");
-const url = require("url");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -20,14 +18,7 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(
-    env("START_URL")
-    // url.format({
-    //   pathname: ,
-    //   protocol: "http:",
-    //   slashes: true
-    // })
-  );
+  mainWindow.loadURL(env("START_URL"));
 
   devtools
     .default(devtools.REACT_DEVELOPER_TOOLS)

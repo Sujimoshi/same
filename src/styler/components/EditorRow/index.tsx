@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { Text } from "@same/styled/Typography";
 import styled from "@emotion/styled";
 import TitleManager from "./TitleManager";
 

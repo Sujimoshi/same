@@ -5,7 +5,7 @@ import EditorRow from "../EditorRow";
 import DropSelect from "@same/components/DropSelect";
 import { Button } from "@same/styled/Button";
 import { Text } from "@same/styled/Typography";
-import { Icon } from "@same/components/Icon";
+import Icon from "@same/components/Icon";
 import InlineSelector, {
   createTextOption,
   createIconOption

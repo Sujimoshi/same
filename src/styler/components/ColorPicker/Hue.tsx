@@ -22,6 +22,7 @@ export const Pointer = styled.div((props: any) => ({
 
 export const Wrapper = styled.div((props: any) => ({
   padding: "0 2px",
+  marginBottom: "5px",
   position: "relative",
   height: "10px",
   background: `linear-gradient(to right, #f00 0%, #ff0 17%, #0f0

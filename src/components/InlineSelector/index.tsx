@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Icon, Props as IconProps } from "../Icon";
+import Icon, { Props as IconProps } from "../Icon";
 import { BoxWrapper, BoxItem } from "@same/styled/Box";
 import { Text } from "@same/styled/Typography";
 

@@ -1,10 +1,9 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Panel } from "@same/styled/Panel";
 import styled from "@emotion/styled";
-import { Text } from "@same/styled/Typography";
 import Picker from "./Picker";
 import checkerboard from "./checkerboard.png";
-import { throttle } from "underscore";
+import times from "./times.png";
 
 export const Container = styled.div((props: any) => ({
   padding: "5px",
@@ -18,19 +17,15 @@ export const ColorsWrapper = styled.div((props: any) => ({
 }));
 
 export const ColorBox = styled.div((props: any) => ({
-  background: `linear-gradient(to right, ${props.color} 0%, ${props.color} 100%),
-    url(${checkerboard}) -1px -1px / 8px repeat local`,
+  background: props.color
+    ? `linear-gradient(to right, ${props.color} 0%, ${props.color} 100%),
+    url(${checkerboard}) -1px -1px / 8px repeat local`
+    : `url(${times}) no-repeat`,
+  backgroundSize: props.color ? "" : "100% 100%",
   borderRadius: "2px",
+  border: "1px solid #3e3640",
   width: "22px",
   height: "22px",
-  ...props.styled
-}));
-
-export const AbsoluteWrapper = styled.div((props: any) => ({
-  width: "100%",
-  position: "absolute",
-  padding: "5px",
-  bottom: props.bottom,
   ...props.styled
 }));
 
@@ -41,18 +36,13 @@ export interface Props {
 
 export default function ColorPicker({ color, onChange }: Props) {
   return (
-    <AbsoluteWrapper bottom="-150px">
-      <Panel styled={{ padding: "5px" }}>
-        <Picker
-          color={color}
-          onChange={useCallback(throttle(onChange, 100), [])}
-        />
-        <Text>Recently Used:</Text>
-        <ColorsWrapper>
-          <ColorBox color={color} />
-        </ColorsWrapper>
-        <Text>Theme colors:</Text>
-      </Panel>
-    </AbsoluteWrapper>
+    <Panel styled={{ padding: "5px" }}>
+      <Picker color={color} onChange={onChange} />
+      {/* <Text>Recently Used:</Text>
+      <ColorsWrapper>
+        <ColorBox color={color} />
+      </ColorsWrapper>
+      <Text>Theme colors:</Text> */}
+    </Panel>
   );
 }

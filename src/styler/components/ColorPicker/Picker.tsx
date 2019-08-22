@@ -35,6 +35,12 @@ export default class ColorPicker extends Component<Props, State> {
     };
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.color !== prevProps.color) {
+      this.setState(ColorPicker.getState(this.props.color));
+    }
+  }
+
   handleChange = (data: ColorFormats.HSVA | ColorFormats.HSLA) => {
     const nextState = ColorPicker.getState(data);
     this.setState(nextState);

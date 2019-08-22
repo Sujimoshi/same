@@ -8,8 +8,8 @@ import { getFocusedNodeStyles } from "../../../store/editor/selectors";
 export interface Props {
   children: ReactNode;
   field?: string;
-  fieldValue: string;
-  setStyle: (field: string, value: string) => void;
+  fieldValue?: string;
+  setStyle?: (field: string, value: string) => void;
 }
 
 export const Title = styled.span((props: any) => ({

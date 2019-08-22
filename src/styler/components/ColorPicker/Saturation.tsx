@@ -23,14 +23,13 @@ export const SaturationBlack = styled.div((props: any) => ({
 export const Wrapper = styled.div((props: any) => ({
   width: "100%",
   paddingBottom: "75%",
+  marginBottom: "5px",
   position: "relative",
   ...props.styled
 }));
 
 export const Pointer = styled.div((props: any) => ({
   position: "absolute",
-  width: "100%",
-  height: "100%",
   cursor: "default",
   "&:after": {
     content: "''",
@@ -92,7 +91,8 @@ export class Saturation extends PureComponent<Props> {
           <SaturationBlack />
           <Pointer
             style={{
-              transform: `translate(${hsv.s * 100}%, ${-(hsv.v * 100) + 100}%)`
+              left: `${hsv.s * 100}%`,
+              top: `${-(hsv.v * 100) + 100}%`
             }}
             hsv={this.props.hsv}
           ></Pointer>

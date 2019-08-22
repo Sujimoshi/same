@@ -60,29 +60,31 @@ export default function SizeGroup({ setStyle, styles }: Props) {
       <Row>
         <Col size="50%">
           <EditorRow field="flexShrink" half title="Shrink">
-            <SizeSelector
-              onChange={setStyle("flexShrink")}
-              value={styles.flexShrink}
+            <Input
+              type="number"
+              onChange={eventValue(setStyle("flexShrink"))}
+              value={styles.flexShrink || ""}
             />
           </EditorRow>
           <EditorRow field="flexBasis" half title="Basis">
             <SizeSelector
               onChange={setStyle("flexBasis")}
-              value={styles.flexBasis}
+              value={styles.flexBasis || ""}
             />
           </EditorRow>
         </Col>
         <Col size="50%">
           <EditorRow field="flexGrow" half title="Grow">
-            <SizeSelector
-              onChange={setStyle("flexGrow")}
-              value={styles.flexGrow}
+            <Input
+              type="number"
+              onChange={eventValue(setStyle("flexGrow"))}
+              value={styles.flexGrow || ""}
             />
           </EditorRow>
           <EditorRow field="order" half title="Order">
             <Input
               type="number"
-              value={styles.order}
+              value={styles.order || ""}
               onChange={eventValue(setStyle("order"))}
             />
           </EditorRow>

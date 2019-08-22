@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
 import { connect } from "react-redux";
 import { RootStore } from "same";
 import { Ul, Li } from "../styled/List";
@@ -27,71 +27,82 @@ export interface Props {
   onComponentCreate?: typeof createComponent;
 }
 
-export function ComponentsView({
-  components,
-  onComponentClick,
-  onComponentCreate,
-  focusedComponent,
-  referenceComponent
-}: Props) {
-  return (
-    <Fragment>
-      <Header onCreate={() => onComponentCreate("default")} />
-      <Ul>
-        {components.map(componentGroup => (
-          <Li key={componentGroup[0].id}>
-            <Collapse
-              expanded={!!componentGroup.find(el => el.id === focusedComponent)}
-              renderTitle={(toggle, expanded) => (
-                <ListItem
-                  onClick={toggle}
-                  icon={!expanded ? "caret-right" : "caret-down"}
-                  actions={{
-                    plus: () => onComponentCreate("", componentGroup[0].path),
-                    times: () => undefined // TODO: implement folder removing
-                  }}
-                >
-                  {dirname(componentGroup[0].path)}
-                </ListItem>
-              )}
-            >
-              {() =>
-                componentGroup.map(el => (
-                  <Draggable key={el.id} type="structure" data={el}>
-                    <ListItem
-                      level={1}
-                      icon={isStyled(el) ? "palette" : "layer-group"}
-                      focus={
-                        el.id === focusedComponent ||
-                        (referenceComponent && referenceComponent.id === el.id)
-                      }
-                      onClick={() => onComponentClick(el)}
-                      actions={{
-                        times: () => undefined // TODO: implement component removing
-                      }}
-                    >
-                      {isStyled(el)
-                        ? `${el.name} (${el.node.tag})`
-                        : el.name === "default"
-                        ? "Example"
-                        : el.name}
-                    </ListItem>
-                  </Draggable>
-                ))
-              }
-            </Collapse>
-          </Li>
-        ))}
-      </Ul>
-    </Fragment>
-  );
+export class ComponentsView extends Component<Props> {
+  renderTitle(component: ComponentConfig) {
+    return isStyled(component)
+      ? `${component.name} (${component.node.tag})`
+      : component.name === "default"
+      ? "Example"
+      : component.name;
+  }
+
+  renderListItem = (component: ComponentConfig) => {
+    const {
+      onComponentClick,
+      focusedComponent,
+      referenceComponent
+    } = this.props;
+
+    return (
+      <Draggable key={component.id} type="structure" data={component}>
+        <ListItem
+          level={1}
+          icon={isStyled(component) ? "palette" : "layer-group"}
+          focus={
+            component.id === focusedComponent ||
+            (referenceComponent && referenceComponent.id === component.id)
+          }
+          onClick={() => onComponentClick(component)}
+          actions={{
+            times: () => undefined // TODO: implement component removing
+          }}
+        >
+          {this.renderTitle(component)}
+        </ListItem>
+      </Draggable>
+    );
+  };
+
+  render() {
+    const { components, onComponentCreate, focusedComponent } = this.props;
+    return (
+      <Fragment>
+        <Header onCreate={() => onComponentCreate("default")} />
+        <Ul>
+          {components.map(componentGroup => (
+            <Li key={componentGroup[0].id}>
+              <Collapse
+                expanded={
+                  !!componentGroup.find(el => el.id === focusedComponent)
+                }
+                renderTitle={(toggle, expanded) => (
+                  <ListItem
+                    onClick={toggle}
+                    icon={!expanded ? "caret-right" : "caret-down"}
+                    actions={{
+                      plus: () => onComponentCreate("", componentGroup[0].path),
+                      times: () => undefined // TODO: implement folder removing
+                    }}
+                  >
+                    {dirname(componentGroup[0].path)}
+                  </ListItem>
+                )}
+              >
+                {() => componentGroup.map(this.renderListItem)}
+              </Collapse>
+            </Li>
+          ))}
+        </Ul>
+      </Fragment>
+    );
+  }
 }
 
 export default connect(
   (state: RootStore) => ({
     components: getGroupedComponents(state),
     referenceComponent: getReferenceComponent(state),
-    focusedComponent: state.project.focusedComponent
+    focusedComponent: state.editor.focusedComponent
   }),
   {
     onComponentCreate: createComponent,

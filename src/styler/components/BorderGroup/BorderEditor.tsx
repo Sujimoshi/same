@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import { Dictionary } from "underscore";
 import EditorRow from "../EditorRow";
 import Row from "@same/components/Row";
@@ -14,67 +14,75 @@ export interface Props {
   setStyle: (field: string) => any;
 }
 
-export default function BorderEditor({ styles, setStyle }: Props) {
-  const [borderType, setBorderType] = useState(
-    styles.borderTopWidth ||
-      styles.borderBottomWidth ||
-      styles.borderLeftWidth ||
-      styles.borderRightWidth
-  );
-  return (
-    <>
-      <EditorRow title="Border" field="borderWidth">
-        <Row>
-          <Col>
-            <SizeSelector
-              onChange={setStyle("borderWidth")}
-              value={styles.borderWidth}
-            />
+export interface State {
+  separate: boolean;
+}
+
+export default class BorderEditor extends Component<Props, State> {
+  state = {
+    separate:
+      this.props.styles.borderTopWidth ||
+      this.props.styles.borderBottomWidth ||
+      this.props.styles.borderLeftWidth ||
+      this.props.styles.borderRightWidth
+  };
+
+  renderBorderInput(title: string, field: string) {
+    const { setStyle, styles } = this.props;
+    return (
+      <EditorRow half title={title} field={field}>
+        <SizeSelector
+          onChange={setStyle(field)}
+          value={styles[field] || styles.borderWidth}
+        />
+      </EditorRow>
+    );
+  }
+
+  renderSeparateEditor() {
+    return (
+      <>
+        <Row styled={{ paddingLeft: "7%" }}>
+          <Col size="50%">
+            {this.renderBorderInput("Top", "borderTopWidth")}
+            {this.renderBorderInput("Left", "borderLeftWidth")}
           </Col>
-          <Col styled={{ paddingLeft: "5px", flexGrow: 0 }}>
-            <InlineSelector
-              options={[createIconOption(true)({ icon: "s-separate-spacing" })]}
-              onChange={() => setBorderType(!borderType)}
-              value={!!borderType}
-            />
+          <Col size="50%">
+            {this.renderBorderInput("Bottom", "borderBottomWidth")}
+            {this.renderBorderInput("Right", "borderRightWidth")}
           </Col>
         </Row>
-      </EditorRow>
-      {borderType && (
-        <>
-          <Row styled={{ paddingLeft: "7%" }}>
-            <Col size="50%">
-              <EditorRow half title="Top" field="borderTopWidth">
-                <SizeSelector
-                  onChange={setStyle("borderTopWidth")}
-                  value={styles.borderTopWidth || styles.borderWidth}
-                />
-              </EditorRow>
-              <EditorRow half title="Left" field="borderLeftWidth">
-                <SizeSelector
-                  onChange={setStyle("borderLeftWidth")}
-                  value={styles.borderLeftWidth || styles.borderWidth}
-                />
-              </EditorRow>
+        <Hr />
+      </>
+    );
+  }
+
+  render() {
+    const { setStyle, styles } = this.props;
+    const { separate } = this.state;
+    return (
+      <>
+        <EditorRow title="Border" field="borderWidth">
+          <Row>
+            <Col>
+              <SizeSelector
+                onChange={setStyle("borderWidth")}
+                value={styles.borderWidth}
+              />
             </Col>
-            <Col size="50%">
-              <EditorRow half title="Bottom" field="borderBottomWidth">
-                <SizeSelector
-                  onChange={setStyle("borderBottomWidth")}
-                  value={styles.borderBottomWidth || styles.borderWidth}
-                />
-              </EditorRow>
-              <EditorRow half title="Right" field="borderRightWidth">
-                <SizeSelector
-                  onChange={setStyle("borderRightWidth")}
-                  value={styles.borderRightWidth || styles.borderWidth}
-                />
-              </EditorRow>
+            <Col styled={{ paddingLeft: "5px", flexGrow: 0 }}>
+              <InlineSelector
+                options={[
+                  createIconOption(true)({ icon: "s-separate-spacing" })
+                ]}
+                onChange={() => this.setState({ separate: !separate })}
+                value={!!separate}
+              />
             </Col>
           </Row>
-          <Hr />
-        </>
-      )}
-    </>
-  );
+        </EditorRow>
+        {separate && this.renderSeparateEditor()}
+      </>
+    );
+  }
 }

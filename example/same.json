@@ -12,7 +12,10 @@
         "tag": "input",
         "props": {},
         "styles": {
-          "color": "rgba(82, 55, 55, 1)"
+          "width": "100%",
+          "padding": "2px",
+          "border": "2px",
+          "flexShrink": "1"
         },
         "value": "",
         "children": []

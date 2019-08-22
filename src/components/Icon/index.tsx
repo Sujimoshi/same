@@ -7,14 +7,16 @@ import {
   FontAwesomeIcon,
   Props as FAProps
 } from "@fortawesome/react-fontawesome";
-import React, { useMemo } from "react";
-import { memoize, Dictionary, isEqual } from "underscore";
-const fontAwesomeIcons = require("@same/icons/fa-icons");
+import React from "react";
+import { memoize } from "underscore";
+import fontAwesomeIcons from "./faIcons";
 
-export interface Props extends Omit<FAProps, "icon" | "rotation" | "size"> {
+export interface Props
+  extends Omit<FAProps, "icon" | "rotation" | "size" | "flip"> {
   icon: string;
-  size: "xs" | "sm" | "lg";
+  size?: "xs" | "sm" | "lg";
   rotation?: number;
+  flip?: "horizontal" | "vertical";
 }
 
 const loadIcon = memoize(
@@ -30,30 +32,43 @@ const loadIcon = memoize(
   }
 );
 
+export const rotateStyle = (deg?: string | number) =>
+  deg ? `rotateZ(${deg}deg) ` : "";
+
+export const flipStyle = (direction?: "horizontal" | "vertical" | "both") =>
+  direction === "horizontal"
+    ? `rotateY(180deg) `
+    : direction === "vertical"
+    ? `rotateX(180deg) `
+    : "";
+
+export const FAIcon = (props: Props) => {
+  loadIcon(props.icon as string);
+  return <FontAwesomeIcon {...(props as any)} icon={["far", props.icon]} />;
+};
+
+export const SameIcon = ({
+  icon,
+  size = "xs",
+  rotation,
+  flip,
+  style
+}: Props) => {
+  const Component = require("../../icons/" + icon + ".svg").default;
+  const sizeNum = { xs: 18, sm: 20, lg: 24 }[size];
+  return (
+    <Component
+      style={{ transform: rotateStyle(rotation) + flipStyle(flip), ...style }}
+      width={sizeNum}
+      height={sizeNum}
+    />
+  );
+};
+
 export default React.memo(function Icon(props: Props) {
-  if (/^(s-).*$/.test(props.icon as string)) {
-    const Component = require("../../icons/" + props.icon + ".svg").default;
-    const size = { xs: 18, sm: 20, lg: 24 }[props.size || "xs"];
-    let transform = "";
-    transform += props.rotation ? `rotateZ(${props.rotation}deg) ` : "";
-    transform += props.flip
-      ? `rotate${props.flip === "horizontal" ? "Y" : "X"}(${180}deg)`
-      : "";
-    return useMemo(
-      () => (
-        <Component
-          style={{ ...(transform && { transform }), ...props.style }}
-          width={size}
-          height={size}
-        />
-      ),
-      [props.icon, transform]
-    );
+  if (/^(s-).*$/.test(props.icon)) {
+    return <SameIcon {...props} />;
   } else {
-    loadIcon(props.icon as string);
-    return useMemo(
-      () => <FontAwesomeIcon {...(props as any)} icon={["far", props.icon]} />,
-      [props.icon]
-    );
+    return <FAIcon {...props} />;
   }
 });
