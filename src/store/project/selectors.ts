@@ -6,6 +6,7 @@ import { ComponentType } from "@same/configurator";
 
 export const getProject = (state: RootStore) => state.project;
 export const getComponents = (state: RootStore) => state.project.components;
+export const getFolders = (state: RootStore) => state.project.folders;
 
 export const getGroupedComponents = createSelector(
   getProject,
@@ -22,3 +23,7 @@ export const getGroupedComponents = createSelector(
     );
   }
 );
+
+export const isFolderExists = (folder: string) => (state: RootStore) => {
+  return state.project.folders.includes(folder);
+};

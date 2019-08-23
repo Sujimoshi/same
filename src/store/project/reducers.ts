@@ -8,11 +8,13 @@ import { traverse } from "@same/utils/helpers";
 export interface ProjectStore {
   path: string;
   components: { [id: string]: ComponentConfig };
+  folders: string[];
 }
 
 export const initialState: ProjectStore = {
   path: "",
-  components: null
+  components: null,
+  folders: []
 };
 
 type Actions = InferActionTypes<typeof actions>;
@@ -26,12 +28,13 @@ export default createReducer<Actions, ProjectStore>(initialState, {
     ...state,
     ...payload
   }),
-  SET_COMPONENTS: (state, { payload }) => ({
+  SET_FOLDERS: (state, { mapper }) => ({
     ...state,
-    components: {
-      ...state.components,
-      ...indexBy(Array.isArray(payload) ? payload : [payload], "id")
-    }
+    folders: mapper(state.folders)
+  }),
+  SET_COMPONENTS: (state, { mapper }) => ({
+    ...state,
+    components: indexBy(mapper(Object.values(state.components)), "id")
   }),
   SET_NODE: (state, { node, component }) => {
     return produce(state, draft => {

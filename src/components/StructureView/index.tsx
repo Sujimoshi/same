@@ -107,7 +107,7 @@ export class StructureView extends Component<Props> {
 
   render() {
     const { component } = this.props;
-    if (!component) return "Open file";
+    if (!component) return "No focused component";
     return this.renderNode(component.node);
   }
 }

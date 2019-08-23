@@ -1,11 +1,8 @@
 
-    import * as React from "react";
+    import styled from "@emotion/styled";
 
-    
-    export default function Example() { 
-      return (<input styled={{"width":"100%","padding":"2px","border":"2px","flexShrink":"1"}}>
+    export default styled.input(props => ({
         
-      </input>);
-    }
-  
+        ...props.styled
+      }))
   

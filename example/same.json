@@ -1,27 +1,9 @@
 {
   "path": "/Users/sujimoshi/Projects/same/front/example",
-  "components": {
-    "38eff97a-3997-4eae-b26f-905f932396f3": {
-      "id": "38eff97a-3997-4eae-b26f-905f932396f3",
-      "type": "Pure",
-      "name": "default",
-      "path": "Input/index.js",
-      "node": {
-        "id": "5a0abfd9-a14f-47b3-b438-ca66ccf51bf9",
-        "type": "Element",
-        "tag": "input",
-        "props": {},
-        "styles": {
-          "width": "100%",
-          "padding": "2px",
-          "border": "2px",
-          "flexShrink": "1"
-        },
-        "value": "",
-        "children": []
-      }
-    }
-  },
-  "focusedComponent": "38eff97a-3997-4eae-b26f-905f932396f3",
-  "focusedNode": "5a0abfd9-a14f-47b3-b438-ca66ccf51bf9"
+  "components": {},
+  "folders": [
+    "Input"
+  ],
+  "focusedComponent": "b50fe168-1e2f-4dd3-94de-bce4571d7d16",
+  "focusedNode": "794e6188-ade3-40a9-804a-433c452df16c"
 }

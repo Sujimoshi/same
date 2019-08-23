@@ -1,15 +1,6 @@
 import styled from "@emotion/styled";
-import { JustifyContentProperty, AlignItemsProperty } from "csstype";
 
-export interface Props {
-  size?: number | string;
-  grow?: number;
-  align?: JustifyContentProperty;
-  justify?: AlignItemsProperty;
-  styled: CSSStyleDeclaration;
-}
-
-export default styled.div(({ justify, size, grow, align, styled }: Props) => {
+export default styled.div(({ justify, size, grow, align, styled }: any) => {
   return {
     alignItems: justify,
     justifyContent: align,

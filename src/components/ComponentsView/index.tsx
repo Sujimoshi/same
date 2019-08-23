@@ -2,16 +2,21 @@ import React, { Fragment, Component } from "react";
 import { connect } from "react-redux";
 import { RootStore } from "same";
 import { Ul, Li } from "../styled/List";
-import { dirname } from "path";
+import { basename, dirname } from "path";
 import Collapse from "../Collapse";
-import { getGroupedComponents } from "@same/store/project/selectors";
+import { getFolders, getComponents } from "@same/store/project/selectors";
 import { ComponentConfig, isStyled } from "@same/configurator";
 import Header from "./Header";
 import { focus } from "@same/actions/node";
 import { createComponent } from "@same/actions/component";
 import ListItem from "../ListItem";
 import Draggable from "../Draggable";
-import { getReferenceComponent } from "@same/store/editor/selectors";
+import {
+  getReferenceComponent,
+  getFocusedComponent
+} from "@same/store/editor/selectors";
+import { createFolder, removeFolder } from "@same/actions/folder";
+import { Dictionary } from "underscore";
 
 export interface ComponentsGroup {
   name: string;
@@ -20,14 +25,51 @@ export interface ComponentsGroup {
 }
 
 export interface Props {
-  components?: ComponentConfig[][];
-  referenceComponent: ComponentConfig;
-  focusedComponent: string;
+  components?: Dictionary<ComponentConfig>;
+  referenceComponent?: ComponentConfig;
+  focusedComponent?: ComponentConfig;
   onComponentClick?: typeof focus;
   onComponentCreate?: typeof createComponent;
+  onFolderCreate?: (folderName: string) => void;
+  onFolderRemove?: (fodlerName: string) => void;
+  folders: string[];
 }
 
-export class ComponentsView extends Component<Props> {
+export interface State {
+  folderCreation: string;
+  componentCreation: string;
+}
+
+export class ComponentsView extends Component<Props, State> {
+  state = {
+    folderCreation: "",
+    componentCreation: ""
+  };
+
+  onFolderCreation = (folder: string = "/") => {
+    this.setState({ folderCreation: folder });
+  };
+
+  onFolderCreationFinish = (folder: string) => {
+    this.props.onFolderCreate(
+      this.state.folderCreation === "/"
+        ? folder
+        : `${this.state.folderCreation}/${folder}`
+    );
+    this.setState({ folderCreation: "" });
+  };
+
+  renderFolderCreateItem = (value: string = "/", level: number = 0) => (
+    <ListItem
+      onEditFinish={this.onFolderCreationFinish}
+      icon="caret-right"
+      edit
+      level={level}
+    >
+      {basename(value)}
+    </ListItem>
+  );
+
   renderTitle(component: ComponentConfig) {
     return isStyled(component)
       ? `${component.name} (${component.node.tag})`
@@ -49,12 +91,12 @@ export class ComponentsView extends Component<Props> {
           level={1}
           icon={isStyled(component) ? "palette" : "layer-group"}
           focus={
-            component.id === focusedComponent ||
+            (focusedComponent && component.id === focusedComponent.id) ||
             (referenceComponent && referenceComponent.id === component.id)
           }
-          onClick={() => onComponentClick(component)}
+          onDoubleClick={() => onComponentClick(component)}
           actions={{
-            times: () => undefined // TODO: implement component removing
+            trash: () => undefined // TODO: implement component removing
           }}
         >
           {this.renderTitle(component)}
@@ -63,35 +105,61 @@ export class ComponentsView extends Component<Props> {
     );
   };
 
+  renderDirectoryItem = (folder: string) => {
+    const { focusedComponent, components } = this.props;
+    const { folderCreation } = this.state;
+    const componentsGroup = Object.values(components).filter(
+      el => dirname(el.path) === folder
+    );
+    const isFolderCreation = folderCreation === folder;
+    const isFocusedFolder =
+      focusedComponent && folder === dirname(focusedComponent.path);
+
+    return (
+      <Li key={folder}>
+        <Collapse
+          key={folderCreation === folder ? folder : "none"}
+          expanded={isFolderCreation || isFocusedFolder}
+          renderTitle={(toggle, expanded) => (
+            <ListItem
+              onClick={toggle}
+              icon={!expanded ? "caret-right" : "caret-down"}
+              actions={{
+                "plus-circle": () =>
+                  this.props.onComponentCreate("", folder + "/index.js"),
+                "folder-plus": () => this.onFolderCreation(folder),
+                trash: () => this.props.onFolderRemove(folder)
+              }}
+            >
+              {basename(folder)}
+            </ListItem>
+          )}
+        >
+          {() => (
+            <>
+              {isFolderCreation && this.renderFolderCreateItem()}
+              {componentsGroup.map(this.renderListItem)}
+            </>
+          )}
+        </Collapse>
+      </Li>
+    );
+  };
+
   render() {
-    const { components, onComponentCreate, focusedComponent } = this.props;
+    const { folders } = this.props;
     return (
       <Fragment>
-        <Header onCreate={() => onComponentCreate("default")} />
+        <Header
+          actions={{
+            "folder-plus": this.onFolderCreation
+          }}
+        />
         <Ul>
-          {components.map(componentGroup => (
-            <Li key={componentGroup[0].id}>
-              <Collapse
-                expanded={
-                  !!componentGroup.find(el => el.id === focusedComponent)
-                }
-                renderTitle={(toggle, expanded) => (
-                  <ListItem
-                    onClick={toggle}
-                    icon={!expanded ? "caret-right" : "caret-down"}
-                    actions={{
-                      plus: () => onComponentCreate("", componentGroup[0].path),
-                      times: () => undefined // TODO: implement folder removing
-                    }}
-                  >
-                    {dirname(componentGroup[0].path)}
-                  </ListItem>
-                )}
-              >
-                {() => componentGroup.map(this.renderListItem)}
-              </Collapse>
-            </Li>
-          ))}
+          <Li key="/">
+            {this.state.folderCreation === "/" && this.renderFolderCreateItem()}
+          </Li>
+          {folders.map(this.renderDirectoryItem)}
         </Ul>
       </Fragment>
     );
@@ -100,12 +168,15 @@ export class ComponentsView extends Component<Props> {
 
 export default connect(
   (state: RootStore) => ({
-    components: getGroupedComponents(state),
+    components: getComponents(state),
     referenceComponent: getReferenceComponent(state),
-    focusedComponent: state.editor.focusedComponent
+    focusedComponent: getFocusedComponent(state),
+    folders: getFolders(state)
   }),
   {
     onComponentCreate: createComponent,
+    onFolderCreate: createFolder,
+    onFolderRemove: removeFolder,
     onComponentClick: focus
   }
 )(ComponentsView);

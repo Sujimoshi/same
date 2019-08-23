@@ -30,3 +30,4 @@ export type ThunkAction<
 > = TAction<ResultType, StoreType, ArgumentType, A>;
 
 export type Mapper = (data: Dictionary<any>) => Dictionary<any>;
+export type ArrayMapper<T> = (data: T[]) => T[];

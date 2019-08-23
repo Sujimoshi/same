@@ -5,7 +5,7 @@ import { saveProject } from "@same/storage";
 import project from "./project/reducers";
 import modal from "./modal/reducers";
 import editor from "./editor/reducers";
-import { throttle } from "underscore";
+import { debounce } from "underscore";
 
 const rootReducer = combineReducers({
   project,
@@ -26,7 +26,7 @@ export default store;
 let proj = store.getState().project;
 let edit = store.getState().editor;
 store.subscribe(
-  throttle(() => {
+  debounce(() => {
     const { project, editor } = store.getState();
     if (proj !== project || edit !== editor) {
       proj = project;
@@ -37,5 +37,5 @@ store.subscribe(
         focusedNode: editor.focusedNode
       });
     }
-  }, 500)
+  }, 1000)
 );

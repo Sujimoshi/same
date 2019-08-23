@@ -8,6 +8,7 @@ import {
 } from "@same/configurator";
 import { join } from "path";
 import { setComponents } from "@same/store/project/actions";
+import { addItem } from "@same/utils/array";
 
 export const createComponent = (
   name?: string,
@@ -19,16 +20,19 @@ export const createComponent = (
       ({ name, path, tag, type }) => {
         dispatch(
           setComponents(
-            createComponentConfig(
-              type,
-              name,
-              path || join(name, "index.js"),
-              createNodeConfig(
-                type === ComponentType.Styled
-                  ? NodeType.Style
-                  : NodeType.Element,
-                tag
-              )
+            addItem(
+              createComponentConfig(
+                type,
+                name,
+                path || join(name, "index.js"),
+                createNodeConfig(
+                  type === ComponentType.Styled
+                    ? NodeType.Style
+                    : NodeType.Element,
+                  tag
+                )
+              ),
+              0
             )
           )
         );

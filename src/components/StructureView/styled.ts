@@ -50,6 +50,9 @@ export const ItemWrapper = styled.div((props: any) => ({
       backgroundColor: "#9c9c9c"
     }
   }),
+  ...(props.edit && {
+    paddingRight: "0"
+  }),
   ...props.styled
 }));
 
