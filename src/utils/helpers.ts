@@ -81,3 +81,8 @@ export const getComputedSize = (el: HTMLElement, type: "width" | "height") => {
       .replace("px", "")
   );
 };
+
+export const isSubFolder = (parent: string) => {
+  const regex = new RegExp(`(^${parent})(/.*)?$`);
+  return (child: string) => regex.test(child);
+};

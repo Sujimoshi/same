@@ -1,6 +1,4 @@
 import React, { Fragment, useState } from "react";
-import Collapse from "../Collapse";
-import { ItemWrapper } from "../StructureView/styled";
 import { Dictionary, isObject } from "underscore";
 import PropsEditorItem from "./Item";
 import {

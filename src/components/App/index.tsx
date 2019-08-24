@@ -6,7 +6,6 @@ import ModalsRegistry from "../ModalsRegistry";
 import { connect } from "react-redux";
 import { DndProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import VisualEditor from "../VisualEditor";
 const { Menu } = remote;
 
 export interface Props {

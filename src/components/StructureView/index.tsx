@@ -99,8 +99,8 @@ export class StructureView extends Component<Props> {
   renderNode = (node: Node, level: number = 0) => {
     return (
       <div className="tree-view">
-        {node.tag && this.renderHeader(node, level)}
-        {this.renderChildrens(node, node.tag ? level : level - 1)}
+        {this.renderHeader(node, level)}
+        {this.renderChildrens(node, level)}
       </div>
     );
   };

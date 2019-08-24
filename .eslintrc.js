@@ -11,8 +11,7 @@ module.exports = {
       'jsx': true
     },
     'ecmaVersion': 2018,
-    'sourceType': 'module',
-    'project': './tsconfig.json'
+    'sourceType': 'module'
   },
   'extends': [ 'standard', 'plugin:react/recommended', 'plugin:prettier/recommended' ],
   'env': {
@@ -27,6 +26,7 @@ module.exports = {
     'no-useless-constructor': 'off',
     'max-lines': ["error", {"max": 200, "skipBlankLines": true, "skipComments": true }],
     'react/display-name': 'off',
-    "complexity": ["error", 5]
+    "complexity": ["error", 5],
+    "no-return-assign": "off",
   }
 }

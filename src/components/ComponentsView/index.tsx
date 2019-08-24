@@ -1,10 +1,9 @@
-import React, { Fragment, Component } from "react";
+import React, { Fragment, Component, ReactNode } from "react";
 import { connect } from "react-redux";
 import { RootStore } from "same";
 import { Ul, Li } from "../styled/List";
-import { basename, dirname } from "path";
-import Collapse from "../Collapse";
-import { getFolders, getComponents } from "@same/store/project/selectors";
+import { dirname, join, basename } from "path";
+import { getComponents, getFoldersSystem } from "@same/store/project/selectors";
 import { ComponentConfig, isStyled } from "@same/configurator";
 import Header from "./Header";
 import { focus } from "@same/actions/node";
@@ -17,12 +16,7 @@ import {
 } from "@same/store/editor/selectors";
 import { createFolder, removeFolder } from "@same/actions/folder";
 import { Dictionary } from "underscore";
-
-export interface ComponentsGroup {
-  name: string;
-  styles: ComponentConfig[];
-  examples: ComponentConfig[];
-}
+import { isSubFolder } from "@same/utils/helpers";
 
 export interface Props {
   components?: Dictionary<ComponentConfig>;
@@ -32,41 +26,98 @@ export interface Props {
   onComponentCreate?: typeof createComponent;
   onFolderCreate?: (folderName: string) => void;
   onFolderRemove?: (fodlerName: string) => void;
-  folders: string[];
+  folders: Dictionary<any>;
 }
 
 export interface State {
+  expandedFolders: string[];
   folderCreation: string;
-  componentCreation: string;
 }
 
 export class ComponentsView extends Component<Props, State> {
-  state = {
-    folderCreation: "",
-    componentCreation: ""
+  state: State = {
+    expandedFolders: this.props.focusedComponent
+      ? [this.props.focusedComponent.path]
+      : [],
+    folderCreation: ""
+  };
+
+  componentDidUpdate(prevProps: Props) {
+    const { focusedComponent } = this.props;
+    if (focusedComponent && prevProps.focusedComponent !== focusedComponent) {
+      this.expand(dirname(focusedComponent.path));
+    }
+  }
+
+  expand = (folder: string) => {
+    const { expandedFolders } = this.state;
+    if (expandedFolders.includes(folder)) return;
+    const expandThat = folder
+      .replace(/^\//, "")
+      .split("/")
+      .reduce((tmp, el, i) => {
+        const prev = tmp[i - 1];
+        tmp.push(prev ? join("/", prev, el) : join("/", el));
+        return tmp;
+      }, [])
+      .filter(el => !expandedFolders.includes(el));
+    if (expandThat.length) {
+      this.setState({ expandedFolders: [...expandedFolders, ...expandThat] });
+    }
+  };
+
+  isExpanded = (folder: string) => {
+    const { expandedFolders } = this.state;
+    return expandedFolders.some(expandedFolder =>
+      isSubFolder(folder)(expandedFolder)
+    );
+  };
+
+  toggle = (folder: string) => {
+    if (this.isExpanded(folder)) {
+      this.constrict(folder);
+    } else {
+      this.expand(folder);
+    }
+  };
+
+  constrict = (folder: string) => {
+    const { expandedFolders } = this.state;
+    this.setState({
+      expandedFolders: expandedFolders.filter(el => !isSubFolder(folder)(el))
+    });
+  };
+
+  onComponentCreate = (folder: string) => {
+    this.props.onComponentCreate(basename(folder), folder + "/index.js");
+    this.expand(folder);
   };
 
   onFolderCreation = (folder: string = "/") => {
+    this.expand(folder);
     this.setState({ folderCreation: folder });
   };
 
   onFolderCreationFinish = (folder: string) => {
-    this.props.onFolderCreate(
-      this.state.folderCreation === "/"
-        ? folder
-        : `${this.state.folderCreation}/${folder}`
-    );
+    if (folder) {
+      this.props.onFolderCreate(join("/", this.state.folderCreation, folder));
+    }
     this.setState({ folderCreation: "" });
   };
 
-  renderFolderCreateItem = (value: string = "/", level: number = 0) => (
+  onFolderRemove(folderPath: string) {
+    this.props.onFolderRemove(folderPath);
+    this.constrict(folderPath);
+  }
+
+  renderFolderCreateItem = (level: number = 0) => (
     <ListItem
       onEditFinish={this.onFolderCreationFinish}
       icon="caret-right"
       edit
       level={level}
     >
-      {basename(value)}
+      {""}
     </ListItem>
   );
 
@@ -78,7 +129,7 @@ export class ComponentsView extends Component<Props, State> {
       : component.name;
   }
 
-  renderListItem = (component: ComponentConfig) => {
+  renderListItem = (component: ComponentConfig, level: number = 0) => {
     const {
       onComponentClick,
       focusedComponent,
@@ -88,7 +139,7 @@ export class ComponentsView extends Component<Props, State> {
     return (
       <Draggable key={component.id} type="structure" data={component}>
         <ListItem
-          level={1}
+          level={level}
           icon={isStyled(component) ? "palette" : "layer-group"}
           focus={
             (focusedComponent && component.id === focusedComponent.id) ||
@@ -105,44 +156,43 @@ export class ComponentsView extends Component<Props, State> {
     );
   };
 
-  renderDirectoryItem = (folder: string) => {
-    const { focusedComponent, components } = this.props;
+  renderDirectoryItem = (
+    [folder, childrens]: [string, any],
+    level = 0
+  ): ReactNode => {
+    const folderPath = childrens.path;
+    const { components } = this.props;
     const { folderCreation } = this.state;
+    const expanded = this.isExpanded(folderPath);
     const componentsGroup = Object.values(components).filter(
-      el => dirname(el.path) === folder
+      el => dirname(el.path) === folderPath
     );
-    const isFolderCreation = folderCreation === folder;
-    const isFocusedFolder =
-      focusedComponent && folder === dirname(focusedComponent.path);
 
     return (
-      <Li key={folder}>
-        <Collapse
-          key={folderCreation === folder ? folder : "none"}
-          expanded={isFolderCreation || isFocusedFolder}
-          renderTitle={(toggle, expanded) => (
-            <ListItem
-              onClick={toggle}
-              icon={!expanded ? "caret-right" : "caret-down"}
-              actions={{
-                "plus-circle": () =>
-                  this.props.onComponentCreate("", folder + "/index.js"),
-                "folder-plus": () => this.onFolderCreation(folder),
-                trash: () => this.props.onFolderRemove(folder)
-              }}
-            >
-              {basename(folder)}
-            </ListItem>
-          )}
+      <Fragment key={folderPath}>
+        <ListItem
+          level={level}
+          onClick={() => this.toggle(folderPath)}
+          icon={!expanded ? "caret-right" : "caret-down"}
+          actions={{
+            "plus-circle": () => this.onComponentCreate(folderPath),
+            "folder-plus": () => this.onFolderCreation(folderPath),
+            trash: () => this.onFolderRemove(folderPath)
+          }}
         >
-          {() => (
-            <>
-              {isFolderCreation && this.renderFolderCreateItem()}
-              {componentsGroup.map(this.renderListItem)}
-            </>
-          )}
-        </Collapse>
-      </Li>
+          {folder}
+        </ListItem>
+        {expanded && (
+          <>
+            {folderCreation === folderPath &&
+              this.renderFolderCreateItem(level + 1)}
+            {Object.entries(childrens).map(el =>
+              this.renderDirectoryItem(el, level + 1)
+            )}
+            {componentsGroup.map(el => this.renderListItem(el, level + 1))}
+          </>
+        )}
+      </Fragment>
     );
   };
 
@@ -156,10 +206,12 @@ export class ComponentsView extends Component<Props, State> {
           }}
         />
         <Ul>
-          <Li key="/">
-            {this.state.folderCreation === "/" && this.renderFolderCreateItem()}
-          </Li>
-          {folders.map(this.renderDirectoryItem)}
+          {this.state.folderCreation === "/" && (
+            <Li key="/">{this.renderFolderCreateItem()}</Li>
+          )}
+          {Object.entries(folders).map(folder => (
+            <Li key={folder[0]}>{this.renderDirectoryItem(folder)}</Li>
+          ))}
         </Ul>
       </Fragment>
     );
@@ -171,7 +223,7 @@ export default connect(
     components: getComponents(state),
     referenceComponent: getReferenceComponent(state),
     focusedComponent: getFocusedComponent(state),
-    folders: getFolders(state)
+    folders: getFoldersSystem(state)
   }),
   {
     onComponentCreate: createComponent,

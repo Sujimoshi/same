@@ -27,7 +27,7 @@ export const ColorBoxPrepend = styled(ColorBox)({
 
 export default React.memo(function({ value, onChange }: Props) {
   const [expanded, toggle, ref] = useDropdown();
-  const change = useCallback(throttle(onChange, 100), []);
+  const change = useCallback(throttle(onChange, 100), [expanded]);
   return (
     <Wrapper ref={ref}>
       <Input

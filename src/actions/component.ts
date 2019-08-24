@@ -8,7 +8,7 @@ import {
 } from "@same/configurator";
 import { join } from "path";
 import { setComponents } from "@same/store/project/actions";
-import { addItem } from "@same/utils/array";
+import { insertItem } from "@same/utils/array";
 
 export const createComponent = (
   name?: string,
@@ -20,7 +20,7 @@ export const createComponent = (
       ({ name, path, tag, type }) => {
         dispatch(
           setComponents(
-            addItem(
+            insertItem(
               createComponentConfig(
                 type,
                 name,

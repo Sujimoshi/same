@@ -1,7 +1,7 @@
 
     import styled from "@emotion/styled";
 
-    export default styled.input(props => ({
+    export const Input = styled.input(props => ({
         
         ...props.styled
       }))

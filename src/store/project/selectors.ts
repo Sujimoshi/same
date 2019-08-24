@@ -1,6 +1,6 @@
 import { RootStore } from "same";
 import { createSelector } from "reselect";
-import { groupBy } from "underscore";
+import { groupBy, Dictionary } from "underscore";
 import { dirname } from "path";
 import { ComponentType } from "@same/configurator";
 
@@ -26,4 +26,22 @@ export const getGroupedComponents = createSelector(
 
 export const isFolderExists = (folder: string) => (state: RootStore) => {
   return state.project.folders.includes(folder);
+};
+
+export const getFoldersSystem = (state: RootStore) => {
+  return state.project.folders.reduce<Dictionary<any>>((tmp, el) => {
+    const parts = el.replace(/^\//, "").split("/");
+    const last = parts.reduce<any>((acc, part, i) => {
+      if (acc[part]) {
+        acc = acc[part];
+      } else {
+        acc = acc[part] = {};
+      }
+      return acc;
+    }, tmp);
+    Object.defineProperty(last, "path", {
+      get: () => el
+    });
+    return tmp;
+  }, {});
 };

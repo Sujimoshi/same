@@ -1,9 +1,14 @@
-import { without, findWhere, find } from "underscore";
+import { without } from "underscore";
 
-export const addItem = <T>(item: T, index?: number) => (arr: T[]) => {
-  if (index) {
+export const after = <T>(current: T) => (arr: T[]): number =>
+  arr.findIndex(el => el === current) + 1;
+
+export const insertItem = <T>(item: T, getIndex: (arr: T[]) => number) => (
+  arr: T[]
+) => {
+  if (getIndex) {
     const nextArr = [...arr];
-    nextArr.splice(index, 0, item);
+    nextArr.splice(getIndex(nextArr), 0, item);
     return nextArr;
   } else {
     return [...arr, item];
