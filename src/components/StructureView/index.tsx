@@ -9,19 +9,11 @@ import {
   setHoveredNode
 } from "@same/actions/node";
 import {
-  getFocusedNode,
   getFocusedComponent,
   getHoveredNodeId,
   getFocusedNodeId
 } from "@same/store/editor/selectors";
-import {
-  Node,
-  ComponentConfig,
-  NodeType,
-  ComponentType,
-  isElementNode,
-  isStyled
-} from "@same/configurator";
+import { Node, ComponentConfig, isStyled, NodeType } from "@same/configurator";
 import { connect } from "react-redux";
 import DragAndDrop from "./DragAndDrop";
 import ListItem from "../ListItem";
@@ -37,15 +29,48 @@ interface Props {
   onHover: (id: string) => void;
 }
 
-export class StructureView extends Component<Props> {
+interface State {
+  nodeCreation: Node;
+  creationType: NodeType;
+}
+
+export class StructureView extends Component<Props, State> {
+  state: State = { nodeCreation: null, creationType: null };
+
+  onCreate = (node: Node, type: NodeType) => {
+    this.setState({ nodeCreation: node, creationType: type });
+  };
+
+  onCreateFinish = (value: string) => {
+    if (!value) return;
+    this.props.onCreate(
+      this.props.component,
+      this.state.nodeCreation,
+      this.state.creationType,
+      value
+    );
+    this.setState({ nodeCreation: null, creationType: null });
+  };
+
   getTitle(component: ComponentConfig, node: Node) {
-    if (node.value) return `"${node.value}" (${node.tag})`;
+    if (node.value) return `"${node.value}"`;
     else if (isStyled(component)) {
       return `<${component.name}>`;
     } else {
       return `<${node.tag || "root"}>`;
     }
   }
+
+  renderCreateItem = (level: number = 0) => (
+    <ListItem
+      onEditFinish={this.onCreateFinish}
+      // icon="caret-right"
+      edit
+      level={level}
+    >
+      {"div"}
+    </ListItem>
+  );
 
   renderHeader = (node: Node, level: number) => {
     const {
@@ -73,9 +98,10 @@ export class StructureView extends Component<Props> {
           actions={
             level !== 0 && {
               ...(!node.value && {
-                plus: () => onCreate(component, node)
+                text: () => this.onCreate(node, NodeType.Text),
+                "plus-circle": () => this.onCreate(node, NodeType.Element)
               }),
-              times: () => onRemove(component, node)
+              trash: () => onRemove(component, node)
             }
           }
         >
@@ -97,9 +123,12 @@ export class StructureView extends Component<Props> {
   };
 
   renderNode = (node: Node, level: number = 0) => {
+    const creation =
+      this.state.nodeCreation && this.state.nodeCreation.id === node.id;
     return (
       <div className="tree-view">
         {this.renderHeader(node, level)}
+        {creation && this.renderCreateItem(level + 1)}
         {this.renderChildrens(node, level)}
       </div>
     );

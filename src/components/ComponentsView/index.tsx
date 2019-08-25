@@ -7,18 +7,18 @@ import { getComponents, getFoldersSystem } from "@same/store/project/selectors";
 import { ComponentConfig, isStyled } from "@same/configurator";
 import Header from "./Header";
 import { focus } from "@same/actions/node";
-import { createComponent } from "@same/actions/component";
+import { createComponent, removeComponent } from "@same/actions/component";
 import ListItem from "../ListItem";
 import Draggable from "../Draggable";
 import {
   getReferenceComponent,
   getFocusedComponent
 } from "@same/store/editor/selectors";
-import { createFolder, removeFolder } from "@same/actions/folder";
+import { createFolder, removeFolder, editFolder } from "@same/actions/folder";
 import { Dictionary } from "underscore";
-import { isSubFolder } from "@same/utils/helpers";
+import Expandable, { WithExpandableProps } from "./Expandable";
 
-export interface Props {
+export interface Props extends WithExpandableProps {
   components?: Dictionary<ComponentConfig>;
   referenceComponent?: ComponentConfig;
   focusedComponent?: ComponentConfig;
@@ -26,79 +26,44 @@ export interface Props {
   onComponentCreate?: typeof createComponent;
   onFolderCreate?: (folderName: string) => void;
   onFolderRemove?: (fodlerName: string) => void;
+  onComponentRemove: (id: string) => void;
+  onFolderEdit: (folder: string, newName: string) => void;
   folders: Dictionary<any>;
 }
 
 export interface State {
-  expandedFolders: string[];
   folderCreation: string;
+  folderEdit: string;
 }
 
 export class ComponentsView extends Component<Props, State> {
   state: State = {
-    expandedFolders: this.props.focusedComponent
-      ? [this.props.focusedComponent.path]
-      : [],
-    folderCreation: ""
+    folderCreation: "",
+    folderEdit: ""
   };
 
-  componentDidUpdate(prevProps: Props) {
-    const { focusedComponent } = this.props;
-    if (focusedComponent && prevProps.focusedComponent !== focusedComponent) {
-      this.expand(dirname(focusedComponent.path));
-    }
-  }
-
-  expand = (folder: string) => {
-    const { expandedFolders } = this.state;
-    if (expandedFolders.includes(folder)) return;
-    const expandThat = folder
-      .replace(/^\//, "")
-      .split("/")
-      .reduce((tmp, el, i) => {
-        const prev = tmp[i - 1];
-        tmp.push(prev ? join("/", prev, el) : join("/", el));
-        return tmp;
-      }, [])
-      .filter(el => !expandedFolders.includes(el));
-    if (expandThat.length) {
-      this.setState({ expandedFolders: [...expandedFolders, ...expandThat] });
-    }
+  onFolderEdit = (folder: string) => {
+    this.setState({ folderEdit: folder });
   };
 
-  isExpanded = (folder: string) => {
-    const { expandedFolders } = this.state;
-    return expandedFolders.some(expandedFolder =>
-      isSubFolder(folder)(expandedFolder)
-    );
-  };
-
-  toggle = (folder: string) => {
-    if (this.isExpanded(folder)) {
-      this.constrict(folder);
-    } else {
-      this.expand(folder);
-    }
-  };
-
-  constrict = (folder: string) => {
-    const { expandedFolders } = this.state;
-    this.setState({
-      expandedFolders: expandedFolders.filter(el => !isSubFolder(folder)(el))
-    });
+  onFolderEditFinish = (newName: string) => {
+    const { folderEdit } = this.state;
+    this.props.onFolderEdit(folderEdit, newName);
+    this.props.toggle(folderEdit, false);
+    this.setState({ folderEdit: "" });
   };
 
   onComponentCreate = (folder: string) => {
-    this.props.onComponentCreate(basename(folder), folder + "/index.js");
-    this.expand(folder);
+    this.props.onComponentCreate(folder);
+    this.props.toggle(folder, true);
   };
 
   onFolderCreation = (folder: string = "/") => {
-    this.expand(folder);
+    this.props.toggle(folder, true);
     this.setState({ folderCreation: folder });
   };
 
-  onFolderCreationFinish = (folder: string) => {
+  onFolderCreated = (folder: string) => {
     if (folder) {
       this.props.onFolderCreate(join("/", this.state.folderCreation, folder));
     }
@@ -107,12 +72,12 @@ export class ComponentsView extends Component<Props, State> {
 
   onFolderRemove(folderPath: string) {
     this.props.onFolderRemove(folderPath);
-    this.constrict(folderPath);
+    this.props.toggle(folderPath, false);
   }
 
   renderFolderCreateItem = (level: number = 0) => (
     <ListItem
-      onEditFinish={this.onFolderCreationFinish}
+      onEditFinish={this.onFolderCreated}
       icon="caret-right"
       edit
       level={level}
@@ -124,16 +89,15 @@ export class ComponentsView extends Component<Props, State> {
   renderTitle(component: ComponentConfig) {
     return isStyled(component)
       ? `${component.name} (${component.node.tag})`
-      : component.name === "default"
-      ? "Example"
-      : component.name;
+      : basename(component.path, ".js");
   }
 
   renderListItem = (component: ComponentConfig, level: number = 0) => {
     const {
       onComponentClick,
       focusedComponent,
-      referenceComponent
+      referenceComponent,
+      onComponentRemove
     } = this.props;
 
     return (
@@ -147,7 +111,7 @@ export class ComponentsView extends Component<Props, State> {
           }
           onDoubleClick={() => onComponentClick(component)}
           actions={{
-            trash: () => undefined // TODO: implement component removing
+            trash: () => onComponentRemove(component.id)
           }}
         >
           {this.renderTitle(component)}
@@ -163,7 +127,7 @@ export class ComponentsView extends Component<Props, State> {
     const folderPath = childrens.path;
     const { components } = this.props;
     const { folderCreation } = this.state;
-    const expanded = this.isExpanded(folderPath);
+    const expanded = this.props.isExpanded(folderPath);
     const componentsGroup = Object.values(components).filter(
       el => dirname(el.path) === folderPath
     );
@@ -171,12 +135,15 @@ export class ComponentsView extends Component<Props, State> {
     return (
       <Fragment key={folderPath}>
         <ListItem
+          edit={this.state.folderEdit === folderPath}
+          onEditFinish={this.onFolderEditFinish}
           level={level}
-          onClick={() => this.toggle(folderPath)}
+          onClick={() => this.props.toggle(folderPath)}
           icon={!expanded ? "caret-right" : "caret-down"}
           actions={{
             "plus-circle": () => this.onComponentCreate(folderPath),
             "folder-plus": () => this.onFolderCreation(folderPath),
+            edit: () => this.onFolderEdit(folderPath),
             trash: () => this.onFolderRemove(folderPath)
           }}
         >
@@ -229,6 +196,8 @@ export default connect(
     onComponentCreate: createComponent,
     onFolderCreate: createFolder,
     onFolderRemove: removeFolder,
-    onComponentClick: focus
+    onComponentClick: focus,
+    onComponentRemove: removeComponent,
+    onFolderEdit: editFolder
   }
-)(ComponentsView);
+)(Expandable(ComponentsView));

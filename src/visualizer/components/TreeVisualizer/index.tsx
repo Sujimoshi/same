@@ -24,17 +24,18 @@ export default function TreeVisualizer({
   onMouseOver,
   onMouseOut,
   getElement = noop
-}: Props): ReactElement {
+}: Props): ReactNode {
   const renderChildren = (node: Node): ReactNode =>
-    node.children.length
-      ? node.children.map(renderNode)
-      : node.value
-      ? node.value
-      : null;
+    node.children.length ? (
+      node.children.map(renderNode)
+    ) : node.value ? (
+      <span>{node.value}</span>
+    ) : null;
 
   const renderNode = (node: Node): ReactNode => {
     if (!node.tag) return renderChildren(node);
-    const styledNode = node.ref ? components[node.ref].node : node;
+    const styledNode =
+      node.ref && components[node.ref] ? components[node.ref].node : node;
 
     return (
       <Styled

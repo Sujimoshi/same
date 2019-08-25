@@ -12,7 +12,7 @@ import {
   isNode
 } from "@same/configurator";
 import { ThunkAction } from "same";
-import { showAddFolderModal } from "./modal";
+import { showCreateNodeModal } from "./modal";
 import { traverse } from "@same/utils/helpers";
 import { editorSet } from "@same/store/editor/actions";
 import {
@@ -79,17 +79,26 @@ export const setHoveredNode = (id: string): ThunkAction => (
 
 export const createAndAppend = (
   component: ComponentConfig,
-  to: Node
+  to: Node,
+  type: NodeType,
+  tagOrValue?: string
 ): ThunkAction => dispatch => {
-  dispatch(
-    showAddFolderModal(({ tagName, folderName }) => {
-      const type = tagName === "text" ? NodeType.Text : NodeType.Element;
-      dispatch(
-        insertNode(component, createNodeConfig(type, tagName, folderName), to)
-      );
-    })
-  );
+  const tag = type === NodeType.Element ? tagOrValue : "span";
+  const value = type === NodeType.Text ? tagOrValue : "";
+  // dispatch(
+  //   showCreateNodeModal(({ tagName, folderName }) => {
+  //     const type = tagName === "text" ? NodeType.Text : NodeType.Element;
+  dispatch(insertNode(component, createNodeConfig(type, tag, value), to));
+  //   })
+  // );
 };
+
+// export const createNodeAndAppend = (
+//   component: ComponentConfig,
+//   node: string
+// ) => {
+//   return insertNode(component, createNodeConfig(type, tagName, folderName), to);
+// };
 
 export const putNode = (
   component: ComponentConfig,

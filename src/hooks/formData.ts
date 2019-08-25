@@ -1,5 +1,5 @@
 import { Dictionary } from "underscore";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { eventValue } from "@same/utils/helpers";
 
 export const useFormData = <T extends Dictionary<any>>(
@@ -7,14 +7,17 @@ export const useFormData = <T extends Dictionary<any>>(
 ): [T, any] => {
   const [state, setState] = useState(dictionary);
 
+  const setField = (key: string) => (val: string) => {
+    setState({
+      ...state,
+      [key]: val
+    });
+  };
+
   const useModel = (key: string) => ({
     value: state[key],
-    onChange: eventValue((val: any) => {
-      setState({
-        ...state,
-        [key]: val
-      });
-    })
+    onChange: (e: Event | string) =>
+      typeof e === "string" ? setField(key)(e) : eventValue(setField(key))(e)
   });
 
   return [state, useModel];

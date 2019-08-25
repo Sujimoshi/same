@@ -1,17 +1,22 @@
 import { showModal } from "@same/store/modal/actions";
-import { ADD_FOLDER_MODAL, FolderData } from "@same/components/AddFolderModal";
+import {
+  CREATE_NODE_MODAL,
+  FolderData
+} from "@same/components/CreateNodeModal";
 import {
   ComponentData,
-  ADD_COMPONENT_MODAL
-} from "@same/components/AddComponentModal/index";
+  CREATE_COMPONENT_MODAL
+} from "@same/components/CreateComponentModal/index";
 
-export const showAddFolderModal = (onApply: (formData: FolderData) => void) => {
-  return showModal(ADD_FOLDER_MODAL, { onApply });
+export const showCreateNodeModal = (
+  onApply: (formData: FolderData) => void
+) => {
+  return showModal(CREATE_NODE_MODAL, { onApply });
 };
 
-export const showAddComponentModal = (
+export const showCreateComponentModal = (
   data: Partial<ComponentData>,
   onApply: (formData: ComponentData) => void
 ) => {
-  return showModal(ADD_COMPONENT_MODAL, { ...data, onApply });
+  return showModal(CREATE_COMPONENT_MODAL, { ...data, onApply });
 };

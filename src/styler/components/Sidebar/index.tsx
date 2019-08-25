@@ -42,7 +42,9 @@ export function StylesEditor({
   };
 
   const styles = {
-    ...(node.ref && components[node.ref].node.styles),
+    ...(node.ref && components[node.ref]
+      ? components[node.ref].node.styles
+      : {}),
     ...node.styles
   };
 

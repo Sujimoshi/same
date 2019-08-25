@@ -1,7 +1,6 @@
 import Modal from "../Modal";
 import React, { useState } from "react";
 import { eventValue } from "@same/utils/helpers";
-import { capitalize } from "../../utils/helpers";
 
 export interface FolderData {
   folderName: string;
@@ -13,9 +12,9 @@ export interface Props {
   data: { onApply: (formData: FolderData) => void };
 }
 
-export const ADD_FOLDER_MODAL = "ADD_FOLDER_MODAL";
+export const CREATE_NODE_MODAL = "CREATE_NODE_MODAL";
 
-export default function AddFolderModal({ data, onClose }: Props) {
+export default function CreateNodeModal({ data, onClose }: Props) {
   const [folderName, setFolderName] = useState("");
   const [tagName, setTagName] = useState("div");
 

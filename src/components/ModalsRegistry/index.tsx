@@ -1,11 +1,11 @@
 import { connect } from "react-redux";
 import { RootStore } from "same";
-import AddFolderModal, { ADD_FOLDER_MODAL } from "../AddFolderModal";
+import CreateNodeModal, { CREATE_NODE_MODAL } from "../CreateNodeModal";
 import React from "react";
 import { closeModal } from "@same/store/modal/actions";
-import AddComponentModal, {
-  ADD_COMPONENT_MODAL
-} from "../AddComponentModal/index";
+import CreateComponentModal, {
+  CREATE_COMPONENT_MODAL
+} from "../CreateComponentModal";
 
 export interface Props {
   identifier: string;
@@ -15,11 +15,11 @@ export interface Props {
 
 export function ModalsRegistry(props: Props) {
   switch (props.identifier) {
-    case ADD_FOLDER_MODAL: {
-      return <AddFolderModal data={props.data} onClose={props.onClose} />;
+    case CREATE_NODE_MODAL: {
+      return <CreateNodeModal data={props.data} onClose={props.onClose} />;
     }
-    case ADD_COMPONENT_MODAL: {
-      return <AddComponentModal data={props.data} onClose={props.onClose} />;
+    case CREATE_COMPONENT_MODAL: {
+      return <CreateComponentModal data={props.data} onClose={props.onClose} />;
     }
     default: {
       return null;

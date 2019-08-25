@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { DragState } from "../hooks/useDraggable";
 import _ from "underscore";
 import { capitalize } from "@same/utils/helpers";
 

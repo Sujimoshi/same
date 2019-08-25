@@ -1,9 +1,202 @@
 {
   "path": "/Users/sujimoshi/Projects/same/front/example",
-  "components": {},
+  "components": {
+    "01a65623-2353-4124-8e38-708c0fbec4d8": {
+      "id": "01a65623-2353-4124-8e38-708c0fbec4d8",
+      "type": "Pure",
+      "name": "default",
+      "path": "/Modal/Example.js",
+      "node": {
+        "id": "f6332278-bf67-47e7-a2da-66aeb5a7dcde",
+        "type": "Element",
+        "tag": "",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": [
+          {
+            "id": "201db376-29fa-4348-a51d-6877919c938f",
+            "type": "Element",
+            "tag": "ModalBackground",
+            "props": {},
+            "styles": {
+              "position": "fixed",
+              "top": "0px",
+              "left": "0px",
+              "width": "100%",
+              "height": "100%",
+              "display": "flex",
+              "alignItems": "center",
+              "justifyContent": "center"
+            },
+            "ref": "a27716a8-bd50-488b-8290-d1e9ae4b98bb",
+            "value": "",
+            "children": [
+              {
+                "id": "ee03482a-1a43-43da-9751-ac830fb0d44d",
+                "type": "Element",
+                "tag": "ModalWrapper",
+                "props": {},
+                "styles": {
+                  "width": "300px"
+                },
+                "ref": "acd4b32e-9f96-4ff3-9afa-dd39d4ab06e7",
+                "value": "",
+                "children": [
+                  {
+                    "id": "eb6c68cf-a119-4e56-95c4-77ad9d9f61e3",
+                    "type": "Element",
+                    "tag": "Header",
+                    "props": {},
+                    "styles": {},
+                    "ref": "ca3e9e89-0765-4413-8b27-c15f7cdfb6dd",
+                    "value": "",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "01032a32-7d7a-4c31-9f12-703539a822e4": {
+      "id": "01032a32-7d7a-4c31-9f12-703539a822e4",
+      "type": "Styled",
+      "name": "Button",
+      "path": "/Button/index.js",
+      "node": {
+        "id": "0b0ebecb-76ed-497b-a344-0e56ef82dac7",
+        "type": "Style",
+        "tag": "button",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": []
+      }
+    },
+    "fb6826b7-1df1-43c4-baec-531644d2a2cc": {
+      "id": "fb6826b7-1df1-43c4-baec-531644d2a2cc",
+      "type": "Pure",
+      "name": "default",
+      "path": "/Button/Example.js",
+      "node": {
+        "id": "4f01056e-8693-4af8-a214-e1a6d11f2fd3",
+        "type": "Element",
+        "tag": "",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": [
+          {
+            "id": "0fd00aa7-7008-4cca-abf6-b10bc444c96f",
+            "type": "Element",
+            "tag": "Button",
+            "props": {},
+            "styles": {
+              "fontSize": "12px",
+              "padding": "3px",
+              "borderWidth": "1px",
+              "borderStyle": "solid",
+              "borderColor": "rgba(123, 123, 123, 1)",
+              "borderRadius": "2px"
+            },
+            "ref": "01032a32-7d7a-4c31-9f12-703539a822e4",
+            "value": "",
+            "children": [
+              {
+                "id": "1fb83d3c-bc93-4919-aef6-3100b90bc894",
+                "type": "Element",
+                "tag": "span",
+                "props": {},
+                "styles": {},
+                "value": "Button",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "a27716a8-bd50-488b-8290-d1e9ae4b98bb": {
+      "id": "a27716a8-bd50-488b-8290-d1e9ae4b98bb",
+      "type": "Styled",
+      "name": "ModalBackground",
+      "path": "/Modal/index.js",
+      "node": {
+        "id": "c1109f52-4f4b-432f-b702-460c655bb91d",
+        "type": "Style",
+        "tag": "div",
+        "props": {},
+        "styles": {
+          "backgroundColor": "rgba(0,0,0, .5)"
+        },
+        "value": "",
+        "children": []
+      }
+    },
+    "acd4b32e-9f96-4ff3-9afa-dd39d4ab06e7": {
+      "id": "acd4b32e-9f96-4ff3-9afa-dd39d4ab06e7",
+      "type": "Styled",
+      "name": "ModalWrapper",
+      "path": "/Modal/index.js",
+      "node": {
+        "id": "3a9e9761-f09c-4837-876e-39dbe3af6dfa",
+        "type": "Style",
+        "tag": "div",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": []
+      }
+    },
+    "ca3e9e89-0765-4413-8b27-c15f7cdfb6dd": {
+      "id": "ca3e9e89-0765-4413-8b27-c15f7cdfb6dd",
+      "type": "Styled",
+      "name": "Header",
+      "path": "/Header/index.js",
+      "node": {
+        "id": "81b521f0-97ce-41ce-b84c-6abaa97f3be7",
+        "type": "Style",
+        "tag": "div",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": []
+      }
+    },
+    "8be82238-bd1c-43a7-bbd1-9facd0394df9": {
+      "id": "8be82238-bd1c-43a7-bbd1-9facd0394df9",
+      "type": "Pure",
+      "name": "default",
+      "path": "/Header/Example.js",
+      "node": {
+        "id": "90b7b941-ca6b-407a-9f3f-9088adc19fb5",
+        "type": "Element",
+        "tag": "",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": [
+          {
+            "id": "ed6d0894-bbee-4b74-be7d-bf04f5db6d00",
+            "type": "Element",
+            "tag": "Header",
+            "props": {},
+            "styles": {},
+            "ref": "ca3e9e89-0765-4413-8b27-c15f7cdfb6dd",
+            "value": "",
+            "children": []
+          }
+        ]
+      }
+    }
+  },
   "folders": [
+    "/Header",
+    "/Button",
     "/Modal"
   ],
-  "focusedComponent": "5276e962-0a07-42e2-8b01-d9dcc3b67bbd",
-  "focusedNode": "f668f33d-1f90-474f-bfe7-d8ccbc52fe2a"
+  "focusedComponent": "8be82238-bd1c-43a7-bbd1-9facd0394df9",
+  "focusedNode": "ed6d0894-bbee-4b74-be7d-bf04f5db6d00"
 }

@@ -23,6 +23,9 @@ export const Input = styled.input((props: any) => ({
     borderTopRightRadius: "0",
     borderBottomRightRadius: "0"
   }),
+  ...(props.disabled && {
+    opacity: 0.5
+  }),
   ...props.styled
 }));
 
@@ -32,5 +35,10 @@ export const InputBox = styled.div((props: any) => ({
   justifyContent: "center",
   height: "22px",
   marginLeft: "-1px",
+  ...props.styled
+}));
+
+export const Label = styled.label((props: any) => ({
+  fontSize: "12px",
   ...props.styled
 }));

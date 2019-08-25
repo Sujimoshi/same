@@ -20,8 +20,7 @@ export const generateComponent = (
     ${components.map(generateExport).join("\n")}
   `;
   try {
-    return res;
-    // return format(res, { parser: "babel" });
+    return format(res, { parser: "babel" });
   } catch (e) {
     console.log(e, res);
     return res;

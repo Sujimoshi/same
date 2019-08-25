@@ -29,7 +29,7 @@ export const ModalHeader = styled.div((props: any) => ({
 }));
 
 export const ModalBody = styled.div((props: any) => ({
-  padding: ".5rem",
+  // padding: ".5rem",
   ...props.styled
 }));
 

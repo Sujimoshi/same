@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import styled from "@emotion/styled";
-import TitleManager from "./TitleManager";
+import TitleManager, { Title } from "./TitleManager";
 
 export interface Props {
   title: ReactNode;
@@ -38,7 +38,11 @@ export default React.memo(function EditorRow({
   return (
     <Wrapper>
       <Col size={half ? "40%" : "25%"}>
-        <TitleManager field={field}>{title}</TitleManager>
+        {field ? (
+          <TitleManager field={field}>{title}</TitleManager>
+        ) : (
+          <Title>{title}</Title>
+        )}
       </Col>
       <Col size={half ? "60%" : "75%"}>
         {React.Children.map(children, el => (

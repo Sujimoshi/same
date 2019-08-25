@@ -1,12 +1,5 @@
-const { join } = require("path");
+const folderName = "/Folder/Sub";
+const regex = new RegExp(`(^${folderName})(/.*)?$`);
 
-console.log(
-  "/Some/Any/Folder"
-    .replace(/^\//, "")
-    .split("/")
-    .reduce((tmp, el, i) => {
-      const prev = tmp[i - 1];
-      tmp.push(prev ? join("/", prev, el) : join("/", el));
-      return tmp;
-    }, [])
-);
+console.log("/Folder".replace(regex, "/Folder/Subs"));
+console.log("/Folder/Sub".replace(regex, "/Folder/Subs"));

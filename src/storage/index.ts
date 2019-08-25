@@ -3,8 +3,10 @@ import { join, dirname } from "path";
 import { promises } from "fs";
 import { groupBy, Dictionary } from "underscore";
 import { generateComponent } from "@same/configurator/generator";
-import { ProjectStore } from "@same/store/project/reducers";
+import rimraf from "rimraf";
+import { promisify } from "util";
 const { writeFile, readFile, mkdir } = promises;
+const rmdir = promisify(rimraf);
 
 export const SRC_FOLDER = "src/styled";
 
@@ -46,6 +48,7 @@ export const updateSources = async (
   path: string,
   components: Dictionary<ComponentConfig>
 ) => {
+  await rmdir(join(path, SRC_FOLDER));
   const grouped = groupBy(Object.values(components), el => el.path);
   const promises = Object.entries(grouped).map(([componentPath, configs]) => {
     return writeFileRecursive(
