@@ -38,7 +38,8 @@
                 "tag": "ModalWrapper",
                 "props": {},
                 "styles": {
-                  "width": "300px"
+                  "width": "300px",
+                  "backgroundColor": "rgba(255, 255, 255, 1)"
                 },
                 "ref": "acd4b32e-9f96-4ff3-9afa-dd39d4ab06e7",
                 "value": "",
@@ -48,8 +49,31 @@
                     "type": "Element",
                     "tag": "Header",
                     "props": {},
-                    "styles": {},
+                    "styles": {
+                      "backgroundColor": "rgba(56, 56, 56, 1)",
+                      "color": "rgba(255, 255, 255, 1)",
+                      "padding": "5px"
+                    },
                     "ref": "ca3e9e89-0765-4413-8b27-c15f7cdfb6dd",
+                    "value": "",
+                    "children": [
+                      {
+                        "id": "d8e1d8cc-6558-4ff0-93d6-ddf257e5f830",
+                        "type": "Text",
+                        "tag": "text-node",
+                        "props": {},
+                        "styles": {},
+                        "value": "Header",
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "c5b78fc9-2063-4458-897d-8bb48f687942",
+                    "type": "Element",
+                    "tag": "div",
+                    "props": {},
+                    "styles": {},
                     "value": "",
                     "children": []
                   }
@@ -186,7 +210,17 @@
             "styles": {},
             "ref": "ca3e9e89-0765-4413-8b27-c15f7cdfb6dd",
             "value": "",
-            "children": []
+            "children": [
+              {
+                "id": "9da076b6-955a-4ee2-921e-20d86a797286",
+                "type": "Text",
+                "tag": "text-node",
+                "props": {},
+                "styles": {},
+                "value": "Text",
+                "children": []
+              }
+            ]
           }
         ]
       }
@@ -197,6 +231,6 @@
     "/Button",
     "/Modal"
   ],
-  "focusedComponent": "8be82238-bd1c-43a7-bbd1-9facd0394df9",
-  "focusedNode": "ed6d0894-bbee-4b74-be7d-bf04f5db6d00"
+  "focusedComponent": "01a65623-2353-4124-8e38-708c0fbec4d8",
+  "focusedNode": "c5b78fc9-2063-4458-897d-8bb48f687942"
 }

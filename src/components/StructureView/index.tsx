@@ -62,13 +62,8 @@ export class StructureView extends Component<Props, State> {
   }
 
   renderCreateItem = (level: number = 0) => (
-    <ListItem
-      onEditFinish={this.onCreateFinish}
-      // icon="caret-right"
-      edit
-      level={level}
-    >
-      {"div"}
+    <ListItem onEditFinish={this.onCreateFinish} edit level={level}>
+      {this.state.creationType === NodeType.Element ? "div" : "Text"}
     </ListItem>
   );
 

@@ -83,22 +83,10 @@ export const createAndAppend = (
   type: NodeType,
   tagOrValue?: string
 ): ThunkAction => dispatch => {
-  const tag = type === NodeType.Element ? tagOrValue : "span";
+  const tag = type === NodeType.Element ? tagOrValue : "text-node";
   const value = type === NodeType.Text ? tagOrValue : "";
-  // dispatch(
-  //   showCreateNodeModal(({ tagName, folderName }) => {
-  //     const type = tagName === "text" ? NodeType.Text : NodeType.Element;
   dispatch(insertNode(component, createNodeConfig(type, tag, value), to));
-  //   })
-  // );
 };
-
-// export const createNodeAndAppend = (
-//   component: ComponentConfig,
-//   node: string
-// ) => {
-//   return insertNode(component, createNodeConfig(type, tagName, folderName), to);
-// };
 
 export const putNode = (
   component: ComponentConfig,
