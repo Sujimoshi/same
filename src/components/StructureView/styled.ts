@@ -52,6 +52,10 @@ export const ItemWrapper = styled.div((props: any) => ({
   ...(props.edit && {
     paddingRight: "0"
   }),
+  ...(props.disabled && {
+    opacity: 0.7,
+    pointerEvents: "none"
+  }),
   ...props.styled
 }));
 

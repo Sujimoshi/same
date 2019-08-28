@@ -2,14 +2,18 @@ import {
   projectSet,
   insertNode,
   removeNode,
-  placeNode
+  placeNode,
+  setComponents,
+  setNode
 } from "@same/store/project/actions";
 import {
   ComponentConfig,
   Node,
   createNodeConfig,
   NodeType,
-  isNode
+  isNode,
+  createComponentConfig,
+  ComponentType
 } from "@same/configurator";
 import { ThunkAction } from "same";
 import { showCreateNodeModal } from "./modal";
@@ -20,6 +24,8 @@ import {
   getFocusedNodeId,
   getFocusedElement
 } from "@same/store/editor/selectors";
+import { insertItem } from "@same/utils/array";
+import { dirname, join } from "path";
 
 export const focusComponent = (
   component: ComponentConfig,
@@ -114,4 +120,30 @@ export const mountNode = (
     const node = createNodeConfig(NodeType.Element, that.name, "", that.id);
     dispatch(putNode(component, place, node, type));
   }
+};
+
+export const saveNodeAsComponent = (
+  component: ComponentConfig,
+  node: Node,
+  name: string
+): ThunkAction => dispatch => {
+  const newStyledNode: Node = {
+    ...createNodeConfig(NodeType.Style, node.tag),
+    styles: node.styles
+  };
+  const newComponent = createComponentConfig(
+    ComponentType.Styled,
+    name,
+    join(dirname(component.path), "index.js"),
+    newStyledNode
+  );
+  dispatch(setComponents(insertItem(newComponent)));
+  dispatch(
+    setNode(component, {
+      ...node,
+      styles: {},
+      tag: newComponent.name,
+      ref: newComponent.id
+    })
+  );
 };

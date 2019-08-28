@@ -15,6 +15,7 @@ export interface Props {
   hover?: boolean;
   icon?: IconName;
   edit?: boolean;
+  disabled?: boolean;
   onEditFinish?: (value: string) => void;
   onClick?: () => void;
   onDoubleClick?: () => void;
@@ -72,11 +73,12 @@ export default class ListItem extends Component<Props> {
       icon,
       level,
       edit,
+      disabled,
       onDoubleClick
     } = this.props;
 
     return (
-      <ItemWrapper hover={hover} focus={focus}>
+      <ItemWrapper disabled={disabled} hover={hover} focus={focus}>
         <ItemContent level={level}>
           <Row align="center">
             {icon && (

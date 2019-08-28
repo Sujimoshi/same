@@ -78,7 +78,7 @@ export class Controller extends Component<Props, State> {
         {hoveredElement && <HoverOutline element={hoveredElement} />}
         {focusedElement && (
           <FocusOutline setStyles={this.setStyles} element={focusedElement}>
-            <Dragger element={focusedElement} />
+            {/* <Dragger element={focusedElement} /> */}
           </FocusOutline>
         )}
       </>

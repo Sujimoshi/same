@@ -6,7 +6,8 @@ import {
   focusNode,
   createAndAppend,
   mountNode,
-  setHoveredNode
+  setHoveredNode,
+  saveNodeAsComponent
 } from "@same/actions/node";
 import {
   getFocusedComponent,
@@ -27,37 +28,60 @@ interface Props {
   onCreate: typeof createAndAppend;
   onDrop: typeof mountNode;
   onHover: (id: string) => void;
+  onSave: (component: ComponentConfig, node: Node, newName: string) => void;
 }
 
 interface State {
   nodeCreation: Node;
   creationType: NodeType;
+  nodeSaving: Node;
 }
 
 export class StructureView extends Component<Props, State> {
-  state: State = { nodeCreation: null, creationType: null };
+  state: State = { nodeSaving: null, nodeCreation: null, creationType: null };
 
   onCreate = (node: Node, type: NodeType) => {
     this.setState({ nodeCreation: node, creationType: type });
   };
 
   onCreateFinish = (value: string) => {
-    if (!value) return;
-    this.props.onCreate(
-      this.props.component,
-      this.state.nodeCreation,
-      this.state.creationType,
-      value
-    );
+    if (value) {
+      this.props.onCreate(
+        this.props.component,
+        this.state.nodeCreation,
+        this.state.creationType,
+        value
+      );
+    }
     this.setState({ nodeCreation: null, creationType: null });
+  };
+
+  onSave = (node: Node) => {
+    this.setState({ nodeSaving: node });
+  };
+
+  onSaveFinish = (value: string) => {
+    this.props.onSave(this.props.component, this.state.nodeSaving, value);
+    this.setState({ nodeSaving: null });
   };
 
   getTitle(component: ComponentConfig, node: Node) {
     if (node.value) return `"${node.value}"`;
     else if (isStyled(component)) {
-      return `<${component.name}>`;
+      return `${component.name}`;
     } else {
-      return `<${node.tag || "root"}>`;
+      return `${node.tag || "root"}`;
+    }
+  }
+
+  getIcon(node: Node) {
+    if (!node.tag) {
+      return "code-merge";
+    }
+    if (node.type === NodeType.Text) {
+      return "text";
+    } else if (node.type === NodeType.Element) {
+      return "code";
     }
   }
 
@@ -67,14 +91,26 @@ export class StructureView extends Component<Props, State> {
     </ListItem>
   );
 
+  getActions = (node: Node) => ({
+    ...(node.tag && {
+      ...(!node.value && {
+        text: () => this.onCreate(node, NodeType.Text),
+        "plus-circle": () => this.onCreate(node, NodeType.Element),
+        ...(!node.ref && {
+          save: () => this.onSave(node)
+        })
+      }),
+      trash: () => this.props.onRemove(this.props.component, node)
+    })
+  });
+
   renderHeader = (node: Node, level: number) => {
+    const { nodeSaving } = this.state;
     const {
       component,
       focusedNodeId,
       hoveredNodeId,
       onDrop,
-      onCreate,
-      onRemove,
       onFocus,
       onHover
     } = this.props;
@@ -84,21 +120,17 @@ export class StructureView extends Component<Props, State> {
         data={node}
       >
         <ListItem
+          disabled={!node.tag}
           level={level}
+          icon={this.getIcon(node)}
+          edit={nodeSaving && nodeSaving.id === node.id}
           focus={focusedNodeId && node.id === focusedNodeId}
           hover={hoveredNodeId && node.id === hoveredNodeId}
           onClick={() => onFocus(node)}
-          onMouseOver={() => onHover(node.id)}
+          onEditFinish={this.onSaveFinish}
           onMouseOut={() => onHover(null)}
-          actions={
-            level !== 0 && {
-              ...(!node.value && {
-                text: () => this.onCreate(node, NodeType.Text),
-                "plus-circle": () => this.onCreate(node, NodeType.Element)
-              }),
-              trash: () => onRemove(component, node)
-            }
-          }
+          onMouseOver={() => onHover(node.id)}
+          actions={this.getActions(node)}
         >
           {this.getTitle(component, node)}
         </ListItem>
@@ -148,6 +180,7 @@ export default connect(
     onInsert: insertNode,
     onCreate: createAndAppend,
     onDrop: mountNode,
-    onHover: setHoveredNode
+    onHover: setHoveredNode,
+    onSave: saveNodeAsComponent
   }
 )(StructureView);
