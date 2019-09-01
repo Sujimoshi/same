@@ -8,15 +8,23 @@ import {
 } from "@same/configurator";
 import { join, basename } from "path";
 import { setComponents } from "@same/store/project/actions";
-import { insertItem, removeItems, by } from "@same/utils/array";
+import {
+  insertItem,
+  removeItems,
+  by,
+  mapItems,
+  replaceItem,
+  assignItem
+} from "@same/utils/array";
 import { isComponentInUse } from "@same/store/project/selectors";
+import { Folder } from "@same/store/project/reducers";
 
 export const createComponent = (
-  folder: string,
+  folder: Folder,
   type: ComponentType = ComponentType.Styled,
   name: string = type === ComponentType.Styled
-    ? basename(folder)
-    : basename(folder) + "Example"
+    ? folder.name
+    : folder.name + "Example"
 ): ThunkAction => dispatch => {
   dispatch(
     showCreateComponentModal(
@@ -28,7 +36,8 @@ export const createComponent = (
         const component = createComponentConfig(
           type,
           isStyled ? name : "default",
-          isStyled ? join(folder, "index.js") : join(folder, `${name}.js`),
+          folder.id,
+          isStyled ? "index.js" : `${name}.js`,
           createNodeConfig(nodeType, isStyled ? tag : "")
         );
         dispatch(setComponents(insertItem(component)));
@@ -43,4 +52,8 @@ export const removeComponent = (id: string): ThunkAction => (
 ) => {
   if (isComponentInUse(id)(getState())) throw new Error("Component in use");
   dispatch(setComponents(removeItems(by("id")(id))));
+};
+
+export const moveComponent = (componentId: string, folderId: string) => {
+  return setComponents(assignItem(by("id")(componentId), { folder: folderId }));
 };

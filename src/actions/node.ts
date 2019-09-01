@@ -13,7 +13,8 @@ import {
   NodeType,
   isNode,
   createComponentConfig,
-  ComponentType
+  ComponentType,
+  isPure
 } from "@same/configurator";
 import { ThunkAction } from "same";
 import { showCreateNodeModal } from "./modal";
@@ -25,7 +26,7 @@ import {
   getFocusedElement
 } from "@same/store/editor/selectors";
 import { insertItem } from "@same/utils/array";
-import { dirname, join } from "path";
+import { dirname, join, basename } from "path";
 
 export const focusComponent = (
   component: ComponentConfig,
@@ -117,7 +118,8 @@ export const mountNode = (
     dispatch(removeNode(component, that));
     dispatch(putNode(component, place, that, type));
   } else {
-    const node = createNodeConfig(NodeType.Element, that.name, "", that.id);
+    const name = isPure(that) ? basename(that.file, ".js") : that.name;
+    const node = createNodeConfig(NodeType.Element, name, "", that.id);
     dispatch(putNode(component, place, node, type));
   }
 };
@@ -134,7 +136,8 @@ export const saveNodeAsComponent = (
   const newComponent = createComponentConfig(
     ComponentType.Styled,
     name,
-    join(dirname(component.path), "index.js"),
+    join(component.folder),
+    "index.js",
     newStyledNode
   );
   dispatch(setComponents(insertItem(newComponent)));

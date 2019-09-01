@@ -40,3 +40,13 @@ export const replaceItem = <T>(
   nextArr.splice(i, 1, { ...item });
   return nextArr;
 };
+
+export const assignItem = <T>(
+  iterator: (element: T, index: number) => boolean,
+  item: T
+) => (arr: T[]) => {
+  const nextArr = [...arr];
+  const i = nextArr.findIndex(iterator);
+  nextArr.splice(i, 1, { ...nextArr[i], ...item });
+  return nextArr;
+};

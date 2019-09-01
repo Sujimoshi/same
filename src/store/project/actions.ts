@@ -1,5 +1,5 @@
-import { PayloadedAction, ArrayMapper } from "same";
-import { ProjectStore } from "./reducers";
+import { PayloadedAction, ArrayMapper, Mapper, ObjectMapper } from "same";
+import { ProjectStore, Folder } from "./reducers";
 import { ComponentConfig, Node } from "@same/configurator";
 import { Action } from "redux";
 
@@ -39,10 +39,10 @@ export const setComponents = (
 });
 
 export interface SetFoldersAction extends Action<"SET_FOLDERS"> {
-  mapper: ArrayMapper<string>;
+  mapper: ObjectMapper<Folder>;
 }
 
-export const setFolders = (mapper: ArrayMapper<string>): SetFoldersAction => ({
+export const setFolders = (mapper: ObjectMapper<Folder>): SetFoldersAction => ({
   type: "SET_FOLDERS",
   mapper
 });

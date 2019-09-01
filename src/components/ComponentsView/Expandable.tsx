@@ -24,39 +24,26 @@ export default <P extends object>(
   return class extends Component<Props & P, State> {
     state: State = {
       expandedFolders: this.props.focusedComponent
-        ? [this.props.focusedComponent.path]
+        ? [this.props.focusedComponent.folder]
         : []
     };
 
     componentDidUpdate(prevProps: Props) {
       const { focusedComponent } = this.props;
       if (focusedComponent && prevProps.focusedComponent !== focusedComponent) {
-        this.expand(dirname(focusedComponent.path));
+        this.expand(focusedComponent.folder);
       }
     }
 
     expand = (folder: string) => {
       const { expandedFolders } = this.state;
       if (expandedFolders.includes(folder)) return;
-      const expandThat = folder
-        .replace(/^\//, "")
-        .split("/")
-        .reduce((tmp, el, i) => {
-          const prev = tmp[i - 1];
-          tmp.push(prev ? join("/", prev, el) : join("/", el));
-          return tmp;
-        }, [])
-        .filter(el => !expandedFolders.includes(el));
-      if (expandThat.length) {
-        this.setState({ expandedFolders: [...expandedFolders, ...expandThat] });
-      }
+      this.setState({ expandedFolders: [...expandedFolders, folder] });
     };
 
     isExpanded = (folder: string) => {
       const { expandedFolders } = this.state;
-      return expandedFolders.some(expandedFolder =>
-        isSubFolder(folder)(expandedFolder)
-      );
+      return expandedFolders.includes(folder);
     };
 
     toggle = (folder: string, expand: boolean = !this.isExpanded(folder)) => {
@@ -70,7 +57,7 @@ export default <P extends object>(
     constrict = (folder: string) => {
       const { expandedFolders } = this.state;
       this.setState({
-        expandedFolders: expandedFolders.filter(el => !isSubFolder(folder)(el))
+        expandedFolders: expandedFolders.filter(el => el !== folder)
       });
     };
 

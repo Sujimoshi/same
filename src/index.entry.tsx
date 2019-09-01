@@ -11,6 +11,11 @@ document.addEventListener("keydown", e => {
       .toggleDevTools();
 });
 
+(global as any).log = (exp: any) => {
+  console.log(exp);
+  return exp;
+};
+
 const rootNode = document.createElement("root");
 document.body.append(rootNode);
 

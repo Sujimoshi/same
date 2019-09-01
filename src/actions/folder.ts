@@ -1,39 +1,26 @@
-import { isFolderExists } from "@same/store/project/selectors";
 import { ThunkAction } from "same";
 import { setFolders, setComponents } from "@same/store/project/actions";
-import {
-  insertItem,
-  removeItems,
-  after,
-  replaceItem,
-  mapItems
-} from "@same/utils/array";
-import { dirname, join } from "path";
-import { isSubFolder } from "@same/utils/helpers";
+import { insertNode, assignNode, removeNode, moveNode } from "@same/utils/tree";
+import uuid from "uuid/v4";
+import { Folder } from "@same/store/project/reducers";
+import { removeItems, by } from "@same/utils/array";
 
-export const createFolder = (folderName?: string): ThunkAction => (
-  dispatch,
-  getState
-) => {
-  if (folderName === "/" || isFolderExists(folderName)(getState())) return;
-  dispatch(setFolders(insertItem(folderName, after(dirname(folderName)))));
+const createFolder = (name: string): Folder => {
+  return { id: uuid(), name, children: [] };
 };
 
-export const editFolder = (
-  folderName: string,
-  newName: string
-): ThunkAction => dispatch => {
-  const newFolderName = join(dirname(folderName), newName);
-  const regex = new RegExp(`(^${folderName})`);
-  const renameFolder = (folder: string) => folder.replace(regex, newFolderName);
-  dispatch(
-    setComponents(mapItems(el => ({ ...el, path: renameFolder(el.path) })))
-  );
-  dispatch(setFolders(mapItems(renameFolder)));
+export const addFolder = (name: string, to: string) => {
+  return setFolders(insertNode(createFolder(name), to));
 };
 
-export const removeFolder = (folderName: string): ThunkAction => dispatch => {
-  const isInFolder = isSubFolder(folderName);
-  dispatch(setComponents(removeItems(el => isInFolder(dirname(el.path)))));
-  dispatch(setFolders(removeItems(el => isInFolder(el))));
+export const editFolderName = (id: string, name: string) =>
+  setFolders(assignNode<Folder>(id, { name }));
+
+export const moveFolder = (id: string, to: string): ThunkAction => dispatch => {
+  dispatch(setFolders(moveNode(id, to)));
+};
+
+export const removeFolder = (id: string): ThunkAction => dispatch => {
+  dispatch(setComponents(removeItems(by("folder")(id))));
+  dispatch(setFolders(removeNode<Folder>(id)));
 };

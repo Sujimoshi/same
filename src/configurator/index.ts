@@ -8,8 +8,9 @@ export enum ComponentType {
 export interface ComponentConfig {
   id: string;
   type: ComponentType;
-  path: string;
   name: string;
+  file: string;
+  folder: string;
   node: Node;
 }
 
@@ -33,7 +34,8 @@ export interface Node {
 export const createComponentConfig = (
   type: ComponentType,
   name: string,
-  path: string,
+  folder: string,
+  file: string,
   node?: Node
 ): ComponentConfig => {
   node =
@@ -41,7 +43,7 @@ export const createComponentConfig = (
     createNodeConfig(
       type === ComponentType.Styled ? NodeType.Style : NodeType.Element
     );
-  return { id: uuid(), type, name, path, node };
+  return { id: uuid(), type, name, folder, file, node };
 };
 
 export const createNodeConfig = (

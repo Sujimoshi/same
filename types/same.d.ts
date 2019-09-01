@@ -31,3 +31,8 @@ export type ThunkAction<
 
 export type Mapper = (data: Dictionary<any>) => Dictionary<any>;
 export type ArrayMapper<T> = (data: T[]) => T[];
+export type ObjectMapper<T> = (data: T) => T | void;
+
+declare global {
+  var log: (exp: any) => any;
+}

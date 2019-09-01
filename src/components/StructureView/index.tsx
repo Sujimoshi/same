@@ -2,6 +2,15 @@ import React, { Component } from "react";
 import { Ul, Li } from "./styled";
 import { RootStore } from "same";
 import { removeNode, insertNode } from "@same/store/project/actions";
+import { Node, ComponentConfig, isStyled, NodeType } from "@same/configurator";
+import { connect } from "react-redux";
+import DragAndDrop from "./DragAndDrop";
+import ListItem from "../ListItem";
+import {
+  getFocusedComponent,
+  getHoveredNodeId,
+  getFocusedNodeId
+} from "@same/store/editor/selectors";
 import {
   focusNode,
   createAndAppend,
@@ -9,15 +18,6 @@ import {
   setHoveredNode,
   saveNodeAsComponent
 } from "@same/actions/node";
-import {
-  getFocusedComponent,
-  getHoveredNodeId,
-  getFocusedNodeId
-} from "@same/store/editor/selectors";
-import { Node, ComponentConfig, isStyled, NodeType } from "@same/configurator";
-import { connect } from "react-redux";
-import DragAndDrop from "./DragAndDrop";
-import ListItem from "../ListItem";
 
 interface Props {
   component?: ComponentConfig;

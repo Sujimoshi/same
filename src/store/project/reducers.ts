@@ -4,17 +4,22 @@ import { ComponentConfig, ComponentType } from "@same/configurator";
 import { indexBy } from "underscore";
 import produce from "immer";
 import { traverse } from "@same/utils/helpers";
+import { TreeNode } from "@same/utils/tree";
+
+export interface Folder extends TreeNode {
+  name: string;
+}
 
 export interface ProjectStore {
   path: string;
   components: { [id: string]: ComponentConfig };
-  folders: string[];
+  folders: Folder;
 }
 
 export const initialState: ProjectStore = {
   path: "",
-  components: null,
-  folders: []
+  components: {},
+  folders: { id: "root", name: "/", children: [] }
 };
 
 type Actions = InferActionTypes<typeof actions>;
@@ -30,7 +35,7 @@ export default createReducer<Actions, ProjectStore>(initialState, {
   }),
   SET_FOLDERS: (state, { mapper }) => ({
     ...state,
-    folders: mapper(state.folders)
+    folders: produce(state.folders, mapper)
   }),
   SET_COMPONENTS: (state, { mapper }) => ({
     ...state,

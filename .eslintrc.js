@@ -1,5 +1,5 @@
 module.exports = {
-  'plugins': [ '@typescript-eslint', 'react' ],
+  'plugins': [ '@typescript-eslint', 'react', 'jest' ],
   'settings': {
     'react': {
       'version': 'detect'
@@ -17,7 +17,11 @@ module.exports = {
   'env': {
     'browser': true,
     'es6': true,
-    'node': true
+    'node': true,
+    'jest/globals': true
+  },
+  'globals': {
+    'log': true
   },
   'rules': {
     'no-unused-vars': 'off', // disable default rule, because it error on types
