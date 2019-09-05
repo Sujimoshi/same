@@ -1,5 +1,5 @@
 module.exports = {
-  'plugins': [ '@typescript-eslint', 'react', 'jest' ],
+  'plugins': [ '@typescript-eslint', 'react', 'jest', 'react-hooks' ],
   'settings': {
     'react': {
       'version': 'detect'
@@ -32,5 +32,7 @@ module.exports = {
     'react/display-name': 'off',
     "complexity": ["error", 5],
     "no-return-assign": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

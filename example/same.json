@@ -1,11 +1,71 @@
 {
   "path": "/Users/sujimoshi/Projects/same/front/example",
-  "components": {},
+  "components": {
+    "10fc88dd-effe-4809-911b-ff3d84dbf930": {
+      "id": "10fc88dd-effe-4809-911b-ff3d84dbf930",
+      "type": "Styled",
+      "name": "Input",
+      "folder": "a50d29cd-b290-4b4b-b585-c575b6580abd",
+      "file": "index.js",
+      "node": {
+        "id": "01084b0a-3ad6-4291-9455-18e54adc9bbb",
+        "type": "Style",
+        "tag": "input",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": []
+      }
+    },
+    "d0873638-2489-4e0a-b4c7-d2f7300ed548": {
+      "id": "d0873638-2489-4e0a-b4c7-d2f7300ed548",
+      "type": "Pure",
+      "name": "default",
+      "folder": "a436f2d4-1623-4d2b-970b-e6d4c13ea4b2",
+      "file": "Input.js",
+      "node": {
+        "id": "20ac3b55-17fb-4049-8c10-4fd66758a1fd",
+        "type": "Element",
+        "tag": "",
+        "props": {},
+        "styles": {},
+        "value": "",
+        "children": [
+          {
+            "id": "aa0ea55e-515b-4ab2-9a29-e879c5c1b7e0",
+            "type": "Element",
+            "tag": "Input",
+            "props": {},
+            "styles": {
+              "width": "100%",
+              "borderWidth": "1px",
+              "borderStyle": "solid",
+              "borderColor": "rgba(147, 147, 147, 1)"
+            },
+            "ref": "10fc88dd-effe-4809-911b-ff3d84dbf930",
+            "value": "",
+            "children": []
+          }
+        ]
+      }
+    }
+  },
   "folders": {
     "id": "root",
     "name": "/",
-    "children": []
+    "children": [
+      {
+        "id": "a436f2d4-1623-4d2b-970b-e6d4c13ea4b2",
+        "name": "Examples",
+        "children": []
+      },
+      {
+        "id": "a50d29cd-b290-4b4b-b585-c575b6580abd",
+        "name": "Input",
+        "children": []
+      }
+    ]
   },
-  "focusedComponent": "",
-  "focusedNode": ""
+  "focusedComponent": "d0873638-2489-4e0a-b4c7-d2f7300ed548",
+  "focusedNode": "aa0ea55e-515b-4ab2-9a29-e879c5c1b7e0"
 }
