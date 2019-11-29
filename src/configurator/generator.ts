@@ -22,7 +22,7 @@ export const generateComponent = (
   try {
     return format(res, { parser: "babel" });
   } catch (e) {
-    console.log(e, res);
+    // console.log(e, res);
     return res;
   }
 };

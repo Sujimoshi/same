@@ -43,7 +43,7 @@ export const removeNode = <T extends TreeNode>(id: string | number) => (
   root: T
 ) => {
   const [, parent, index] = findNode(node => node.id === id)(root);
-  if (parent) parent.children.splice(index, 1);
+  if (parent && parent.children[index]) parent.children.splice(index, 1);
   return root;
 };
 
@@ -53,6 +53,7 @@ export const insertNode = <T extends TreeNode>(
   index: number = 0
 ) => (root: T) => {
   const [founded] = findNode(node => node.id === to)(root);
+  if (index < 0) index = founded.children.length - index;
   founded.children.splice(index, 0, node);
   return root;
 };
@@ -68,11 +69,41 @@ export const assignNode = <T extends TreeNode>(
 
 export const moveNode = <T extends TreeNode>(
   id: string | number,
-  to: string | number
+  to: string | number,
+  index: number = 0
 ) => (root: T) => {
   const [founded] = findNode(node => node.id === id)(root);
+  if (findNode(node => node.id === to)(founded)) return root;
   return compose(
-    removeNode(id),
-    insertNode(founded, to)
+    insertNode(founded, to, index),
+    removeNode(id)
   )(root);
+};
+
+export const placeNode = <T extends TreeNode>(
+  id: string,
+  to: string,
+  place: "before" | "after"
+) => (root: T) => {
+  const [founded] = findNode(node => node.id === id)(root);
+  const [, parent, index] = findNode(node => node.id === to)(root);
+  if (!parent) return root;
+  if (findNode(node => node.id === to)(founded)) return root;
+  return compose(
+    insertNode(founded, parent.id, place === "before" ? index : index + 1),
+    removeNode(id)
+  )(root);
+};
+
+export const levelDown = <T extends TreeNode>(id: string) => (root: T) => {
+  const [founded, parent, index] = findNode(node => node.id === id)(root);
+  if (index === 0) return root;
+  const prevNode = parent.children[index - 1];
+  return moveNode(founded.id, prevNode.id, -1)(root);
+};
+
+export const levelUp = <T extends TreeNode>(id: string) => (root: T) => {
+  const [founded, parent, index] = findNode(node => node.id === id)(root);
+  if (index !== parent.children.length - 1) return root;
+  return placeNode(founded.id, parent.id, "after")(root);
 };

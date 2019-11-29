@@ -1,11 +1,8 @@
-import React, { Component } from "react";
-import { Ul, Li } from "./styled";
+import React, { Component, ReactNode, Fragment } from "react";
+import { Ul, Li, StructureEditorWrapper } from "./styled";
 import { RootStore } from "same";
 import { removeNode, insertNode } from "@same/store/project/actions";
 import { Node, ComponentConfig, isStyled, NodeType } from "@same/configurator";
-import { connect } from "react-redux";
-import DragAndDrop from "./DragAndDrop";
-import ListItem from "../ListItem";
 import {
   getFocusedComponent,
   getHoveredNodeId,
@@ -18,6 +15,9 @@ import {
   setHoveredNode,
   saveNodeAsComponent
 } from "@same/actions/node";
+import Sortable from "./Sortable";
+import { connect } from "react-redux";
+import ListItem from "../ListItem";
 
 interface Props {
   component?: ComponentConfig;
@@ -35,10 +35,27 @@ interface State {
   nodeCreation: Node;
   creationType: NodeType;
   nodeSaving: Node;
+  tree: Node;
 }
 
 export class StructureView extends Component<Props, State> {
-  state: State = { nodeSaving: null, nodeCreation: null, creationType: null };
+  static getTree = (component?: ComponentConfig) =>
+    component ? JSON.parse(JSON.stringify(component.node)) : null;
+
+  state: State = {
+    tree: StructureView.getTree(this.props.component),
+    nodeSaving: null,
+    nodeCreation: null,
+    creationType: null
+  };
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.component !== this.props.component) {
+      this.setState({
+        tree: StructureView.getTree(this.props.component)
+      });
+    }
+  }
 
   onCreate = (node: Node, type: NodeType) => {
     this.setState({ nodeCreation: node, creationType: type });
@@ -70,13 +87,13 @@ export class StructureView extends Component<Props, State> {
     else if (isStyled(component)) {
       return `${component.name}`;
     } else {
-      return `${node.tag || "root"}`;
+      return `${node.tag || component.file}`;
     }
   }
 
   getIcon(node: Node) {
     if (!node.tag) {
-      return "code-merge";
+      return "layer-group";
     }
     if (node.type === NodeType.Text) {
       return "text";
@@ -115,61 +132,62 @@ export class StructureView extends Component<Props, State> {
       onHover
     } = this.props;
     return (
-      <DragAndDrop
-        onDrop={(type, what) => onDrop(component, node, type, what)}
+      <Sortable
+        key={node.id}
+        tree={this.state.tree}
+        onDrop={(type, drop) =>
+          log(drop) && onDrop(component, node, type, drop)
+        }
+        onChange={tree => this.setState({ tree })}
         data={node}
       >
         <ListItem
-          disabled={!node.tag}
           level={level}
+          disabled={!node.tag}
           icon={this.getIcon(node)}
           edit={nodeSaving && nodeSaving.id === node.id}
           focus={focusedNodeId && node.id === focusedNodeId}
           hover={hoveredNodeId && node.id === hoveredNodeId}
           onClick={() => onFocus(node)}
           onEditFinish={this.onSaveFinish}
-          onMouseOut={() => onHover(null)}
-          onMouseOver={() => onHover(node.id)}
+          // onMouseOut={() => onHover(null)}
+          // onMouseOver={() => onHover(node.id)}
           actions={this.getActions(node)}
         >
           {this.getTitle(component, node)}
         </ListItem>
-      </DragAndDrop>
+      </Sortable>
     );
   };
 
-  renderChildrens = (node: Node, level: number) => {
+  renderChildrens = (node: Node, level: number): ReactNode => {
     const childrens = node.children || [];
-    return childrens.length ? (
-      <Ul>
-        {childrens.map(el => (
-          <Li key={el.id}>{this.renderNode(el, level + 1)}</Li>
-        ))}
-      </Ul>
-    ) : null;
+    return childrens.length
+      ? childrens.map(el => this.renderNode(el, level + 1))
+      : null;
   };
 
   renderNode = (node: Node, level: number = 0) => {
     const creation =
       this.state.nodeCreation && this.state.nodeCreation.id === node.id;
     return (
-      <div className="tree-view">
+      <Fragment key={node.id}>
         {this.renderHeader(node, level)}
         {creation && this.renderCreateItem(level + 1)}
         {this.renderChildrens(node, level)}
-      </div>
+      </Fragment>
     );
   };
 
   render() {
-    const { component } = this.props;
-    if (!component) return "No focused component";
-    return this.renderNode(component.node);
+    const { tree } = this.state;
+    if (!tree) return "No focused component";
+    return <Ul>{this.renderNode(tree)}</Ul>;
   }
 }
 
 export default connect(
-  (store: RootStore) => ({
+  (store: RootStore): Partial<Props> => ({
     component: getFocusedComponent(store),
     focusedNodeId: getFocusedNodeId(store),
     hoveredNodeId: getHoveredNodeId(store)

@@ -33,10 +33,11 @@ export default function FolderItem({
 }: Props) {
   const [isDropping, dropRef] = useDrop({
     accept: ["components", "folders"],
-    canDrop: ({ data }: any) => folder.id !== data,
+    canDrop: ({ data }: any, monitor) =>
+      folder.id !== data && monitor.isOver({ shallow: true }),
     drop: ({ data, type }: any) =>
       type === "folders" ? onFolderDrop(data) : onComponentDrop(data.id),
-    collect: monitor => monitor.canDrop() && monitor.isOver()
+    collect: monitor => monitor.canDrop() && monitor.isOver({ shallow: true })
   });
 
   const [isDragging, dragRef] = useDrag({
@@ -55,7 +56,7 @@ export default function FolderItem({
           icon={!expanded ? "caret-right" : "caret-down"}
           actions={actions}
         >
-          {folder.name}
+          {folder.name === "/" ? "src" : folder.name}
         </ListItem>
       </DragWrapper>
       {expanded && children()}

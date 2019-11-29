@@ -5,5 +5,6 @@ export const Scrollable = styled.div((props: any) => ({
   overflowX: "hidden",
   position: "relative",
   height: "100%",
+  paddingTop: "100px",
   ...props.styled
 }));

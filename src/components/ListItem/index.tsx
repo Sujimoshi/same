@@ -79,7 +79,7 @@ export default class ListItem extends Component<Props> {
 
     return (
       <ItemWrapper disabled={disabled} hover={hover} focus={focus}>
-        <ItemContent level={level}>
+        <ItemContent className="item-content" level={level}>
           <Row align="center">
             {icon && (
               <Col

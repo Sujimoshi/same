@@ -23,7 +23,6 @@ export interface Props {
   hoveredNodeId: string;
   focusedNode: Node;
   focusedElement: HTMLElement;
-  hoveredElement: HTMLElement;
   onFocus: (element: HTMLElement) => void;
   onHover: (id: string) => void;
   setStyles: typeof setStyles;

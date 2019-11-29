@@ -18,6 +18,7 @@ import PositioningGroup from "../PositioningGroup";
 import TypographyGroup from "../TypographyGroup";
 import { Scrollable } from "@same/styled/Scrollable";
 import BackgroundGroup from "../BackgroundGroup";
+import StateGroup from "../StateGroup";
 
 export interface Props {
   node: Node;
@@ -50,6 +51,7 @@ export function StylesEditor({
 
   return (
     <Scrollable>
+      <StateGroup />
       <PositioningGroup />
       <LayoutGroup styles={styles} setStyle={setStyle} />
       <SizeGroup styles={styles} setStyle={setStyle} />

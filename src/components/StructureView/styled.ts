@@ -2,14 +2,21 @@ import styled from "@emotion/styled";
 import _ from "underscore";
 import { capitalize } from "@same/utils/helpers";
 
-export const DragAndDropWrapper = styled.div((props: any) => ({
-  position: "relative"
+export const DragAndDropWrapper = styled.li((props: any) => ({
+  ...(props.dragging && {
+    backgroundColor: "lightblue"
+  })
 }));
 
 export const AppendDropArea = styled.div((props: any) => ({
   ...(props.dropping && {
     backgroundColor: "gray"
   })
+}));
+
+export const StructureEditorWrapper = styled.div((props: any) => ({
+  marginLeft: "-10px",
+  ...props.styled
 }));
 
 export const ItemContent = styled.div(({ level = 0 }: { level: number }) => ({
@@ -88,5 +95,6 @@ export const Li = styled.li({
 export const Ul = styled.ul((props: any) => ({
   padding: 0,
   margin: 0,
+  listStyle: "none",
   ...props.styled
 }));

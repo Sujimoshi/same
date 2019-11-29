@@ -1,4 +1,4 @@
-import { Action, Reducer, AnyAction } from "redux";
+import { Action, Reducer } from "redux";
 import { ThunkAction } from "redux-thunk";
 
 export type InferActionTypes<T> = T extends { [key: string]: infer U }

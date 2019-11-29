@@ -40,7 +40,7 @@ export const setupApplicationMenu = ({ openProject, createProject }: Props) => {
 export const App = (props: Props) => {
   useEffect(() => {
     setupApplicationMenu(props);
-  }, []);
+  });
 
   return (
     <DndProvider backend={HTML5Backend}>

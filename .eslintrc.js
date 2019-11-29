@@ -21,7 +21,8 @@ module.exports = {
     'jest/globals': true
   },
   'globals': {
-    'log': true
+    'log': true,
+    'React': true
   },
   'rules': {
     'no-unused-vars': 'off', // disable default rule, because it error on types
@@ -32,7 +33,6 @@ module.exports = {
     'react/display-name': 'off',
     "complexity": ["error", 5],
     "no-return-assign": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/rules-of-hooks": "error"
   }
 }

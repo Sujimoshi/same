@@ -2,9 +2,8 @@ import React, { Fragment, Component, ReactNode } from "react";
 import { connect } from "react-redux";
 import { RootStore } from "same";
 import { Ul, Li } from "../styled/List";
-import { dirname, join, basename } from "path";
 import { getComponents, getFolders } from "@same/store/project/selectors";
-import { ComponentConfig, isStyled } from "@same/configurator";
+import { ComponentConfig } from "@same/configurator";
 import Header from "./Header";
 import { focus } from "@same/actions/node";
 import { createComponent, removeComponent } from "@same/actions/component";
@@ -159,7 +158,7 @@ export class ComponentsView extends Component<Props, State> {
   render() {
     const { folders } = this.props;
     return (
-      <Fragment>
+      <>
         <Header
           actions={{
             "folder-plus": this.onFolderCreation
@@ -173,13 +172,13 @@ export class ComponentsView extends Component<Props, State> {
             <Li key={folder.id}>{this.renderFolderItem(folder)}</Li>
           ))}
         </Ul>
-      </Fragment>
+      </>
     );
   }
 }
 
 export default connect(
-  (state: RootStore) => ({
+  (state: RootStore): Partial<Props> => ({
     components: getComponents(state),
     referenceComponent: getReferenceComponent(state),
     focusedComponent: getFocusedComponent(state),

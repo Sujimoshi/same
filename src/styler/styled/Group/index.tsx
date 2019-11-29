@@ -13,8 +13,14 @@ export const Hr = styled.div({
   borderTop: "1px solid #3e3640"
 });
 
-export const Group = styled.div({
+export const Group = styled.div((props: any) => ({
   display: "flex",
   flexDirection: "column",
-  borderBottom: "1px solid #3e3640"
-});
+  borderBottom: "1px solid #3e3640",
+  ...(props.fixed && {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%"
+  })
+}));
